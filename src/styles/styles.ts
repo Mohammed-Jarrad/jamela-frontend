@@ -36,13 +36,18 @@ export const Flex = styled.div<{
     $direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
     $items?: 'center' | 'start' | 'end' | 'baseline' | 'stretch'
     $justify?: 'start' | 'end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+    $wrap?: 'wrap' | 'nowrap'
 }>`
     display: flex;
-    ${({ $center, $gap = 'md', $direction = 'row', $items, $justify }) => css`
+    ${({ $center, $gap = 'md', $direction = 'row', $items, $justify, $wrap }) => css`
         ${$center &&
         css`
             justify-content: center;
             align-items: center;
+        `}
+        ${$wrap &&
+        css`
+            flex-wrap: ${$wrap};
         `}
         ${$gap &&
         css`

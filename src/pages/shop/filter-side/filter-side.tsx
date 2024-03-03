@@ -5,6 +5,7 @@ import { useGetActiveCategories } from '@/hooks/use-categories'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
 import { CategoryProps } from '@/types'
+import useClickOutside from '@/utils/use-click-outside'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { motion } from 'framer-motion'
@@ -43,12 +44,16 @@ const FilterSide: React.FC<Props> = ({
 }) => {
     const { data, error, isLoading: categoriesLoading } = useGetActiveCategories()
     const handleErrors = useHandleErrors()
+    const ref = useClickOutside(() => {
+        if (window.matchMedia('(max-width: 768px)').matches) setShowFilters(false)
+    })
 
     if (error) handleErrors(error)
 
     return (
         <>
             <motion.div
+                ref={ref}
                 variants={{
                     hidden: { x: `-100%` },
                     visible: { x: 0 },
@@ -170,7 +175,7 @@ const FilterSide: React.FC<Props> = ({
             </motion.div>
 
             {/* overlay */}
-            <Overlay $show={showFilters} onClick={() => setShowFilters(false)} />
+            <Overlay $show={showFilters} />
         </>
     )
 }

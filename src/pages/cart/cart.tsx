@@ -1,11 +1,12 @@
 import Container from '@/components/my/container'
 import Flex from '@/components/my/flex'
+import { Button } from '@/components/ui/button'
 import { useUserContext } from '@/context/UserContextProvider'
 import Transition from '@/utils/transition'
 import { Box } from '@radix-ui/themes'
-import CartItem from './cart-item'
-import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import CartItem from './cart-item'
+import CartSummary from './cart-summary'
 
 const Cart = () => {
     const { currentUser } = useUserContext()
@@ -33,15 +34,7 @@ const Cart = () => {
                             </div>
                         </Box>
                         {/* Cart Summary */}
-                        <Box className="h-fit w-full border px-3 py-1 lg:w-[300px]">
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                            <h6 className="border-b border-foreground pb-1">Order Summary</h6>
-                        </Box>
+                        <CartSummary />
                     </Flex>
                 ) : (
                     <Flex className="flex-col items-center justify-center gap-6">

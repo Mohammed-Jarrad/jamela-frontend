@@ -1,6 +1,6 @@
-import Flex from '@/components/my/flex'
 import { Button } from '@/components/ui/button'
 import { useRemoveFromCart, useUpdateQuantity } from '@/hooks/use-cart'
+import { Flex } from '@/styles/styles'
 import { CartProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import { Check, Edit2, Minus, Plus, X } from 'lucide-react'
@@ -22,7 +22,6 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
         setOpen(true)
     }
     function handleChangeQuantity(amount: number) {
-        // TODO: update quantity
         setQuantity((prev) => {
             if (prev + amount !== product.quantity) setShowSaveBtn(true)
             else setShowSaveBtn(false)
@@ -49,20 +48,20 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
             {(isRemoving || isUpdatingQuantity) && (
                 <BeatLoader color="hsl(var(--primary))" className="mx-auto text-center" />
             )}
-            <Flex gap="sm" className="relative overflow-hidden rounded-2xl border p-1 shadow max-sm:flex-wrap sm:p-2">
+            <Flex className="relative overflow-hidden rounded-2xl border p-1 shadow max-sm:flex-wrap sm:p-2">
                 {/* Image & Details Box */}
                 <Box className="flex-[3]">
-                    <Flex className="items-stretch" gap="md">
-                        <Link to={`/product/${product.productId.slug}`}>
+                    <Flex $items="stretch">
+                        <Link to={`/product/${product.productId.slug}`} className="w-16 sm:w-24">
                             <img
                                 src={product.productId.mainImage?.secure_url}
                                 alt={product.productId.name}
                                 loading="lazy"
-                                className="h-full max-h-32 w-24 rounded-xl object-cover max-sm:w-16"
+                                className="h-full max-h-32  w-full rounded-xl object-cover"
                             />
                         </Link>
 
-                        <Box className="flex-1 space-y-1">
+                        <Box className="w-full flex-1 space-y-1">
                             <p
                                 className="w-[130px] truncate text-base capitalize sm:text-lg md:w-[200px]"
                                 title={product.productId.name}
@@ -72,7 +71,7 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                             <p className="text-base capitalize text-muted-foreground max-sm:text-sm">
                                 {product.productId?.categoryId?.name}
                             </p>
-                            <Flex align="center" gap="sm">
+                            <Flex $items="center">
                                 {product.size && (
                                     <span className="flex h-4 w-4 items-center justify-center rounded-full border text-xs font-medium shadow sm:h-6 sm:w-6 sm:text-sm">
                                         {product.size}
@@ -89,8 +88,8 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                     </Flex>
                 </Box>
                 {/* Price & Quantity Box */}
-                <Box className="flex flex-[3] flex-col items-center justify-center gap-3 text-center">
-                    <Flex align="center" gap="sm">
+                <Flex as={Box} $center={true} $direction="column" className="flex-[3] text-center">
+                    <Flex $items="center">
                         {product.productId?.discount && product.productId?.discount > 0 ? (
                             <p className="text-xs text-muted-foreground line-through sm:text-sm">
                                 ₪{product.productId.price}
@@ -98,7 +97,7 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                         ) : null}
                         <p className="text-base sm:text-lg">₪{product.productId.finalPrice}</p>
                     </Flex>
-                    <Flex align="center">
+                    <Flex $items="center">
                         <Button
                             variant="ghost"
                             size="sm"
@@ -121,7 +120,7 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                             <Plus size={17} className="max-sm:w-4" />
                         </Button>
                     </Flex>
-                </Box>
+                </Flex>
                 {/* Final Price * Quantity Box */}
                 <Box className="flex flex-1 items-center gap-1.5 text-center max-sm:hidden">
                     <p className="text-lg">
@@ -150,7 +149,8 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                 <CartItemDialog item={product} open={open} setOpen={setOpen} />
             </Flex>
 
-            <Box className="flex items-center gap-2">
+            {/* Save Buttons */}
+            <Flex $items="center">
                 {showSaveBtn && (
                     <>
                         <Button size="sm" onClick={handleUpdateQuantity}>
@@ -168,7 +168,7 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                         </Button>
                     </>
                 )}
-            </Box>
+            </Flex>
         </>
     )
 }

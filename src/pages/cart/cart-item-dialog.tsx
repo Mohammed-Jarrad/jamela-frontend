@@ -90,13 +90,13 @@ const CartItemDialog: React.FC<Props> = ({ open, setOpen, item: product }) => {
                         </Flex>
                     </Flex>
                 </Box>
-                <DialogFooter className="">
+                <DialogFooter className="flex justify-end gap-2">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">
                             Close
                         </Button>
                     </DialogClose>
-                    <Button className="uppercase" onClick={handleUpdateSizeOrColor} disabled={isPending}>
+                    <Button className="capitalize" onClick={handleUpdateSizeOrColor} disabled={isPending}>
                         {isPending ? <BeatLoader color="white" /> : 'Update'}
                     </Button>
                 </DialogFooter>

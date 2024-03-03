@@ -17,7 +17,12 @@ const Product = () => {
 
     if (error) handleErrors(error)
 
-    if (isLoading) return <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+    if (isLoading)
+        return (
+            <div>
+                <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+            </div>
+        )
 
     return (
         <Transition>

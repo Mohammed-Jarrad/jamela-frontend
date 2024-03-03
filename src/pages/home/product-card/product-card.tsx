@@ -25,6 +25,7 @@ type Props = {
 const ProductCard: React.FC<Props> = ({ product }) => {
     return (
         <ProductContainer $direction="column" className="group">
+            
             <Box className="h-[--img-height] w-full">
                 <ProductCardImages product={product} />
                 <ProductOptions product={product} />

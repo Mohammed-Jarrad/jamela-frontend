@@ -39,7 +39,7 @@ export type UserProps = {
     role?: Roles
     createdAt?: Date
     updatedAt?: Date
-    wishList?: Pick<ProductProps, '_id' | 'name' | 'price' | 'mainImage' | 'discount' | 'slug' | 'finalPrice'>[]
+    wishList?: ProductProps[]
     cart?: CartProps
 }
 export type CartProps = {
