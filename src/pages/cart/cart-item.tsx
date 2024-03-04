@@ -126,7 +126,7 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                     <p className="text-lg">
                         ₪
                         {product.productId?.finalPrice !== undefined
-                            ? (product.productId.finalPrice * product.quantity).toFixed(2)
+                            ? (product.productId.finalPrice * quantity).toFixed(2)
                             : 'N/A'}
                     </p>
                 </Box>

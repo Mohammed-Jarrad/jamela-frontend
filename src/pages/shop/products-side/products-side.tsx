@@ -10,8 +10,8 @@ import { Box } from '@radix-ui/themes'
 import { UseQueryResult } from '@tanstack/react-query'
 import { SlidersHorizontal } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import ProductsLoading from './products-loading'
 import { FcSearch } from 'react-icons/fc'
+import ProductsLoading from './products-loading'
 
 type Props = {
     showFilters: boolean
@@ -25,6 +25,8 @@ type Props = {
     limit: number
     setLimit: React.Dispatch<React.SetStateAction<number>>
 }
+
+const LIMITS_OPTIONS = [5, 10, 15, 25, 50, 100]
 
 const ProductsSide: React.FC<Props> = ({
     showFilters,
@@ -87,11 +89,17 @@ const ProductsSide: React.FC<Props> = ({
                             <SelectValue placeholder="Items per page" />
                         </SelectTrigger>
                         <SelectContent>
-                            {[5, 10, 15, 25, 50, 100].map((item) => (
-                                <SelectItem key={item} value={item.toString()} onClick={(e) => e.stopPropagation()}>
-                                    {item}
-                                </SelectItem>
-                            ))}
+                            {[...LIMITS_OPTIONS, ...(LIMITS_OPTIONS.includes(limit) ? [] : [limit])].map(
+                                (item, index) => (
+                                    <SelectItem
+                                        key={index}
+                                        value={item.toString()}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        {item}
+                                    </SelectItem>
+                                )
+                            )}
                         </SelectContent>
                     </Select>
                     <Button variant="ghost" size="icon" className="border" onClick={() => setShowFilters(!showFilters)}>

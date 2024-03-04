@@ -24,7 +24,7 @@ const ForgetPassword = () => {
                     <CardContent>
                         <form className="w-full" onSubmit={handleSendCode}>
                             <CustomInput
-                                label="Enter your email to find it"
+                                label="Enter your email"
                                 name="email"
                                 required
                                 placeholder="example@gmail.com"

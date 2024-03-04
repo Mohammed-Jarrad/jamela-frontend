@@ -40,8 +40,14 @@ const SignUp = () => {
                     className="flex h-full items-center justify-center"
                 >
                     <Card className="w-full sm:w-[70%] sm:min-w-[600px]">
-                        <CardHeader>
+                        <CardHeader className="mb-8 space-y-2">
                             <CardTitle className="text-center text-3xl">Sign Up</CardTitle>
+                            <Flex className="justify-center text-sm">
+                                Already have an account?
+                                <Link to="/auth/login" className="underline">
+                                    Sign In
+                                </Link>
+                            </Flex>
                         </CardHeader>
                         <CardContent>
                             <form className="space-y-5" onSubmit={handleSubmit}>
