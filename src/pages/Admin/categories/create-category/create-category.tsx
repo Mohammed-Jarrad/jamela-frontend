@@ -19,13 +19,8 @@ const CreateCategory = () => {
     const handleErrors = useHandleErrors()
     function handleCreateCategory() {
         const formData = new FormData()
-        // check if the name or file not found and return error
-        if (!name || !file) {
-            return handleErrors(new Error(`${!name ? 'Name' : 'Image'} is required`))
-        }
-        // append the name
+        if (!name || !file) return handleErrors(new Error(`${!name ? 'Name' : 'Image'} is required`))
         formData.append('name', name)
-        // append the file
         formData.append('image', file)
         createCategory(formData)
     }

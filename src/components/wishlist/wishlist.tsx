@@ -1,7 +1,7 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { useAddToCart } from '@/hooks/use-cart'
 import { useAddOrRemoveProductToWishList } from '@/hooks/use-user'
-import { Flex, mq } from '@/styles/styles'
+import { Flex, ToolTip, mq } from '@/styles/styles'
 import { ProductProps } from '@/types'
 import useClickOutside from '@/utils/use-click-outside'
 import { motion } from 'framer-motion'
@@ -63,7 +63,9 @@ const Wishlist = () => {
     }
     return (
         <Container ref={ref}>
-            <WishButton size={24} onClick={toggleShow} className="text-red-500" />
+            <ToolTip as={'div'} $tooltip="Wish List" $position="bottom">
+                <WishButton size={24} onClick={toggleShow} className="text-red-500" />
+            </ToolTip>
 
             <WishListWrapper
                 variants={{

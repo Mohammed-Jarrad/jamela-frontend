@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { GetProductsProps } from '@/hooks/use-products'
 import ProductCard from '@/pages/home/product-card/product-card'
-import { Flex } from '@/styles/styles'
+import { Flex, ToolTip } from '@/styles/styles'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { UseQueryResult } from '@tanstack/react-query'
@@ -66,9 +66,9 @@ const ProductsSide: React.FC<Props> = ({
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                     />
-                    <Flex as={Button} variant="ghost" size="icon" className="border">
+                    <ToolTip as={Button} $tooltip="Search" variant="ghost" size="icon" className="border">
                         <FcSearch size={24} />
-                    </Flex>
+                    </ToolTip>
                 </Flex>
                 <Flex className="w-full flex-1">
                     <TableSort
@@ -85,9 +85,9 @@ const ProductsSide: React.FC<Props> = ({
                         ]}
                     />
                     <Select value={limit.toString()} onValueChange={(value) => setLimit(Number(value))}>
-                        <SelectTrigger className="w-28">
+                        <ToolTip as={SelectTrigger} $tooltip="Limits per page" className="w-28">
                             <SelectValue placeholder="Items per page" />
-                        </SelectTrigger>
+                        </ToolTip>
                         <SelectContent>
                             {[...LIMITS_OPTIONS, ...(LIMITS_OPTIONS.includes(limit) ? [] : [limit])].map(
                                 (item, index) => (
@@ -102,9 +102,16 @@ const ProductsSide: React.FC<Props> = ({
                             )}
                         </SelectContent>
                     </Select>
-                    <Button variant="ghost" size="icon" className="border" onClick={() => setShowFilters(!showFilters)}>
+                    <ToolTip
+                        as={Button}
+                        $tooltip="Filters"
+                        variant="ghost"
+                        size="icon"
+                        className="border"
+                        onClick={() => setShowFilters(!showFilters)}
+                    >
                         <SlidersHorizontal size={18} />
-                    </Button>
+                    </ToolTip>
                 </Flex>
             </Flex>
             {/* Products */}

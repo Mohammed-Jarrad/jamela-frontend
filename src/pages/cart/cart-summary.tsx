@@ -10,6 +10,7 @@ type Props = {
     note: string
     setNote: React.Dispatch<React.SetStateAction<string>>
 }
+
 const CartSummary: React.FC<Props> = () => {
     const { currentUser } = useUserContext()
     const { cart } = currentUser

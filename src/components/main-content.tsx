@@ -24,13 +24,14 @@ import Cart from '@/pages/cart/cart'
 import Home from '@/pages/home/home'
 import Notfound from '@/pages/not-found/not-found'
 import Product from '@/pages/product/product'
+import Profile from '@/pages/profile/profile'
 import Shop from '@/pages/shop/shop'
+import Test from '@/pages/test-page/test'
 import Root from '@/root'
 import ScrollWhenRefresh from '@/utils/scroll-when-refresh'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AdminRoutes from './routes/admin-routes'
 import PrivateRoutes from './routes/private-routes'
-import Test from '@/pages/test-page/test'
 
 const MainContent = () => {
     const { token } = useUserContext()
@@ -45,16 +46,19 @@ const MainContent = () => {
                         <Route path="product/:slug" element={<Product />} />
                         <Route path="shop" element={<Shop />} />
                         {/* Auth Routes */}
-                        <Route path="auth" element={token && <Navigate to={'/'} />}>
-                            <Route path="login" element={<Login />} />
-                            <Route path="signup" element={<SignUp />} />
+                        <Route path="auth">
+                            <Route element={token && <Navigate to={'/'} />}>
+                                <Route path="signup" element={<SignUp />} />
+                                <Route path="login" element={<Login />} />
+                            </Route>
                             <Route path="forget-password" element={<ForgetPassword />} />
                             <Route path="check-code/:token" element={<CheckCode />} />
                             <Route path="reset-password/:token" element={<ResetPassword />} />
                         </Route>
                         {/* User Routes */}
                         <Route element={<PrivateRoutes />}>
-                            <Route path="/cart" element={<Cart />} />
+                            <Route path="cart" element={<Cart />} />
+                            <Route path="profile" element={<Profile />} />
                         </Route>
                     </Route>
 
@@ -63,6 +67,7 @@ const MainContent = () => {
                         <Route path="/dashboard" element={<Dashboard />}>
                             {/* Main Dashboard Content */}
                             <Route index element={<MainDashboardContent />} />
+                            <Route path="profile" element={<Profile />} />
                             {/* Admin Categories routes */}
                             <Route path="categories">
                                 <Route index element={<AdminCategories />} />

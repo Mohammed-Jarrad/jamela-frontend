@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { DashboardIcon } from '@radix-ui/react-icons'
 import { motion } from 'framer-motion'
-import { ChevronLeft} from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { CSSProperties } from 'react'
 import { BiDialpad } from 'react-icons/bi'
 import { FaUsers } from 'react-icons/fa6'
@@ -27,9 +27,9 @@ const DashboardNav: React.FC = () => {
                     showNav ? 'fixed translate-x-0 opacity-100 lg:sticky' : 'fixed -translate-x-full opacity-0'
                 )}
             >
-                <Flex align="center" gap="lg">
+                <Flex align="center" gap="lg" className="my-4">
                     <Flex align="center">
-                        <ProfileButton />
+                        <ProfileButton link="/dashboard/profile" />
                         <p className="text-xl font-bold">Admin</p>
                     </Flex>
                     <Button

@@ -72,7 +72,7 @@ const Shop = () => {
         ...(categoryId && { categoryId }),
         ...(search && { search }),
         ...(sort && { sort }),
-        price: {
+        finalPrice: {
             ...(minPrice && { gte: minPrice }),
             ...(maxPrice && { lte: maxPrice }),
         },
@@ -113,17 +113,21 @@ const Shop = () => {
                     limit={limit}
                     setLimit={setLimit}
                 />
-                <TablePaginationAndDetails
-                    currentPage={page}
-                    totalCount={activeProductsQuery.data?.totalCount || 0}
-                    itemsPerPage={limit}
-                    onChange={(pageNumber) => setPage(pageNumber)}
-                    resultCount={activeProductsQuery.data?.resultCount || 0}
-                    totalResultsCounts={activeProductsQuery.data?.totalResultsCounts || 0}
-                    pagesCount={
-                        activeProductsQuery.data ? Math.ceil(activeProductsQuery.data?.totalResultsCounts / limit) : 0
-                    }
-                />
+                {activeProductsQuery?.data!.products.length > 0 && (
+                    <TablePaginationAndDetails
+                        currentPage={page}
+                        totalCount={activeProductsQuery.data?.totalCount || 0}
+                        itemsPerPage={limit}
+                        onChange={(pageNumber) => setPage(pageNumber)}
+                        resultCount={activeProductsQuery.data?.resultCount || 0}
+                        totalResultsCounts={activeProductsQuery.data?.totalResultsCounts || 0}
+                        pagesCount={
+                            activeProductsQuery.data
+                                ? Math.ceil(activeProductsQuery.data?.totalResultsCounts / limit)
+                                : 0
+                        }
+                    />
+                )}
             </div>
         </div>
     )

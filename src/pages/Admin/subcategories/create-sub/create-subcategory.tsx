@@ -31,11 +31,8 @@ const CreateSubcategory = () => {
             return handleErrors(new Error(errorMessage))
         }
         const formData = new FormData()
-        // append the name
         formData.append('name', name)
-        // append the file
         formData.append('image', file)
-        //append category id
         formData.append('categoryId', categorySelectId)
         createSubcategory(formData)
     }
