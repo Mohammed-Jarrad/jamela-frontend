@@ -14,6 +14,10 @@ import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import Transition from '../../../utils/transition'
 
+export const genders: { label: Gender; icon: JSX.Element }[] = [
+    { label: 'Male', icon: <FaMale /> },
+    { label: 'Female', icon: <FaFemale /> },
+]
 const SignUp = () => {
     const [inputs, setInputs] = useState<SignupInputsProps>({})
     const { mutate: signup, isPending } = useSignup()
@@ -25,10 +29,6 @@ const SignUp = () => {
         signup(inputs)
     }
 
-    const genders: { label: Gender; icon: JSX.Element }[] = [
-        { label: 'Male', icon: <FaMale /> },
-        { label: 'Female', icon: <FaFemale /> },
-    ]
     return (
         <div className=" w-full py-4">
             <Container className="h-full">

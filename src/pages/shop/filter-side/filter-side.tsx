@@ -153,8 +153,9 @@ const FilterSide: React.FC<Props> = ({
                             max={MAX_PRICE}
                             min={MIN_PRICE}
                             minDistance={10}
+                            renderMark={(props) => <div {...props} className="mark"></div>}
                             renderThumb={(props, state) => (
-                                <div {...props} className="thumb relative">
+                                <div {...props} className="thumb">
                                     <span className="absolute -right-[10px] top-[120%] w-10 cursor-pointer rounded-lg border bg-muted p-1">
                                         {state.valueNow}
                                     </span>

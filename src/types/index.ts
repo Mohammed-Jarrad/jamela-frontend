@@ -23,7 +23,7 @@ export interface SignupData {
 }
 export type Roles = 'User' | 'Admin'
 export type StatusType = 'Active' | 'Inactive'
-export type ImageProps = {
+export interface ImageProps {
     secure_url: string
     public_id: string | null
 }

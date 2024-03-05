@@ -25,6 +25,29 @@ export const useGetCurrentUser = ({ enabled = true }: { enabled: boolean }) => {
     })
 }
 
+export const useUpdateProfile = () => {
+    const { token } = useUserContext()
+    const queryClient = useQueryClient()
+    const handleErrors = useHandleErrors()
+    return useMutation({
+        mutationFn: async (infos: FormData) => {
+            const { data } = await axios.put('/users/profile', infos, {
+                headers: {
+                    Authorization: import.meta.env.VITE_BEARER_KEY + token,
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            return data
+        },
+        onSuccess: () => {
+            // refetch the query to get the updated data
+            queryClient.invalidateQueries({ queryKey: ['current-user'] })
+            toast.success('Profile updated successfully')
+        },
+        onError: handleErrors,
+    })
+}
+
 export const useAddOrRemoveProductToWishList = () => {
     const { token } = useUserContext()
     const queryClient = useQueryClient()

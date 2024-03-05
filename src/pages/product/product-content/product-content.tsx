@@ -38,7 +38,7 @@ const ProductContent: React.FC<Props> = ({ product }) => {
     }, [product])
 
     return (
-        <Box className="flex-1">
+        <Box className="flex-[1.5]  px-5">
             <div className="sticky top-[calc(var(--header-height)_+_0.5rem)]">
                 {/* Product Name */}
                 <p className="text-xl font-medium lg:text-2xl" title={product.name}>

@@ -12,7 +12,10 @@ import {
     DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 
-export default function ProfileButton() {
+type Props = {
+    link?: string
+}
+export default function ProfileButton({ link = '/profile' }: Props): JSX.Element | null {
     const { currentUser, logout: _logout } = useUserContext()
     const navigate = useNavigate()
     const logout = () => {
@@ -37,7 +40,7 @@ export default function ProfileButton() {
             <DropdownMenuContent className="!z-[999999] w-56">
                 <DropdownMenuLabel>Hi, {currentUser?.username}</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-primary/30" />
-                <DropdownMenuItem onClick={() => navigate('/profile')} className="flex items-center gap-3">
+                <DropdownMenuItem onClick={() => navigate(link)} className="flex items-center gap-3">
                     <IoPerson /> Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => logout()} className="flex items-center gap-3">

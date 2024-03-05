@@ -72,7 +72,7 @@ const Shop = () => {
         ...(categoryId && { categoryId }),
         ...(search && { search }),
         ...(sort && { sort }),
-        price: {
+        finalPrice: {
             ...(minPrice && { gte: minPrice }),
             ...(maxPrice && { lte: maxPrice }),
         },
