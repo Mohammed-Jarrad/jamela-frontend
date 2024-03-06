@@ -113,21 +113,18 @@ const Shop = () => {
                     limit={limit}
                     setLimit={setLimit}
                 />
-                {activeProductsQuery?.data!.products.length > 0 && (
-                    <TablePaginationAndDetails
-                        currentPage={page}
-                        totalCount={activeProductsQuery.data?.totalCount || 0}
-                        itemsPerPage={limit}
-                        onChange={(pageNumber) => setPage(pageNumber)}
-                        resultCount={activeProductsQuery.data?.resultCount || 0}
-                        totalResultsCounts={activeProductsQuery.data?.totalResultsCounts || 0}
-                        pagesCount={
-                            activeProductsQuery.data
-                                ? Math.ceil(activeProductsQuery.data?.totalResultsCounts / limit)
-                                : 0
-                        }
-                    />
-                )}
+
+                <TablePaginationAndDetails
+                    currentPage={page}
+                    totalCount={activeProductsQuery.data?.totalCount || 0}
+                    itemsPerPage={limit}
+                    onChange={(pageNumber) => setPage(pageNumber)}
+                    resultCount={activeProductsQuery.data?.resultCount || 0}
+                    totalResultsCounts={activeProductsQuery.data?.totalResultsCounts || 0}
+                    pagesCount={
+                        activeProductsQuery.data ? Math.ceil(activeProductsQuery.data?.totalResultsCounts / limit) : 0
+                    }
+                />
             </div>
         </div>
     )

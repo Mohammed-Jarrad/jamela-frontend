@@ -1,5 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
+import { ToolTip } from '@/styles/styles'
 import { RefreshCcw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { IoAddCircleSharp } from 'react-icons/io5'
@@ -13,9 +14,11 @@ export interface TableSearchProps {
 }
 export const TableSearch = ({ search, onSearch }: TableSearchProps) => {
     const [inputValue, setInputValue] = useState<string>('')
+
     useEffect(() => {
         setInputValue(search ?? '')
     }, [search])
+    
     return (
         <form
             onSubmit={(e) => {
@@ -31,9 +34,9 @@ export const TableSearch = ({ search, onSearch }: TableSearchProps) => {
                 value={inputValue}
                 type="text"
             />
-            <Button variant="outline" type="submit">
+            <ToolTip as={Button} $position="bottom" $tooltip="Search" variant="outline" type="submit">
                 <Search size={18} />
-            </Button>
+            </ToolTip>
         </form>
     )
 }
@@ -67,10 +70,16 @@ export interface TableCreateLinkButtonProps {
 
 export const TableCreateLinkButton = ({ link }: TableCreateLinkButtonProps) => {
     return (
-        <Link to={link} className={cn(buttonVariants({ variant: 'outline' }), 'flex items-center gap-2')}>
+        <ToolTip
+            as={Link}
+            $position="bottom"
+            $tooltip="Add New"
+            to={link}
+            className={cn(buttonVariants({ variant: 'outline' }), 'flex items-center gap-2')}
+        >
             Create
             <IoAddCircleSharp size={20} className="text-primary" />
-        </Link>
+        </ToolTip>
     )
 }
 
@@ -79,11 +88,13 @@ export interface TableRefreshDataProps {
 }
 export const TableRefreshData = ({ onRefresh }: TableRefreshDataProps) => {
     return (
-        <div
+        <ToolTip
+            $tooltip="Refresh"
+            $position="bottom"
             className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer border !text-primary')}
             onClick={onRefresh}
         >
             <RefreshCcw />
-        </div>
+        </ToolTip>
     )
 }

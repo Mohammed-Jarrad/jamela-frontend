@@ -86,7 +86,7 @@ export const ToolTip = styled.div<{ $tooltip?: string; $position?: 'top' | 'bott
             left: 50%;
             transform: translateX(-50%);
             white-space: nowrap;
-            background: hsl(var(--background) / 30%);
+            background: hsl(var(--background) / 80%);
             color: hsl(var(--foreground));
             padding: 5px 10px;
             border-radius: var(--radius);

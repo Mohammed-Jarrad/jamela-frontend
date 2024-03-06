@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { toast } from 'sonner'
 
-type ConfirmEmailMessagesProps = string |'email-confirmed' | 'email-not-confirmed' | 'token-expired' | null
+type ConfirmEmailMessagesProps = string | 'email-confirmed' | 'email-not-confirmed' | 'token-expired' | null
 type MessageStatusProps = 'success' | 'error'
 
 const useHandleMessages = () => {
@@ -11,7 +11,7 @@ const useHandleMessages = () => {
     useEffect(() => {
         const params = new URLSearchParams(location.search)
         const message = params.get('message') as ConfirmEmailMessagesProps
-        const status = params.get('status') as MessageStatusProps || "error"
+        const status = (params.get('status') as MessageStatusProps) || 'error'
 
         const handleMessages = () => {
             switch (message) {

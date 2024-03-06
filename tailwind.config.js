@@ -16,7 +16,6 @@ module.exports = {
         },
         fontFamily: {
             poppins: ['Poppins', 'sans-serif'],
-            source: ['Source Code Pro', 'monospace'],
             jost: ['Jost', 'sans-serif'],
         },
         screens: {

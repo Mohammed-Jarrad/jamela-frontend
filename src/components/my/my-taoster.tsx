@@ -3,20 +3,19 @@ import { Toaster } from '../ui/sonner'
 
 const MyToaster = () => {
     const { theme } = useTheme()
-    const className = '!bg-card !border-border !shadow-[0_1px_4px_rgba(0,0,0,0.2)] '
+    const className =
+        '!bg-card !border-border !shadow-[0_1px_4px_rgba(0,0,0,0.2)] !py-2 !px-4 hover:!py-2 hover:!px-4 !rounded-xl'
     return (
         <Toaster
-            // closeButton={true}
             duration={3000}
             position="top-center"
             theme={theme}
             richColors
+            className="!bg-red-500"
             toastOptions={{
                 className,
                 classNames: {
-                    title: '!text-foreground/60 !text-sm md:!text-base',
-                    // closeButton:
-                    //     '!text-foreground/60 hover:!text-foreground !border-foreground/10 !bg-card !absolute !top-4 !right-1 !left-auto',
+                    title: '!text-muted-foreground font-poppins tracking-tight',
                 },
             }}
         />
