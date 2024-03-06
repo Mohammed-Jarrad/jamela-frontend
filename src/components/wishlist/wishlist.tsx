@@ -1,7 +1,7 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { useAddToCart } from '@/hooks/use-cart'
 import { useAddOrRemoveProductToWishList } from '@/hooks/use-user'
-import { Flex, ToolTip, mq } from '@/styles/styles'
+import { Flex, mq } from '@/styles/styles'
 import { ProductProps } from '@/types'
 import useClickOutside from '@/utils/use-click-outside'
 import { motion } from 'framer-motion'
@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'sonner'
 import styled from 'styled-components'
+import ToolTip from '../my/tooltip'
 
 const Container = styled.div`
     position: relative;
@@ -63,8 +64,10 @@ const Wishlist = () => {
     }
     return (
         <Container ref={ref}>
-            <ToolTip as={'div'} $tooltip="Wish List" $position="bottom">
-                <WishButton size={24} onClick={toggleShow} className="text-red-500" />
+            <ToolTip content="Wish list">
+                <div>
+                    <WishButton size={24} onClick={toggleShow} className="text-red-500" />
+                </div>
             </ToolTip>
 
             <WishListWrapper

@@ -39,7 +39,7 @@ const LimitController = ({ limit, totalResultsCounts, setLimit }: LimitControlle
                 max={totalResultsCounts}
                 min={1}
                 type="number"
-                className="min-w-16 text-center"
+                className="min-w-16 max-w-40 text-center"
             />
             <Button
                 variant="ghost"

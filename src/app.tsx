@@ -8,7 +8,9 @@ function App() {
     const { token } = useUserContext()
     const { isLoading, error } = useGetCurrentUser({ enabled: !!token })
     const handleErrors = useHandleErrors()
-    if (error) handleErrors(error)
+    if (error) {
+        handleErrors(error)
+    }
     if (isLoading)
         return (
             <div className="mt-20 flex w-full justify-center">

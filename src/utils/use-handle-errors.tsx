@@ -28,7 +28,8 @@ export const useHandleErrors = () => {
     return (error: Error | AxiosError) => {
         if (
             error.message == tokenExpiredMsg ||
-            (error instanceof AxiosError && error?.response?.data?.message == tokenExpiredMsg)
+            (error instanceof AxiosError &&
+                (error?.response?.data?.message == tokenExpiredMsg || error?.response?.data?.action == 'logout'))
         ) {
             logout()
             // redirect to login and clear the cache from the browser

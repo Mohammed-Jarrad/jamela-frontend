@@ -1,10 +1,11 @@
+import ToolTip from '@/components/my/tooltip'
 import { TableSort } from '@/components/table-filter'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { GetProductsProps } from '@/hooks/use-products'
 import ProductCard from '@/pages/home/product-card/product-card'
-import { Flex, ToolTip } from '@/styles/styles'
+import { Flex } from '@/styles/styles'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { UseQueryResult } from '@tanstack/react-query'
@@ -66,8 +67,10 @@ const ProductsSide: React.FC<Props> = ({
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                     />
-                    <ToolTip as={Button} $tooltip="Search" variant="ghost" size="icon" className="border">
-                        <FcSearch size={24} />
+                    <ToolTip content="Search">
+                        <Button variant="ghost" size="icon" className="border">
+                            <FcSearch size={24} />
+                        </Button>
                     </ToolTip>
                 </Flex>
                 <Flex className="w-full flex-1">
@@ -85,8 +88,10 @@ const ProductsSide: React.FC<Props> = ({
                         ]}
                     />
                     <Select value={limit.toString()} onValueChange={(value) => setLimit(Number(value))}>
-                        <ToolTip as={SelectTrigger} $tooltip="Limits per page" className="w-28">
-                            <SelectValue placeholder="Items per page" />
+                        <ToolTip content="Items per page">
+                            <SelectTrigger className="w-28">
+                                <SelectValue placeholder="Items per page" />
+                            </SelectTrigger>
                         </ToolTip>
                         <SelectContent>
                             {[...LIMITS_OPTIONS, ...(LIMITS_OPTIONS.includes(limit) ? [] : [limit])].map(
@@ -102,15 +107,15 @@ const ProductsSide: React.FC<Props> = ({
                             )}
                         </SelectContent>
                     </Select>
-                    <ToolTip
-                        as={Button}
-                        $tooltip="Filters"
-                        variant="ghost"
-                        size="icon"
-                        className="border"
-                        onClick={() => setShowFilters(!showFilters)}
-                    >
-                        <SlidersHorizontal size={18} />
+                    <ToolTip content="Filters">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="border"
+                            onClick={() => setShowFilters(!showFilters)}
+                        >
+                            <SlidersHorizontal size={18} />
+                        </Button>
                     </ToolTip>
                 </Flex>
             </Flex>

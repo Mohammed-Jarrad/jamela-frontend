@@ -1,5 +1,6 @@
 import CustomInput from '@/components/my/custom-input'
 import Flex from '@/components/my/flex'
+import ToolTip from '@/components/my/tooltip'
 import { OptionalSpan } from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -101,11 +102,12 @@ const UpdateProduct = () => {
                     <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">
                         <Flex align="center" justify="center" gap="md">
                             <span>Update Product</span>
-                            <Switch
-                                checked={status === 'Active' ? true : false}
-                                onCheckedChange={(e) => setStatus(e ? 'Active' : 'Inactive')}
-                                title={status}
-                            />
+                            <ToolTip content={status}>
+                                <Switch
+                                    checked={status === 'Active' ? true : false}
+                                    onCheckedChange={(e) => setStatus(e ? 'Active' : 'Inactive')}
+                                />
+                            </ToolTip>
                         </Flex>
                     </CardTitle>
                 </CardHeader>
