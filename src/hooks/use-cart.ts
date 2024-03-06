@@ -38,6 +38,7 @@ export const useAddToCart = () => {
         onError: handleErrors,
     })
 }
+
 export const useRemoveFromCart = () => {
     const { token } = useUserContext()
     const queryClient = useQueryClient()

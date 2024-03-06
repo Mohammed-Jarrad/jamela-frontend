@@ -2,9 +2,9 @@ import { useUserContext } from '@/context/UserContextProvider'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
-const tokenExpiredMsg: string = import.meta.env.VITE_TOKEN_EXPIRED_MSG
+const TOKEN_EXPIRED_MESSAGE = 'token expired'
 
-function handleAllErrors(message: string, messages: string[] = []) {
+export function handleAllErrors(message: string, messages: string[] = []) {
     if (message?.trim().split('\n').length > 1) {
         message
             .trim()
@@ -25,19 +25,19 @@ function handleAllErrors(message: string, messages: string[] = []) {
 
 export const useHandleErrors = () => {
     const { logout } = useUserContext()
+
     return (error: Error | AxiosError) => {
+        const message = error instanceof AxiosError ? error.response?.data?.message : error.message
+        const messages = error instanceof AxiosError ? error.response?.data?.messages || [] : []
+
         if (
-            error.message == tokenExpiredMsg ||
-            (error instanceof AxiosError &&
-                (error?.response?.data?.message == tokenExpiredMsg || error?.response?.data?.action == 'logout'))
+            message == TOKEN_EXPIRED_MESSAGE ||
+            (error instanceof AxiosError && error?.response?.data?.action == 'logout')
         ) {
             logout()
-            // redirect to login and clear the cache from the browser
             window.location.assign('/auth/login?message=token-expired')
         }
-        handleAllErrors(
-            error instanceof AxiosError ? error.response?.data?.message : error.message,
-            error instanceof AxiosError ? error.response?.data?.messages || [] : []
-        )
+
+        handleAllErrors(message, messages)
     }
 }

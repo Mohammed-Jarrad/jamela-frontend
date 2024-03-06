@@ -3,8 +3,8 @@ import { LoginInputsProps, SignupData, SignupInputsProps, UserProps } from '@/ty
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
-import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export const useLogin = () => {
     const { setToken } = useUserContext()
@@ -21,7 +21,7 @@ export const useLogin = () => {
             setToken(data.token)
             data.user.role == 'Admin' ? navigate('/dashboard') : navigate('/')
         },
-        onError: (e) => handleErrors(e),
+        onError: handleErrors,
     })
 }
 export const useSignup = () => {
@@ -36,7 +36,7 @@ export const useSignup = () => {
             toast.success('Account created successfully Please', {
                 description: `check your email to verify your account`,
             }),
-        onError: (e) => handleErrors(e),
+        onError: handleErrors,
     })
 }
 
@@ -55,7 +55,7 @@ export const useSendCode = () => {
             })
             navigate(`/auth/check-code/${token}`)
         },
-        onError: (err) => handleErrors(err),
+        onError: handleErrors,
     })
 }
 
@@ -71,7 +71,7 @@ export const useCheckCode = () => {
         onSuccess: ({ token: resetPasswordToken }) => {
             navigate(`/auth/reset-password/${resetPasswordToken}`)
         },
-        onError: (err) => handleErrors(err),
+        onError: handleErrors,
     })
 }
 
@@ -88,6 +88,6 @@ export const useResetPassword = () => {
             toast.success('Password changed successfully')
             navigate(`/auth/login`)
         },
-        onError: (err) => handleErrors(err),
+        onError: handleErrors,
     })
 }

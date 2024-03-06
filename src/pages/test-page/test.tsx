@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const Test = () => {
     return (
-        <Container>
+        <Container >
             <div></div>
         </Container>
     )

@@ -43,6 +43,7 @@ const AccountContent = () => {
         }
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
+
     function handleUpdateProfile(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         const { address, gender, file, phone, username } = formData
@@ -58,7 +59,7 @@ const AccountContent = () => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="capitalize max-md:text-center">{currentUser.username} Account</CardTitle>
+                <CardTitle className="capitalize max-md:text-center">{`${currentUser.username} Profile`}</CardTitle>
             </CardHeader>
             <CardContent>
                 <form className="grid grid-cols-1 gap-3 md:grid-cols-2" onSubmit={handleUpdateProfile}>

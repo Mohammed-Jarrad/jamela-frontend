@@ -1,21 +1,19 @@
 import ThemeProvider from '@/context/ThemeContextProvider'
 import UserContextProvider from '@/context/UserContextProvider'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import MyToaster from './my/my-taoster'
-import { TooltipProvider } from './ui/tooltip'
+import MyToaster from '../my/my-taoster'
+import { TooltipProvider } from '../ui/tooltip'
+import ReactQueryProvider from './react-query-provider'
 
 type PorvidersType = {
     children: React.ReactNode
 }
 
-const queryClient = new QueryClient()
-
 const Providers = ({ children }: PorvidersType) => {
     return (
         <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
+            <ReactQueryProvider>
                 <ThemeProvider defaultTheme="light" storageKey="ui-theme">
                     <UserContextProvider>
                         <TooltipProvider delayDuration={200}>
@@ -24,7 +22,7 @@ const Providers = ({ children }: PorvidersType) => {
                         </TooltipProvider>
                     </UserContextProvider>
                 </ThemeProvider>
-            </QueryClientProvider>
+            </ReactQueryProvider>
         </BrowserRouter>
     )
 }
