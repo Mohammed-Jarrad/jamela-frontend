@@ -1,5 +1,6 @@
 import { Minus, Plus } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { toast } from 'sonner'
 import Flex from './my/flex'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
@@ -10,25 +11,11 @@ interface LimitControllerProps {
     setLimit: React.Dispatch<React.SetStateAction<number>>
 }
 const LimitController = ({ limit, totalResultsCounts, setLimit }: LimitControllerProps) => {
-    const [inputValue, setInputValue] = React.useState<number>(limit || 1)
-    useEffect(() => {
-        setInputValue(limit)
-    }, [limit])
     function handleMinusLimit() {
         limit !== 1 && setLimit((old) => old - 1)
     }
     function handlePlusLimit() {
         limit !== totalResultsCounts && setLimit((old) => old + 1)
-    }
-
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault()
-        if (inputValue >= 1 && inputValue <= totalResultsCounts) {
-            setLimit(inputValue)
-        } else {
-            setLimit((prev) => Math.min(prev, totalResultsCounts))
-            setInputValue((prev) => Math.min(prev, totalResultsCounts))
-        }
     }
 
     return (
@@ -42,16 +29,18 @@ const LimitController = ({ limit, totalResultsCounts, setLimit }: LimitControlle
             >
                 <Minus size={16} />
             </Button>
-            <form onSubmit={handleSubmit} className="w-auto">
-                <Input
-                    value={inputValue}
-                    onChange={(e) => setInputValue(Number(e.target.value))}
-                    max={totalResultsCounts}
-                    min={1}
-                    type="number"
-                    className="min-w-16 text-center"
-                />
-            </form>
+            <Input
+                value={limit}
+                onChange={(e) => {
+                    const value = Number(e.target.value)
+                    if (value >= 1 && value <= totalResultsCounts) setLimit(value)
+                    else toast.warning('Please enter a number between 1 and ' + totalResultsCounts)
+                }}
+                max={totalResultsCounts}
+                min={1}
+                type="number"
+                className="min-w-16 text-center"
+            />
             <Button
                 variant="ghost"
                 size="sm"
