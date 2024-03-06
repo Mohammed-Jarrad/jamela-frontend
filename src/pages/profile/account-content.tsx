@@ -45,7 +45,6 @@ const AccountContent = () => {
     }
     function handleUpdateProfile(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        console.log('form data; ', formData)
         const { address, gender, file, phone, username } = formData
         const formdata = new FormData()
         formdata.append('username', username)

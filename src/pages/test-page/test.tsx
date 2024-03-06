@@ -1,4 +1,3 @@
-import { ToolTip } from '@/styles/styles'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -10,12 +9,7 @@ const Container = styled.div`
 const Test = () => {
     return (
         <Container>
-            <div>
-                <ToolTip>Hellllllll</ToolTip>
-                <ToolTip as="p" $tooltip={'Hello tooltip'}>
-                    Hello
-                </ToolTip>
-            </div>
+            <div></div>
         </Container>
     )
 }

@@ -1,10 +1,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { ToolTip } from '@/styles/styles'
 import { RefreshCcw, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { IoAddCircleSharp } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import ToolTip from './my/tooltip'
 import { Button, buttonVariants } from './ui/button'
 import { Input } from './ui/input'
 
@@ -18,12 +18,12 @@ export const TableSearch = ({ search, onSearch }: TableSearchProps) => {
     useEffect(() => {
         setInputValue(search ?? '')
     }, [search])
-    
+
     return (
         <form
             onSubmit={(e) => {
                 e.preventDefault()
-                onSearch(inputValue)
+                onSearch(inputValue || '')
             }}
             className="flex w-full items-center gap-2 lg:w-[50%]"
         >
@@ -34,8 +34,10 @@ export const TableSearch = ({ search, onSearch }: TableSearchProps) => {
                 value={inputValue}
                 type="text"
             />
-            <ToolTip as={Button} $position="bottom" $tooltip="Search" variant="outline" type="submit">
-                <Search size={18} />
+            <ToolTip content="Search">
+                <Button variant="outline" type="submit">
+                    <Search size={18} />
+                </Button>
             </ToolTip>
         </form>
     )
@@ -70,15 +72,11 @@ export interface TableCreateLinkButtonProps {
 
 export const TableCreateLinkButton = ({ link }: TableCreateLinkButtonProps) => {
     return (
-        <ToolTip
-            as={Link}
-            $position="bottom"
-            $tooltip="Add New"
-            to={link}
-            className={cn(buttonVariants({ variant: 'outline' }), 'flex items-center gap-2')}
-        >
-            Create
-            <IoAddCircleSharp size={20} className="text-primary" />
+        <ToolTip content="Add New">
+            <Link to={link} className={cn(buttonVariants({ variant: 'outline' }), 'flex items-center gap-2')}>
+                Create
+                <IoAddCircleSharp size={20} className="text-primary" />
+            </Link>
         </ToolTip>
     )
 }
@@ -88,13 +86,10 @@ export interface TableRefreshDataProps {
 }
 export const TableRefreshData = ({ onRefresh }: TableRefreshDataProps) => {
     return (
-        <ToolTip
-            $tooltip="Refresh"
-            $position="bottom"
-            className={cn(buttonVariants({ variant: 'ghost' }), 'cursor-pointer border !text-primary')}
-            onClick={onRefresh}
-        >
-            <RefreshCcw />
+        <ToolTip content="Refresh">
+            <Button size="icon" variant="outline" onClick={onRefresh}>
+                <RefreshCcw className="text-primary" size={20} />
+            </Button>
         </ToolTip>
     )
 }

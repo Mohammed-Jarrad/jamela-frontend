@@ -37,6 +37,7 @@ export type UserProps = {
     status?: StatusType
     _id?: string
     role?: Roles
+    confirmEmail?: boolean
     createdAt?: Date
     updatedAt?: Date
     wishList?: ProductProps[]

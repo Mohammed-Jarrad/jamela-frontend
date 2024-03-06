@@ -1,5 +1,5 @@
 import Transition from '@/utils/transition'
-import React from 'react'
+import React, { useEffect } from 'react'
 import DashboardContent from './dashboard-content'
 import DashboardNav from './dashboard-nav'
 
@@ -11,6 +11,13 @@ export const DashboardContext = React.createContext<DashboardContextProps | null
 
 const Dashboard = () => {
     const [showNav, setShowNav] = React.useState(true)
+
+    useEffect(() => {
+        if (window.matchMedia('(max-width: 1024px)').matches) {
+            setShowNav(false)
+        }
+    }, [])
+    
     return (
         <DashboardContext.Provider value={{ showNav, setShowNav }}>
             <Transition className="flex min-h-screen w-full items-start">

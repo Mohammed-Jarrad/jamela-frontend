@@ -1,3 +1,4 @@
+import ToolTip from '@/components/my/tooltip'
 import { Button } from '@/components/ui/button'
 import { useUserContext } from '@/context/UserContextProvider'
 import { useAddToCart } from '@/hooks/use-cart'
@@ -9,7 +10,6 @@ import { IoHeart, IoHeartOutline } from 'react-icons/io5'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'sonner'
 import ProductCardDialog from './product-card-dialog'
-import { ToolTip } from "@/styles/styles"
 
 type Props = { product: ProductProps }
 const ProductOptions = ({ product }: Props) => {
@@ -39,18 +39,17 @@ const ProductOptions = ({ product }: Props) => {
             >
                 {product.stock! > 0 ? 'Add to cart' : 'Out of stock'}
             </Button>
-
-            <ToolTip
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
-                onClick={handleAddToWishList}
-                $tooltip="Add to wishlist"
-                $position="bottom"
-            >
-                {currentUser?.wishList?.find((p) => p._id === product._id) ? (
-                    <IoHeart className="h-6 w-6 text-red-500" />
-                ) : (
-                    <IoHeartOutline className="h-6 w-6 text-muted-foreground hover:text-red-500" />
-                )}
+            <ToolTip content="Add to wish list">
+                <div
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white shadow"
+                    onClick={handleAddToWishList}
+                >
+                    {currentUser?.wishList?.find((p) => p._id === product._id) ? (
+                        <IoHeart className="h-6 w-6 text-red-500" />
+                    ) : (
+                        <IoHeartOutline className="h-6 w-6 text-muted-foreground hover:text-red-500" />
+                    )}
+                </div>
             </ToolTip>
             {(wishListLoading || cartLoading) && <BeatLoader color="white" />}
             <ProductCardDialog open={open} setOpen={setOpen} product={product} />
