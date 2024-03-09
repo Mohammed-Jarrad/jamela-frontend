@@ -9,6 +9,7 @@ import { useSignup } from '@/hooks/use-auth'
 import { Gender, SignupInputsProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { FaFemale, FaMale } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
@@ -31,6 +32,9 @@ const SignUp = () => {
 
     return (
         <div className=" w-full py-4">
+            <Helmet>
+                <title>Jamela Sign Up</title>
+            </Helmet>
             <Container className="h-full">
                 {/* Form Container */}
                 <Transition

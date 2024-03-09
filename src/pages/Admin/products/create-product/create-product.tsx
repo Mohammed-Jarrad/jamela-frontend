@@ -17,6 +17,7 @@ import ProductSelectSubcategory from '../product-select-subcategory'
 import ProductSizes from '../product-sizes'
 import ProductMainImage from './product-main-image'
 import ProductSubImages from './product-sub-images'
+import { Helmet } from "react-helmet"
 
 const CreateProduct = () => {
     const [inputs, setInputs] = useState<{ [key: string]: string }>({})
@@ -50,6 +51,10 @@ const CreateProduct = () => {
 
     return (
         <Transition>
+            <Helmet>
+                <title>Create Product</title>
+            </Helmet>
+            
             <Card>
                 <CardHeader>
                     <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">

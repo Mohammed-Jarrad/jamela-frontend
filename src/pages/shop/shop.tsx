@@ -5,6 +5,7 @@ import { CSSProperties, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import FilterSide from './filter-side/filter-side'
 import ProductsSide from './products-side/products-side'
+import { Helmet } from 'react-helmet'
 
 export const MAX_PRICE = 1000
 export const MIN_PRICE = 1
@@ -87,6 +88,10 @@ const Shop = () => {
             className="relative mx-auto flex w-full max-w-[1536px] items-start gap-3 px-2"
             style={{ '--filters-width': '16rem' } as CSSProperties}
         >
+            <Helmet>
+                <title>Shop</title>
+            </Helmet>
+
             <FilterSide
                 showFilters={showFilters}
                 setShowFilters={setShowFilters}

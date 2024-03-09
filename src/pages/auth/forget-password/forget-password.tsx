@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSendCode } from '@/hooks/use-auth'
 import Transition from '@/utils/transition'
 import { FormEvent, useState } from 'react'
+import { Helmet } from "react-helmet"
 import { BeatLoader } from 'react-spinners'
 
 const ForgetPassword = () => {
@@ -16,6 +17,10 @@ const ForgetPassword = () => {
     }
     return (
         <Container className="flex items-center justify-center">
+            <Helmet>
+                <title>Forget Password</title>
+            </Helmet>
+            
             <Transition initial={{ opacity: 0, y: -70 }} animate={{ opacity: 1, y: 0 }} className="w-full md:w-auto">
                 <Card className="w-full md:w-[500px]">
                     <CardHeader>

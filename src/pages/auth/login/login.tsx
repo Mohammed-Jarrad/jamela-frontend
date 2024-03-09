@@ -13,6 +13,7 @@ import useHandleMessages from '@/utils/use-handle-query-messages'
 import { Box } from '@radix-ui/themes'
 import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 
@@ -53,6 +54,10 @@ const Login = () => {
 
     return (
         <div className=" w-full">
+            <Helmet>
+                <title>Jamela Sign In</title>
+            </Helmet>
+
             <Container className="h-full">
                 {/* Form Container */}
                 <Transition

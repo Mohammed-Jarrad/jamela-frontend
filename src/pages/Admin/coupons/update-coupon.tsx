@@ -12,6 +12,7 @@ import { Box } from '@radix-ui/themes'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 
@@ -52,6 +53,9 @@ const UpdateCoupon: React.FC = () => {
         const { coupon } = data
         return (
             <Transition>
+                <Helmet>
+                    <title>Update Coupon</title>
+                </Helmet>
                 <Card>
                     <CardHeader className="flex flex-col items-start">
                         <h1 className="text-2xl font-medium text-primary ">Update Coupon</h1>

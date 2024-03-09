@@ -19,6 +19,7 @@ import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
+import { Helmet } from "react-helmet"
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -42,6 +43,9 @@ const AdminCategories = () => {
     // if (data)
     return (
         <Transition>
+            <Helmet>
+                <title>Admin Categories</title>
+            </Helmet>
             {/* search categories and refresh and create link and sort */}
             <CategoriesTableFilters
                 sortItems={sortItems}

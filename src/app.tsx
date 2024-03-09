@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import MainContent from './components/main-content'
 import { useUserContext } from './context/UserContextProvider'
@@ -18,7 +19,18 @@ function App() {
             </div>
         )
 
-    return <MainContent />
+    return (
+        <>
+            <Helmet>
+                <title>Jamela Fashion</title>
+                <meta name="description" content="Welcome to Jamela Fashion" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                {/* <link rel="icon" href="/logo.ico" /> */}
+            </Helmet>
+
+            <MainContent />
+        </>
+    )
 }
 
 export default App

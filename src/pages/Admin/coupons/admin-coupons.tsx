@@ -20,6 +20,7 @@ import { format } from 'date-fns'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
+import { Helmet } from "react-helmet"
 
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
@@ -53,6 +54,9 @@ const AdminCoupons = () => {
 
     return (
         <Transition>
+            <Helmet>
+                <title>Admin Coupons</title>
+            </Helmet>
             {/* search categories and refresh and create link and sort */}
             <CouponsTableFilters
                 sortItems={sortItems}

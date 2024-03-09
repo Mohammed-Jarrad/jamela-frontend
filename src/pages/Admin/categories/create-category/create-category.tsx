@@ -9,6 +9,7 @@ import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useState } from 'react'
+import { Helmet } from "react-helmet"
 import { BeatLoader } from 'react-spinners'
 
 const CreateCategory = () => {
@@ -27,6 +28,9 @@ const CreateCategory = () => {
 
     return (
         <Transition>
+            <Helmet>
+                <title>Create Category</title>
+            </Helmet>
             <div className="p-2">
                 <Card>
                     <CardHeader className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl">

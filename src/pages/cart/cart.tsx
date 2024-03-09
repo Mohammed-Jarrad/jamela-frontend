@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import CartItem from './cart-item'
 import CartSummary from './cart-summary'
+import { Helmet } from "react-helmet"
 
 const Cart = () => {
     const [note, setNote] = useState('')
@@ -18,6 +19,10 @@ const Cart = () => {
 
     return (
         <Container>
+            <Helmet>
+                <title>Cart</title>
+            </Helmet>
+            
             <Transition className="my-3">
                 <h2 className="my-8 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-center font-bold text-transparent max-md:text-xl">
                     {cart?.products.length != undefined && cart?.products.length > 0 ? 'Your Cart' : 'Cart is empty'}

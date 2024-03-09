@@ -11,6 +11,7 @@ import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 
@@ -53,6 +54,9 @@ const UpdateCategory = () => {
 
     return (
         <Transition>
+            <Helmet>
+                <title>Update {slug}</title>
+            </Helmet>
             <Card>
                 <CardHeader>
                     <h1 className="my-5 text-2xl font-medium text-muted-foreground ">Update Category</h1>

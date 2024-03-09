@@ -22,6 +22,7 @@ import ProductSelectSubcategory from '../product-select-subcategory'
 import ProductSizes from '../product-sizes'
 import UpdateProductMainImage from './update-product-main-image'
 import UpdateproductSubImages from './update-product-sub-images'
+import { Helmet } from "react-helmet"
 const UpdateProduct = () => {
     // params
     const { slug } = useParams()
@@ -97,6 +98,10 @@ const UpdateProduct = () => {
 
     return (
         <Transition>
+            <Helmet>
+                <title>Update {slug}</title>
+            </Helmet>
+            
             <Card>
                 <CardHeader>
                     <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">

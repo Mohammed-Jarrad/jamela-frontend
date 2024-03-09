@@ -10,6 +10,7 @@ import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { BadgeCheck, CheckCircle, XOctagon } from 'lucide-react'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import AdminUsersDeleteDialog from './admin-users-delete-dialog'
 import UsersTableFilters from './admin-users-filters'
@@ -50,6 +51,10 @@ const AdminUsers = () => {
     if (error) handleErrors(error)
     return (
         <Transition>
+            <Helmet>
+                <title>Admin Users</title>
+            </Helmet>
+
             {/* search users and refresh and create link and sort */}
             <UsersTableFilters
                 sortItems={sortItems}

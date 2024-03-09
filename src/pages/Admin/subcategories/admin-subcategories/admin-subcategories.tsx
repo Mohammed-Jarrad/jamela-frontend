@@ -21,6 +21,7 @@ import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
+import { Helmet } from "react-helmet"
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -53,6 +54,9 @@ const AdminSubcategories = () => {
     // if (data)
     return (
         <Transition>
+            <Helmet>
+                <title>Admin Subcategories</title>
+            </Helmet>
             {/* subcategories table filters and refresh */}
             <SubcategoriesTableFilter
                 link="/dashboard/subcategories/create"

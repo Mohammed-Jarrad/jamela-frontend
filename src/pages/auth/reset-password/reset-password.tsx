@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useResetPassword } from '@/hooks/use-auth'
 import Transition from '@/utils/transition'
 import { FormEvent, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 const ResetPassword = () => {
@@ -18,6 +19,10 @@ const ResetPassword = () => {
 
     return (
         <Container className="flex items-center justify-center">
+            <Helmet>
+                <title>Reset Password</title>
+            </Helmet>
+
             <Transition initial={{ opacity: 0, y: -70 }} animate={{ opacity: 1, y: 0 }} className="w-full md:w-auto">
                 <Card className="w-full md:w-[500px]">
                     <CardHeader>

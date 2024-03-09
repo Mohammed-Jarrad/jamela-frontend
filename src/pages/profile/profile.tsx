@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUserContext } from '@/context/UserContextProvider'
 import { Flex } from '@/styles/styles'
 import Transition from '@/utils/transition'
+import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
 import AccountContent from './account-content'
 import PasswordController from './password-controller'
@@ -20,6 +21,10 @@ const Profile = () => {
 
     return (
         <Transition className="container my-5 lg:my-12">
+            <Helmet>
+                <title>{currentUser.username} Profile</title>
+            </Helmet>
+
             <Flex $justify={'center'}>
                 <Tabs defaultValue={defaultTab} className="w-full md:container">
                     <TabsList className="flex items-center gap-2">
