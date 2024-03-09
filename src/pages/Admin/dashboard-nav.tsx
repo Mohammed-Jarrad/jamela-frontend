@@ -10,6 +10,7 @@ import { CSSProperties } from 'react'
 import { BiDialpad } from 'react-icons/bi'
 import { FaUsers } from 'react-icons/fa6'
 import { GiCardboardBox } from 'react-icons/gi'
+import { GoImage } from 'react-icons/go'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { MdCategory } from 'react-icons/md'
 import { RiCoupon3Fill } from 'react-icons/ri'
@@ -49,11 +50,12 @@ const DashboardNav: React.FC = () => {
                     <DashboardNavItem icon={IoDocumentTextOutline} link={'/dashboard/orders'} title={'Orders'} />
                     <DashboardNavItem icon={FaUsers} link={'/dashboard/users'} title={'Users'} />
                     <DashboardNavItem icon={RiCoupon3Fill} link={'/dashboard/coupons'} title={'Coupons'} />
+                    <DashboardNavItem icon={GoImage} link={'/dashboard/images'} title={'Images'} />
                 </ul>
-                <footer className="mt-auto space-y-4 text-center">
+                <div className="mt-auto space-y-4 text-center">
                     <ModeToggle />
                     <p className="truncate text-xs">Copyright © {new Date().getFullYear()}. All rights reserved.</p>
-                </footer>
+                </div>
             </motion.div>
             {/* Overlay */}
             {showNav && (

@@ -23,7 +23,7 @@ export interface SignupData {
 }
 export type Roles = 'User' | 'Admin'
 export type StatusType = 'Active' | 'Inactive'
-export interface ImageProps {
+export type ImageProps = {
     secure_url: string
     public_id: string | null
 }
@@ -51,7 +51,7 @@ export type CartProps = {
         size?: ProductSizesProps
         color?: string
         _id: string
-    }[] 
+    }[]
 }
 export type CategoryProps = {
     name?: string
@@ -116,6 +116,20 @@ export type CouponProps = {
     updatedAt?: Date
 }
 
+export type HomepageProps = {
+    _id: string
+    mainImages: ImageProps[]
+    bannerImages: ImageProps[]
+    to?: string
+}
+export type ConstantImages = {
+    _id: string
+    secure_url: string
+    public_id: string
+    link?: string
+    imageType: 'main' | 'banner'
+}
+
 export type OrderProductProps = {
     productId?: string | ProductProps
     quantity?: number
@@ -150,18 +164,18 @@ export type ProductSizesProps =
     | 'XL'
     | 'XXL'
     | 'XXXL'
-    | "36"
-    | "37"
-    | "38"
-    | "39"
-    | "40"
-    | "41"
-    | "42"
-    | "43"
-    | "44"
-    | "45"
-    | "46"
-    | "47"
-    | "48"
-    | "49"
-    | "50"
+    | '36'
+    | '37'
+    | '38'
+    | '39'
+    | '40'
+    | '41'
+    | '42'
+    | '43'
+    | '44'
+    | '45'
+    | '46'
+    | '47'
+    | '48'
+    | '49'
+    | '50'

@@ -123,7 +123,7 @@ const ProductsSide: React.FC<Props> = ({
             {isLoading ? (
                 <ProductsLoading />
             ) : (
-                <div className="grid grid-cols-2 place-items-center gap-4 xs:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
+                <div className="grid grid-cols-1 place-items-center gap-4 xs:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
                     {data?.products?.length ? (
                         data?.products?.map((product) => <ProductCard key={product._id} product={product} />)
                     ) : (

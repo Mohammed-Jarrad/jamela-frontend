@@ -40,7 +40,7 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                 scrollbar={isHovered ? { draggable: true, snapOnRelease: true } : false}
             >
                 {images?.map((image) => (
-                    <SwiperSlide key={image?.public_id} className="h-[--img-height] w-full overflow-hidden rounded-xl">
+                    <SwiperSlide key={image?.public_id} className=" w-full overflow-hidden rounded-xl">
                         <Link to={`/product/${product.slug}`} className="h-full w-full">
                             <motion.img
                                 initial={{ opacity: 0 }}
@@ -50,7 +50,7 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                                 src={image?.secure_url}
                                 alt={product.name}
                                 loading="lazy"
-                                className="h-full w-full cursor-pointer !rounded-xl object-cover object-center "
+                                className="aspect-[2/3] h-full w-full cursor-pointer !rounded-xl object-cover object-center max-xs:aspect-[10/11] "
                             />
                         </Link>
                     </SwiperSlide>

@@ -22,6 +22,7 @@ import ResetPassword from '@/pages/auth/reset-password/reset-password'
 import SignUp from '@/pages/auth/sign-up/sign-up'
 import Cart from '@/pages/cart/cart'
 import Home from '@/pages/home/home'
+import Images from '@/pages/images/images'
 import Notfound from '@/pages/not-found/not-found'
 import Product from '@/pages/product/product'
 import Profile from '@/pages/profile/profile'
@@ -96,6 +97,7 @@ const MainContent = () => {
                             <Route path="orders" element={<AdminOrders />} />
                             {/* Admin Users routes */}
                             <Route path="users" element={<AdminUsers />} />
+                            <Route path="images" element={<Images />} />
                         </Route>
                     </Route>
                     {/* Test Page */}

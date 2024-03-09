@@ -8,11 +8,10 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 // import Swiper core and required modules
 import { Navigation } from 'swiper/modules'
 // Import Swiper styles
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { NextElement, PrevElement } from '@/components/swiper-navigation'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import CategoriesLoading from './categories-loading'
-import { NextElement, PrevElement } from '@/components/swiper-navigation'
 
 const HomepageCategories = () => {
     // get active categories
@@ -40,18 +39,24 @@ const HomepageCategories = () => {
                 <CategoriesLoading />
             ) : (
                 <Swiper
-                    className="mt-8"
-                    slidesPerView={'auto'}
+                    className="mt-8 w-full"
+                    breakpoints={{
+                        0: { slidesPerView: 1 },
+                        480: { slidesPerView: 2 },
+                        768: { slidesPerView: 3 },
+                        1280: { slidesPerView: 4 },
+                    }}
                     spaceBetween={30}
                     centerInsufficientSlides
                     modules={[Navigation]}
                     navigation={{
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',
+                        disabledClass: 'pointer-events-auto opacity-50',
                     }}
                 >
                     {data?.categories.map((category, index) => (
-                        <SwiperSlide key={category._id} className="w-[350px]">
+                        <SwiperSlide key={category._id} className="w-full">
                             <Category category={category} index={index} />
                         </SwiperSlide>
                     ))}

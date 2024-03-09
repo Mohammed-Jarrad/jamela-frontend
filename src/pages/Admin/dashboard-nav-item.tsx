@@ -22,11 +22,11 @@ const DashboardNavItem = ({ icon: Icon, link, title }: DashboardNavItemProps) =>
         }
     }
     return (
-        <li className="" title={title}>
+        <li className="uppercase" title={title}>
             <Link
                 to={link}
                 className={cn(
-                    'relative z-20 flex items-center gap-2 rounded-md bg-transparent px-3 py-1 text-sm font-normal transition-all  lg:text-base ',
+                    'relative z-20 flex items-center gap-2 rounded-md bg-transparent px-3 py-1 text-sm font-normal transition-all  lg:text-sm ',
                     !!isActive && 'text-white/90'
                 )}
                 onClick={handleClickOnLinkInSmallScreen}

@@ -28,7 +28,7 @@ const Category: React.FC<Props> = ({ category, index }) => {
                 style={{
                     textShadow: '0 0 10px rgba(0, 0, 0)', // i need a big shadow
                 }}
-                className="-translate-y-1/2text-accent absolute left-1/2 top-1/2 -translate-x-1/2 capitalize text-white transition-all hover:underline"
+                className="-translate-y-1/2text-accent absolute left-1/2 top-1/2 -translate-x-1/2 truncate capitalize text-white transition-all hover:underline"
             >
                 {category.name}
             </h4>

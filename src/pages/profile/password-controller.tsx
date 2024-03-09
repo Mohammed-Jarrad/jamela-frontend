@@ -73,7 +73,7 @@ const PasswordController = () => {
                         required
                     />
 
-                    <Link to="/auth/forget-password" className="text-sm underline">
+                    <Link to="/auth/forget-password" className="mt-2 text-sm underline">
                         Forget Password?
                     </Link>
 

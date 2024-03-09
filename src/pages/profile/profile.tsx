@@ -15,7 +15,7 @@ const Profile = () => {
 
     function handleClickTab(tabValue: string) {
         queryParams.set('tab', tabValue)
-        navigateToTab(`/profile?${queryParams.toString()}`, { replace: true })
+        navigateToTab({ search: queryParams.toString() })
     }
 
     return (
