@@ -43,18 +43,22 @@ const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(
         if (!shouldRender()) return null
         else
             return (
-                <li style={{ order }} className="group relative">
+                <li style={{ order }} className="group relative list-none">
                     <NavLink
                         ref={ref}
                         to={link}
                         className={cn(
                             'relative rounded-full px-3 py-1 font-medium transition-all',
-                            isActive ? 'text-white/90' : 'text-muted-foreground hover:text-foreground',
+                            isActive
+                                ? 'text-white/90'
+                                : 'text-muted-foreground hover:text-foreground',
                             className
                         )}
                         {...rest}
                     >
-                        <div className={cn('inline-block text-sm', childrenParentClassName)}>{children}</div>
+                        <div className={cn('inline-block text-sm', childrenParentClassName)}>
+                            {children}
+                        </div>
                         {isActive && (
                             <motion.span
                                 initial={{ opacity: 0 }}

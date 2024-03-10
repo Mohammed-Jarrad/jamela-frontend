@@ -50,7 +50,7 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                                 src={image?.secure_url}
                                 alt={product.name}
                                 loading="lazy"
-                                className="aspect-[2/3] h-full w-full cursor-pointer !rounded-xl object-cover object-center max-xs:aspect-[10/11] "
+                                className="aspect-[2/3] h-full w-full cursor-pointer !rounded-xl object-cover object-center"
                             />
                         </Link>
                     </SwiperSlide>

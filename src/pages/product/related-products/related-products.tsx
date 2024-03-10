@@ -28,10 +28,10 @@ const RelatedProducts: React.FC<Props> = ({ product }) => {
             {!isLoading ? (
                 <Swiper
                     breakpoints={{
-                        0: { slidesPerView: 'auto' },
-                        520: { slidesPerView: 2 },
-                        768: { slidesPerView: 3 },
-                        1024: { slidesPerView: 4 },
+                        0: { slidesPerView: 2 },
+                        480: { slidesPerView: 3 },
+                        768: { slidesPerView: 4 },
+                        1024: { slidesPerView: 5 },
                     }}
                     spaceBetween={30}
                     modules={[Navigation]}
@@ -39,7 +39,7 @@ const RelatedProducts: React.FC<Props> = ({ product }) => {
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',
                     }}
-                centerInsufficientSlides
+                    centerInsufficientSlides
                 >
                     {data?.products?.filter((p) => p._id !== product._id).length ? (
                         data?.products

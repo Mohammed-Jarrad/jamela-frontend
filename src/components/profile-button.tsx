@@ -1,27 +1,34 @@
+import { useTheme } from '@/context/ThemeContextProvider'
 import { useUserContext } from '@/context/UserContextProvider'
 import { motion } from 'framer-motion'
+import { Home, Store } from 'lucide-react'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { IoPerson } from 'react-icons/io5'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { ModeToggle } from './mode-toggle'
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 
-type Props = {
+interface Props {
     link?: string
 }
+
 export default function ProfileButton({ link = '/profile' }: Props): JSX.Element | null {
     const { currentUser, logout: _logout } = useUserContext()
+    const { theme } = useTheme()
     const navigate = useNavigate()
+
     const logout = () => {
         _logout()
         navigate(`/auth/login`, { replace: true })
     }
+
     if (!Object.keys(currentUser).length) return null
     return (
         <DropdownMenu>
@@ -39,12 +46,37 @@ export default function ProfileButton({ link = '/profile' }: Props): JSX.Element
             </DropdownMenuTrigger>
             <DropdownMenuContent className="!z-[999999] w-56">
                 <DropdownMenuLabel>Hi, {currentUser?.username}</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-primary/30" />
-                <DropdownMenuItem onClick={() => navigate(link)} className="flex items-center gap-3">
+                {/* <DropdownMenuSeparator /> */}
+                <DropdownMenuItem
+                    onClick={() => navigate(link)}
+                    className="flex items-center gap-3"
+                >
                     <IoPerson /> Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => logout()} className="flex items-center gap-3">
-                    <AiOutlineLogout /> Logout
+
+                <DropdownMenuGroup className="border-b border-t md:hidden">
+                    <DropdownMenuItem className="flex  items-center gap-3">
+                        <span>{theme}</span>
+                        <ModeToggle />
+                    </DropdownMenuItem>
+
+                    <Link to="/">
+                        <DropdownMenuItem className="space-x-3">
+                            <Home size={14} />
+                            <span>Home</span>
+                        </DropdownMenuItem>
+                    </Link>
+
+                    <Link to="/shop">
+                        <DropdownMenuItem className="space-x-3">
+                            <Store size={14} />
+                            <span>Shop</span>
+                        </DropdownMenuItem>
+                    </Link>
+                </DropdownMenuGroup>
+
+                <DropdownMenuItem onClick={() => logout()} className="space-x-3">
+                    <AiOutlineLogout /> <span>Logout</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

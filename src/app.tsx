@@ -23,9 +23,9 @@ function App() {
         <>
             <Helmet>
                 <title>Jamela Fashion</title>
-                <meta name="description" content="Welcome to Jamela Fashion" />
+                <meta name="description" content="Ecommerce website for Jamela Fashion" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                {/* <link rel="icon" href="/logo.ico" /> */}
+                <meta name="application-name" content="Jamela Fashion" />
             </Helmet>
 
             <MainContent />

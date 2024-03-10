@@ -3,10 +3,12 @@ import useClickOutside from '@/utils/use-click-outside'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import React, { ComponentProps, useState } from 'react'
 import { buttonVariants } from './ui/button'
+
 type DropdownContextProps = {
     isOpen: boolean
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
+
 const DropdownContext = React.createContext<DropdownContextProps>({
     isOpen: false,
     setIsOpen: () => {},
