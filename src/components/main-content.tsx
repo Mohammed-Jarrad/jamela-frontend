@@ -6,6 +6,7 @@ import AdminCoupons from '@/pages/Admin/coupons/admin-coupons'
 import CreateCoupon from '@/pages/Admin/coupons/create-coupon'
 import UpdateCoupon from '@/pages/Admin/coupons/update-coupon'
 import Dashboard from '@/pages/Admin/dashboard'
+import Images from '@/pages/Admin/images/images'
 import MainDashboardContent from '@/pages/Admin/main/main-dashboard-content'
 import AdminOrders from '@/pages/Admin/orders/admin-orders/admin-orders'
 import AdminProducts from '@/pages/Admin/products/admin-products/admin-products'
@@ -22,7 +23,6 @@ import ResetPassword from '@/pages/auth/reset-password/reset-password'
 import SignUp from '@/pages/auth/sign-up/sign-up'
 import Cart from '@/pages/cart/cart'
 import Home from '@/pages/home/home'
-import Images from '@/pages/Admin/images/images'
 import Notfound from '@/pages/not-found/not-found'
 import Product from '@/pages/product/product'
 import Profile from '@/pages/profile/profile'
@@ -61,6 +61,7 @@ const MainContent = () => {
                             <Route path="cart" element={<Cart />} />
                             <Route path="profile" element={<Profile />} />
                         </Route>
+                        <Route path="*" element={<Notfound />} />
                     </Route>
 
                     {/* Admin Routes */}
@@ -99,10 +100,10 @@ const MainContent = () => {
                             <Route path="users" element={<AdminUsers />} />
                             <Route path="images" element={<Images />} />
                         </Route>
+                        <Route path="*" element={<Notfound />} />
                     </Route>
                     {/* Test Page */}
                     <Route path="/test" element={<Test />} />
-                    <Route path="*" element={<Notfound />} />
                 </Routes>
             </ScrollWhenRefresh>
         </main>
