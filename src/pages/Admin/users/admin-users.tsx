@@ -1,9 +1,23 @@
 import LimitController from '@/components/limit-controller'
 import Flex from '@/components/my/flex'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 import { useChangeUserRoleAndStatus, useDeleteUser, useGetAllUsers } from '@/hooks/use-user'
 import { Roles, StatusType, UserProps } from '@/types'
 import Transition from '@/utils/transition'
@@ -94,8 +108,12 @@ const AdminUsers = () => {
                                         <TableHead>Phone</TableHead>
                                         <TableHead>Address</TableHead>
                                         <TableHead>Gender</TableHead>
-                                        <TableHead className="w-[70px] text-center">Status</TableHead>
-                                        <TableHead className="w-[70px] text-center">Actions</TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Status
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -103,7 +121,9 @@ const AdminUsers = () => {
                                         // .filter((user) => user._id !== currentUser._id)
                                         .map((user, index) => (
                                             <TableRow key={user._id}>
-                                                <TableCell className="font-medium">{index + 1}</TableCell>
+                                                <TableCell className="font-medium">
+                                                    {index + 1}
+                                                </TableCell>
                                                 <TableCell className="capitalize">
                                                     <Flex align="center">
                                                         <img
@@ -113,9 +133,16 @@ const AdminUsers = () => {
                                                             className="mr-3 h-8 w-8 rounded-full object-cover object-center"
                                                         />
                                                         {user.role == 'Admin' && (
-                                                            <BadgeCheck size={20} color="white" fill="green" />
+                                                            <BadgeCheck
+                                                                size={20}
+                                                                color="white"
+                                                                fill="green"
+                                                            />
                                                         )}
-                                                        <span className="truncate" title={user.username}>
+                                                        <span
+                                                            className="truncate"
+                                                            title={user.username}
+                                                        >
                                                             {user.username}
                                                         </span>
                                                     </Flex>
@@ -126,7 +153,11 @@ const AdminUsers = () => {
                                                         {user.confirmEmail ? (
                                                             <CheckCircle size={15} color="green" />
                                                         ) : (
-                                                            <XOctagon size={15} color="white" fill="red" />
+                                                            <XOctagon
+                                                                size={15}
+                                                                color="white"
+                                                                fill="red"
+                                                            />
                                                         )}
                                                     </Flex>
                                                 </TableCell>
@@ -144,8 +175,12 @@ const AdminUsers = () => {
                                                             <SelectValue placeholder="Role" />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            <SelectItem value="Admin">Admin</SelectItem>
-                                                            <SelectItem value="User">User</SelectItem>
+                                                            <SelectItem value="Admin">
+                                                                Admin
+                                                            </SelectItem>
+                                                            <SelectItem value="User">
+                                                                User
+                                                            </SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 </TableCell>
@@ -156,7 +191,7 @@ const AdminUsers = () => {
                                                     {user.phone || 'N/A'}
                                                 </TableCell>
                                                 <TableCell
-                                                    className="data-[valid-false]:font-bold data-[valid=false]:text-red-500"
+                                                    className="truncate data-[valid-false]:font-bold data-[valid=false]:text-red-500"
                                                     data-valid={!!user.address}
                                                 >
                                                     {user.address || 'N/A'}
@@ -179,7 +214,9 @@ const AdminUsers = () => {
                                                     />
                                                 </TableCell>
                                                 <TableCell className="w-[70px] text-center">
-                                                    <AdminUsersDeleteDialog onDelete={() => deleteUser(user._id)} />
+                                                    <AdminUsersDeleteDialog
+                                                        onDelete={() => deleteUser(user._id)}
+                                                    />
                                                 </TableCell>
                                             </TableRow>
                                         ))}

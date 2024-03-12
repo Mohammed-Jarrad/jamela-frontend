@@ -50,18 +50,24 @@ const ImageCard: FC<Props> = ({ image, index, deleteMutation }) => {
             $direction="column"
             key={image._id}
             className="group relative rounded-xl p-3 ring ring-border transition-all hover:ring-primary"
-            initial={{ opacity: 0, scale: 1.05 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1, duration: 0.5 }}
+            transition={{ delay: index * 0.1, duration: 0.3 }}
         >
             <div className="relative overflow-hidden rounded-lg">
-                <motion.img src={image.secure_url} alt={image.public_id} className="aspect-[16/9] rounded-xl object-cover" />
+                <motion.img
+                    src={image.secure_url}
+                    alt={image.public_id}
+                    className="aspect-[16/9] rounded-xl object-cover"
+                />
                 <Flex
                     $center={true}
                     className="pointer-events-none absolute inset-0 bg-black/40  opacity-0 transition-all group-hover:pointer-events-auto group-hover:opacity-100"
                 >
                     <AlertDialog>
-                        <AlertDialogTrigger className={cn(buttonVariants({ variant: 'destructive' }), 'flex gap-1')}>
+                        <AlertDialogTrigger
+                            className={cn(buttonVariants({ variant: 'destructive' }), 'flex gap-1')}
+                        >
                             <FaTrash />
                             Delete
                         </AlertDialogTrigger>
@@ -69,7 +75,8 @@ const ImageCard: FC<Props> = ({ image, index, deleteMutation }) => {
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete this image.
+                                    This action cannot be undone. This will permanently delete this
+                                    image.
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
@@ -81,7 +88,11 @@ const ImageCard: FC<Props> = ({ image, index, deleteMutation }) => {
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
-                    <Button variant={'secondary'} className="flex gap-1 border" onClick={() => setOpenEdit(true)}>
+                    <Button
+                        variant={'secondary'}
+                        className="flex gap-1 border"
+                        onClick={() => setOpenEdit(true)}
+                    >
                         <TbEdit />
                         Edit
                     </Button>

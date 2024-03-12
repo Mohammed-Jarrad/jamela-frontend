@@ -9,7 +9,15 @@ import {
     TableSort,
     TableSortProps,
 } from '@/components/table-filter'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 
 import LimitController from '@/components/limit-controller'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
@@ -18,9 +26,9 @@ import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
-import { Helmet } from "react-helmet"
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -44,7 +52,7 @@ const AdminProducts = () => {
         limit,
         search,
         sort,
-        select: 'name, slug, mainImage, price, stock, categoryId, status, subcategoryId',
+        select: 'name, slug, mainImage, price, stock, number_sellers, categoryId, status, subcategoryId',
     })
     const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct()
     const pagesCount = data ? Math.ceil(data?.totalResultsCounts / limit) : 0
@@ -81,7 +89,9 @@ const AdminProducts = () => {
                 <p className="text-center text-3xl font-bold">No products found</p>
             ) : (
                 <>
-                    {isDeleting && <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />}
+                    {isDeleting && (
+                        <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+                    )}
                     {isLoading ? (
                         <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
                     ) : (
@@ -90,18 +100,26 @@ const AdminProducts = () => {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Number</TableHead>
-                                        <TableHead className="sticky left-0 z-10 bg-muted">Name</TableHead>
+                                        <TableHead>Name</TableHead>
                                         <TableHead>Category</TableHead>
                                         <TableHead>Subcategory</TableHead>
-                                        <TableHead className="w-[70px] text-center">Status</TableHead>
-                                        <TableHead className="w-[70px] text-center">Actions</TableHead>
+                                        <TableHead>Sellers</TableHead>
+                                        <TableHead>Stock</TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Status
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {data?.products.map((product, index) => (
                                         <TableRow key={product._id}>
-                                            <TableCell className="font-medium">{index + 1}</TableCell>
-                                            <TableCell className="sticky left-0 z-10 bg-background">
+                                            <TableCell className="font-medium">
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell>
                                                 <Flex align={'center'} gap={'sm'}>
                                                     <img
                                                         src={product.mainImage?.secure_url}
@@ -112,13 +130,32 @@ const AdminProducts = () => {
                                                     <span className="truncate">{product.name}</span>
                                                 </Flex>
                                             </TableCell>
-                                            <TableCell className="truncate">{product.categoryId?.name}</TableCell>
-                                            <TableCell className="truncate">{product.subcategoryId?.name}</TableCell>
+                                            <TableCell className="truncate">
+                                                {product.categoryId?.name}
+                                            </TableCell>
+                                            <TableCell className="truncate">
+                                                {product.subcategoryId?.name}
+                                            </TableCell>
+                                            <TableCell className="truncate font-semibold">
+                                                {product.number_sellers ?? 0}
+                                            </TableCell>
+                                            <TableCell className="truncate">
+                                                <div
+                                                    className={cn(
+                                                        'w-fit rounded-lg bg-green-400 px-3 py-1 text-white',
+                                                        product.stock == 0 && 'bg-red-400'
+                                                    )}
+                                                >
+                                                    {product.stock}
+                                                </div>
+                                            </TableCell>
                                             <TableCell className="w-[70px] text-center">
                                                 <div
                                                     className={cn(
                                                         'mx-auto h-3 w-3 rounded-full',
-                                                        product.status == 'Active' ? 'bg-green-500' : 'bg-rose-500'
+                                                        product.status == 'Active'
+                                                            ? 'bg-green-500'
+                                                            : 'bg-rose-500'
                                                     )}
                                                 />
                                             </TableCell>
@@ -167,7 +204,10 @@ const AdminProducts = () => {
 
 export default AdminProducts
 
-type TableFiltersProps = TableSortProps & TableSearchProps & TableRefreshDataProps & TableCreateLinkButtonProps
+type TableFiltersProps = TableSortProps &
+    TableSearchProps &
+    TableRefreshDataProps &
+    TableCreateLinkButtonProps
 
 const ProductsTableFilters = (props: TableFiltersProps) => {
     return (

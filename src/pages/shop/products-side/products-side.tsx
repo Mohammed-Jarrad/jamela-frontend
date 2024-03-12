@@ -66,7 +66,7 @@ const ProductsSide: React.FC<Props> = ({
             {/* Options */}
             <Flex
                 $items="center"
-                className="z-[50] mb-8 bg-transparent backdrop-blur-md max-lg:!flex-col md:sticky md:top-[calc(var(--header-height))] md:pt-3"
+                className="z-[50] mb-8 bg-transparent backdrop-blur-md max-lg:!flex-col"
             >
                 <Flex as="form" $items="center" className="w-full flex-1" onSubmit={handleSubmit}>
                     <Input
@@ -90,10 +90,11 @@ const ProductsSide: React.FC<Props> = ({
                         sortItems={[
                             { value: 'name', label: 'Alphabetically A-Z' },
                             { value: '-name', label: 'Alphabetically Z-A' },
+                            { value: '-number_sellers', label: 'Best sellers' },
+                            { value: '-createdAt', label: 'New arrivals' },
+                            { value: 'createdAt', label: 'Date, Oldest' },
                             { value: 'price', label: 'Price, low to high' },
                             { value: '-price', label: 'Price, high to low' },
-                            { value: 'createdAt', label: 'Date, oldest' },
-                            { value: '-createdAt', label: 'Date, newest' },
                         ]}
                     />
                     <Select

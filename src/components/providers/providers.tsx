@@ -16,7 +16,7 @@ const Providers = ({ children }: PorvidersType) => {
             <ReactQueryProvider>
                 <ThemeProvider defaultTheme="light" storageKey="ui-theme">
                     <UserContextProvider>
-                        <TooltipProvider delayDuration={200}>
+                        <TooltipProvider delayDuration={200} disableHoverableContent>
                             <MyToaster />
                             {children}
                         </TooltipProvider>

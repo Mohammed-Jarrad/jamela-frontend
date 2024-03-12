@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { useDeleteImage, useGetImages } from '@/hooks/use-images'
 import { cn } from '@/lib/utils'
-import { Flex } from '@/styles/styles'
 import { ConstantImages } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useEffect, useState } from 'react'
@@ -22,6 +21,7 @@ const ImagesContent = () => {
     useEffect(() => {
         queryParams.set('imageType', imageType)
         navigate({ search: queryParams.toString() })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const { data, isLoading, error } = useGetImages({ imageType })
@@ -33,21 +33,40 @@ const ImagesContent = () => {
     if (data)
         return (
             <div className="space-y-5">
-                {deleteMutation.isPending && <BeatLoader color="hsl(var(--primary))" className="my-5 text-center" />}
+                {deleteMutation.isPending && (
+                    <BeatLoader color="hsl(var(--primary))" className="my-5 text-center" />
+                )}
 
                 <div className="flex divide-x-2 rounded-xl border">
-                    <TabItem imageType={imageType} setImageType={setImageType} text="Main images" value="main" />
-                    <TabItem imageType={imageType} setImageType={setImageType} text="Banner images" value="banner" />
+                    <TabItem
+                        imageType={imageType}
+                        setImageType={setImageType}
+                        text="Main images"
+                        value="main"
+                    />
+                    <TabItem
+                        imageType={imageType}
+                        setImageType={setImageType}
+                        text="Banner images"
+                        value="banner"
+                    />
                 </div>
 
                 {data.images.length > 0 ? (
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-2">
                         {data.images.map((image, index) => (
-                            <ImageCard key={image._id} image={image} index={index} deleteMutation={deleteMutation} />
+                            <ImageCard
+                                key={image._id}
+                                image={image}
+                                index={index}
+                                deleteMutation={deleteMutation}
+                            />
                         ))}
                     </div>
                 ) : (
-                    <p className="mt-5 text-center text-muted-foreground md:text-lg">No images found</p>
+                    <p className="mt-5 text-center text-muted-foreground md:text-lg">
+                        No images found
+                    </p>
                 )}
                 <Button
                     variant="default"

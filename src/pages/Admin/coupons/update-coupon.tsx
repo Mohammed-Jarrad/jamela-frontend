@@ -34,7 +34,8 @@ const UpdateCoupon: React.FC = () => {
         const infos = {
             ...(name && name !== data?.coupon.name && { name }),
             ...(amount && amount !== data?.coupon.amount && { amount }),
-            ...(expireDate && expireDate !== data?.coupon.expireDate && { expireDate: new Date(expireDate) }),
+            ...(expireDate &&
+                expireDate !== data?.coupon.expireDate && { expireDate: new Date(expireDate) }),
         }
         updateCoupon({ id, infos })
     }
@@ -70,7 +71,8 @@ const UpdateCoupon: React.FC = () => {
                             </span>
                         )}
                         <span className="text-xs text-muted-foreground">
-                            Used by <strong>{coupon.usedBy.length}</strong> user{coupon.usedBy.length > 1 && 's'}
+                            Used by <strong>{coupon.usedBy.length}</strong> user
+                            {coupon.usedBy.length > 1 && 's'}
                         </span>
                     </CardHeader>
 
@@ -110,8 +112,12 @@ const UpdateCoupon: React.FC = () => {
                                                 !expireDate && 'text-muted-foreground'
                                             )}
                                         >
-                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                            {expireDate ? format(expireDate, 'PPP') : <span>Pick a date</span>}
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                            {expireDate ? (
+                                                format(expireDate, 'dd-M-yyyy')
+                                            ) : (
+                                                <span>Pick a date</span>
+                                            )}
                                         </Button>
                                     </PopoverTrigger>
                                     <PopoverContent className="w-auto p-0">
@@ -129,7 +135,11 @@ const UpdateCoupon: React.FC = () => {
                             </Box>
 
                             <Button type="submit" className="!mt-10" disabled={isUpdating}>
-                                {isUpdating ? <BeatLoader color="white" size={13} /> : 'Save Changes'}
+                                {isUpdating ? (
+                                    <BeatLoader color="white" size={13} />
+                                ) : (
+                                    'Save Changes'
+                                )}
                             </Button>
                         </form>
                     </CardContent>

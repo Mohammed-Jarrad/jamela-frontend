@@ -16,7 +16,7 @@ import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 
 const CreateCoupon = () => {
-    const [expireDate, setExpireDate] = useState<Date>(new Date())
+    const [expireDate, setExpireDate] = useState<Date>()
     const [name, setName] = useState<string>('')
     const [amount, setAmount] = useState<number>(0)
     const handleErrors = useHandleErrors()
@@ -50,7 +50,7 @@ const CreateCoupon = () => {
                             <Input
                                 id="name"
                                 name="name"
-                                placeholder="COuPoN"
+                                placeholder="XXXXXX"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
@@ -61,7 +61,7 @@ const CreateCoupon = () => {
                             <Input
                                 id="amount"
                                 name="amount"
-                                placeholder="10"
+                                placeholder="50%"
                                 type="number"
                                 value={amount}
                                 onChange={(e) => setAmount(Number(e.target.value))}
@@ -80,7 +80,11 @@ const CreateCoupon = () => {
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {expireDate ? format(expireDate, 'PPP') : <span>Pick a date</span>}
+                                        {expireDate ? (
+                                            format(expireDate, 'dd-M-yyyy')
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">

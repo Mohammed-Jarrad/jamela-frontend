@@ -1,8 +1,10 @@
 import Container from '@/components/my/container'
 import Grid from '@/components/my/grid'
+import { Button } from '@/components/ui/button'
 import { useGetActiveProducts } from '@/hooks/use-products'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import NewArrivalsLoading from '../new-arrivals/new-arrivals-loading'
 import ProductCard from '../product-card/product-card'
 const BestSellers = () => {
@@ -28,10 +30,15 @@ const BestSellers = () => {
             {isLoading ? (
                 <NewArrivalsLoading />
             ) : (
-                <Grid gap={'xl'} className="mt-8 grid-cols-2 max-md:gap-2">
-                    {data?.products.map((product) => <ProductCard key={product._id} product={product} />)}
+                <Grid gap={'xl'} className="mt-8 grid-cols-2 max-md:gap-2 xl:grid-cols-5">
+                    {data?.products.map((product) => (
+                        <ProductCard key={product._id} product={product} />
+                    ))}
                 </Grid>
             )}
+            <Button className="mt-6">
+                <Link to={'/shop?sort=-number_sellers'}>View All</Link>
+            </Button>
         </Container>
     )
 }

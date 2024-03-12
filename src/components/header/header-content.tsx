@@ -1,4 +1,5 @@
 import { useUserContext } from '@/context/UserContextProvider'
+import { cn } from '@/lib/utils'
 import { ModeToggle } from '../mode-toggle'
 import ProfileButton from '../profile-button'
 import Wishlist from '../wishlist/wishlist'
@@ -19,7 +20,7 @@ const HeaderContent = () => {
             {/* Controls & Profile */}
             <div className="flex items-center gap-4 max-md:w-full max-md:justify-end">
                 {token && currentUser?.cart && <CartLink />}
-                {token && Object.keys(currentUser).length && <Wishlist />}
+                {token && Object.keys(currentUser).length > 0 && <Wishlist />}
                 {token ? (
                     <ProfileButton />
                 ) : (
@@ -28,7 +29,7 @@ const HeaderContent = () => {
                         <NavItem link="/auth/signup">Singup</NavItem>
                     </>
                 )}
-                <span className="max-md:hidden">
+                <span className={cn(token && 'max-md:hidden')}>
                     <ModeToggle />
                 </span>
             </div>

@@ -1,6 +1,5 @@
 import { useTheme } from '@/context/ThemeContextProvider'
 import styled from 'styled-components'
-import ToolTip from './my/tooltip'
 
 export function ModeToggle() {
     const { setTheme, theme } = useTheme()
@@ -8,12 +7,10 @@ export function ModeToggle() {
         setTheme(e.target.checked ? 'dark' : 'light')
     }
     return (
-        <ToolTip content={theme}>
-            <Label>
-                <input type="checkbox" onChange={handleChange} checked={theme === 'dark'} />
-                <span />
-            </Label>
-        </ToolTip>
+        <Label>
+            <input type="checkbox" onChange={handleChange} checked={theme === 'dark'} />
+            <span />
+        </Label>
     )
 }
 
@@ -22,6 +19,11 @@ const Label = styled.label`
     --times: 2.5;
     --border-w: 1px;
     --padding-w: 3px;
+    background-image: url('/assets/sky.jpg');
+    background-size: cover;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+    background-clip: border-box;
     border: var(--border-w) solid hsl(var(--border));
     border-radius: 100px;
     width: calc(var(--times) * var(--unit-width));
@@ -31,6 +33,7 @@ const Label = styled.label`
     cursor: pointer;
 
     &:has(> input:checked) {
+        background-image: url('/assets/night.jpg');
         > span {
             transform: translateX(0%);
             box-shadow: inset 5px -3px 0px 1px #90861f;
@@ -49,7 +52,9 @@ const Label = styled.label`
         transform: translateX(
             calc(((var(--times) - 1) * 100%) - ((var(--border-w) + var(--padding-w)) * 2))
         );
-        box-shadow: inset 20px 3px 0px 1px #e3d102;
+        box-shadow:
+            inset 20px 3px 0px 1px #f7d200,
+            0px 0px 6px 1px rgba(0, 0, 0, 0.4);
         transition:
             all 0.5s,
             box-shadow 600ms;

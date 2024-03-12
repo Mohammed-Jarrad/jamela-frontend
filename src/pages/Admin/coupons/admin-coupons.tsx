@@ -11,8 +11,21 @@ import {
     TableSortProps,
 } from '@/components/table-filter'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useGetCoupons, useHardDeleteCoupon, useRestoreCoupon, useSoftDeleteCoupon } from '@/hooks/use-coupons'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
+import {
+    useGetCoupons,
+    useHardDeleteCoupon,
+    useRestoreCoupon,
+    useSoftDeleteCoupon,
+} from '@/hooks/use-coupons'
 import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
@@ -20,7 +33,7 @@ import { format } from 'date-fns'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
@@ -92,31 +105,61 @@ const AdminCoupons = () => {
                                     <TableRow>
                                         <TableHead>Number</TableHead>
                                         <TableHead>Coupon</TableHead>
-                                        <TableHead className="whitespace-nowrap">Expire Date</TableHead>
-                                        <TableHead className="w-[70px] text-center">Status</TableHead>
-                                        <TableHead className="w-[70px] text-center">Actions</TableHead>
+                                        <TableHead className="whitespace-nowrap">
+                                            Expire Date
+                                        </TableHead>
+                                        <TableHead className="whitespace-nowrap">
+                                            Expired?
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Status
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {data?.coupons.map((coupon, index) => (
                                         <TableRow key={coupon._id}>
-                                            <TableCell className="font-medium">{index + 1}</TableCell>
-                                            <TableCell>{coupon.name}</TableCell>
-                                            <TableCell>{format(coupon.expireDate!, 'dd-M-yyyy')}</TableCell>
+                                            <TableCell className="font-medium">
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                {coupon.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {format(coupon.expireDate!, 'dd-M-yyyy')}
+                                            </TableCell>
+                                            <TableCell>
+                                                {new Date(coupon.expireDate!) < new Date() ? (
+                                                    <span className="text-rose-500">Expired</span>
+                                                ) : (
+                                                    <span className="text-green-500">
+                                                        Not Expired
+                                                    </span>
+                                                )}
+                                            </TableCell>
                                             <TableCell className="w-[70px] text-center">
                                                 <div
                                                     className={cn(
                                                         'mx-auto h-3 w-3 rounded-full',
-                                                        !coupon.isDeleted ? 'bg-green-500' : 'bg-rose-500'
+                                                        !coupon.isDeleted
+                                                            ? 'bg-green-500'
+                                                            : 'bg-rose-500'
                                                     )}
                                                 />
                                             </TableCell>
                                             <TableCell className="w-[70px] text-center">
                                                 <CouponsDropDownWithAlertDialog
                                                     editPageLink={`/dashboard/coupons/update/${coupon._id}`}
-                                                    onHardDelete={() => hardDelete({ id: coupon._id })}
+                                                    onHardDelete={() =>
+                                                        hardDelete({ id: coupon._id })
+                                                    }
                                                     onRestore={() => restore({ id: coupon._id })}
-                                                    onSoftDelete={() => softDelete({ id: coupon._id })}
+                                                    onSoftDelete={() =>
+                                                        softDelete({ id: coupon._id })
+                                                    }
                                                 />
                                             </TableCell>
                                         </TableRow>
@@ -156,7 +199,10 @@ const AdminCoupons = () => {
 
 export default AdminCoupons
 
-type TableFiltersProps = TableSortProps & TableSearchProps & TableRefreshDataProps & TableCreateLinkButtonProps
+type TableFiltersProps = TableSortProps &
+    TableSearchProps &
+    TableRefreshDataProps &
+    TableCreateLinkButtonProps
 const CouponsTableFilters = (props: TableFiltersProps) => {
     return (
         <Flex align="center" gap="sm" className="my-5 max-md:flex-col">
