@@ -167,7 +167,7 @@ const AdminCoupons = () => {
                                 </TableBody>
                                 <TableFooter>
                                     <TableRow className="px-10">
-                                        <TableCell colSpan={3}>
+                                        <TableCell colSpan={4}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
                                         <TableCell colSpan={2}>

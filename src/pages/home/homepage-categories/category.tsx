@@ -12,7 +12,7 @@ const Category: React.FC<Props> = ({ category, index }) => {
     return (
         <Link
             to={`/category/${category.slug}`}
-            className="relative h-[500px] w-full space-y-3 overflow-hidden border shadow"
+            className="relative w-full space-y-3 overflow-hidden border shadow"
         >
             <motion.img
                 initial={{ opacity: 0, scale: 1.1 }}
@@ -22,7 +22,7 @@ const Category: React.FC<Props> = ({ category, index }) => {
                 src={category.image?.secure_url}
                 alt={category.name}
                 loading="lazy"
-                className="h-full w-full object-cover object-center"
+                className="aspect-[2/3] h-full w-full object-cover object-center"
             />
             <h4
                 style={{

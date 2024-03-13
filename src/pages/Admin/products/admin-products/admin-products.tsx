@@ -172,10 +172,10 @@ const AdminProducts = () => {
                                 </TableBody>
                                 <TableFooter>
                                     <TableRow className="px-10">
-                                        <TableCell colSpan={4}>
+                                        <TableCell colSpan={5}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
-                                        <TableCell colSpan={2}>
+                                        <TableCell colSpan={3}>
                                             <LimitController
                                                 limit={limit}
                                                 totalResultsCounts={data?.totalResultsCounts ?? 0}

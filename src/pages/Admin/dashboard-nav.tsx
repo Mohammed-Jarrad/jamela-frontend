@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils'
 import { DashboardIcon } from '@radix-ui/react-icons'
 import { motion } from 'framer-motion'
 import { ChevronLeft } from 'lucide-react'
-import { CSSProperties } from 'react'
 import { BiDialpad } from 'react-icons/bi'
 import { FaUsers } from 'react-icons/fa6'
 import { GiCardboardBox } from 'react-icons/gi'
@@ -22,29 +21,29 @@ const DashboardNav: React.FC = () => {
     return (
         <>
             <motion.div
-                style={{ '--admin-nav-width': '270px' } as CSSProperties}
                 className={cn(
-                    'left-0 top-0 z-50 flex h-screen min-w-[--admin-nav-width] flex-col items-center gap-4 overflow-y-auto border-r bg-card py-2 transition-all',
+                    'left-0 top-0 z-50 flex h-screen w-max min-w-[240px] flex-col items-center gap-4 overflow-y-auto border-r bg-card py-2 transition-all',
                     showNav
                         ? 'fixed translate-x-0 opacity-100 lg:sticky'
                         : 'fixed -translate-x-full opacity-0'
                 )}
             >
-                <Flex align="center" gap="lg" className="my-4">
+                <Flex align="center" gap="lg" className="px-2">
                     <Flex align="center">
                         <ProfileButton link="/dashboard/profile" />
-                        <p className="text-xl font-bold">Admin</p>
+                        <p className="text-lg font-bold">Admin</p>
                     </Flex>
                     <Button
                         variant="ghost"
+                        size="icon"
                         onClick={() => setShowNav(!showNav)}
-                        className="h-10 w-10 rounded-full border p-0 text-muted-foreground"
+                        className="circle border"
                     >
                         <ChevronLeft size={24} />
                     </Button>
                 </Flex>
                 <hr className="h-1 w-full" />
-                <ul className={`flex flex-col justify-center gap-1 md:gap-3 md:py-2`}>
+                <ul className={`flex w-full flex-col items-center gap-1 md:gap-3 md:py-2`}>
                     <DashboardNavItem
                         icon={DashboardIcon}
                         link={'/dashboard'}
@@ -81,7 +80,9 @@ const DashboardNav: React.FC = () => {
                 <div className="mt-auto flex flex-col items-center justify-center space-y-4">
                     <ModeToggle />
                     <p className="truncate text-xs">
-                        Copyright © {new Date().getFullYear()}. All rights reserved.
+                        Copyright © {new Date().getFullYear()}.
+                        <br />
+                        All rights reserved.
                     </p>
                 </div>
             </motion.div>

@@ -132,3 +132,13 @@
     margin: 0;
   }
 }
+
+@layer utilities {
+  .circle {
+    @apply rounded-full
+  }
+
+  .square {
+    @apply rounded-lg
+  }
+}

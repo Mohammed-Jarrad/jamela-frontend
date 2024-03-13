@@ -34,14 +34,13 @@ export default function ProfileButton({ link = '/profile' }: Props): JSX.Element
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <motion.img
-                    layoutId="profile"
                     src={currentUser?.image?.secure_url}
                     alt="profile image"
                     loading="lazy"
-                    className="h-10 w-10 rounded-full object-cover dark:border"
+                    className="circle size-10 object-cover"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.06, outline: '2px solid has(var(--primary))' }}
+                    whileHover={{ scale: 1.05, outline: '2px solid hsl(var(--primary))' }}
                 />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="!z-[999999] w-56">
