@@ -1,15 +1,14 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 
-interface Props {
-    children: React.ReactNode
-    content: React.ReactNode | string
+interface Props extends React.ComponentPropsWithoutRef<typeof Tooltip> {
+    content?: React.ReactNode | null
 }
 
-const ToolTip: React.FC<Props> = ({ children, content }) => {
+const ToolTip: React.FC<Props> = ({ children, content, ...props }) => {
     return (
-        <Tooltip>
+        <Tooltip {...props}>
             <TooltipTrigger asChild>{children}</TooltipTrigger>
-            <TooltipContent>{content}</TooltipContent>
+            {content && <TooltipContent className="text-[13px]">{content}</TooltipContent>}
         </Tooltip>
     )
 }

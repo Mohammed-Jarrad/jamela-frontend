@@ -8,12 +8,22 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useGetProduct, useUpdateProduct } from '@/hooks/use-products'
 import { froalaConfig } from '@/lib/froala'
-import { CategoryProps, ImageProps, ProductSizesProps, StatusType, SubcategoryProps } from '@/types'
+import {
+    CategoryProps,
+    ImageProps,
+    ProductSizesProps,
+    StatusType,
+    SubcategoryProps,
+    UserProps,
+} from '@/types'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
+import { format } from 'date-fns'
+import { Info } from 'lucide-react'
 import { FormEvent, useEffect, useState } from 'react'
 import FroalaEditor from 'react-froala-wysiwyg'
+import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import ProductColors from '../product-colors'
@@ -22,7 +32,6 @@ import ProductSelectSubcategory from '../product-select-subcategory'
 import ProductSizes from '../product-sizes'
 import UpdateProductMainImage from './update-product-main-image'
 import UpdateproductSubImages from './update-product-sub-images'
-import { Helmet } from "react-helmet"
 const UpdateProduct = () => {
     // params
     const { slug } = useParams()
@@ -51,20 +60,23 @@ const UpdateProduct = () => {
         e.preventDefault()
         const formData = new FormData()
         if (name) formData.append('name', name)
-        if (description) formData.append('description', description)
-        if (price) formData.append('price', price.toString())
-        if (discount) formData.append('discount', discount.toString())
-        if (stock) formData.append('stock', stock.toString())
+        if (description && description !== data?.product.description)
+            formData.append('description', description)
+        if (price || price === 0) formData.append('price', price.toString())
+        if (discount || discount === 0) formData.append('discount', discount.toString())
+        if (stock || stock === 0) formData.append('stock', stock.toString())
         if (status && status !== data?.product.status) formData.append('status', status)
-        if (categoryId && categoryId !== data?.product.categoryId?._id) formData.append('categoryId', categoryId)
-        if (subcategoryId && subcategoryId !== data?.product.subcategoryId?._id)
+        if (categoryId && categoryId !== data?.product.categoryId?._id)
+            formData.append('categoryId', categoryId)
+        if (subcategoryId && subcategoryId != data?.product.subcategoryId?._id)
             formData.append('subcategoryId', subcategoryId)
         if (sizes.length && sizes !== data?.product.sizes)
             sizes.forEach((size, index) => formData.append(`sizes[${index}]`, size as string))
         if (colors.length && colors !== data?.product.colors)
             colors.forEach((color, index) => formData.append(`colors[${index}]`, color))
         if (mainImage) formData.append('mainImage', mainImage)
-        if (newSubImages.length) newSubImages.forEach((image) => formData.append('newSubImages', image))
+        if (newSubImages.length)
+            newSubImages.forEach((image) => formData.append('newSubImages', image))
         if (removedPublicIds.length)
             removedPublicIds.forEach((publicId, index) =>
                 formData.append(`removedPublicIds[${index}]`, publicId as string)
@@ -101,23 +113,55 @@ const UpdateProduct = () => {
             <Helmet>
                 <title>Update {slug}</title>
             </Helmet>
-            
+
             <Card>
                 <CardHeader>
                     <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">
                         <Flex align="center" justify="center" gap="md">
-                            <span>Update Product</span>
+                            <span>Update {data?.product.name}</span>
                             <ToolTip content={status}>
-                                <Switch
-                                    checked={status === 'Active' ? true : false}
-                                    onCheckedChange={(e) => setStatus(e ? 'Active' : 'Inactive')}
-                                />
+                                <span>
+                                    <Switch
+                                        checked={status === 'Active' ? true : false}
+                                        onCheckedChange={(e) =>
+                                            setStatus(e ? 'Active' : 'Inactive')
+                                        }
+                                    />
+                                </span>
+                            </ToolTip>
+                            <ToolTip
+                                disableHoverableContent={false}
+                                content={
+                                    <div className="text-left text-xs">
+                                        <p>
+                                            created at:{' '}
+                                            {format(data!.product.createdAt as Date, 'Pp')}
+                                        </p>
+                                        <p>
+                                            updated at:{' '}
+                                            {format(data!.product.updatedAt as Date, 'Pp')}
+                                        </p>
+                                        <p>
+                                            updated by:{' '}
+                                            {(data!.product.updatedBy as UserProps).username}
+                                        </p>
+                                        <p>
+                                            created by:{' '}
+                                            {(data!.product.createdBy as UserProps).username}
+                                        </p>
+                                    </div>
+                                }
+                            >
+                                <Info className="cursor-pointer text-muted-foreground" size={20} />
                             </ToolTip>
                         </Flex>
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <form className="grid grid-cols-1 gap-3 lg:grid-cols-2" onSubmit={handleUpdateProduct}>
+                    <form
+                        className="grid grid-cols-1 gap-3 lg:grid-cols-2"
+                        onSubmit={handleUpdateProduct}
+                    >
                         <CustomInput
                             defaultValue={data?.product.name}
                             label="Name"
@@ -161,8 +205,14 @@ const UpdateProduct = () => {
                         </Box>
                         <ProductSizes setSizes={setSizes} sizes={sizes} />
                         <ProductColors colors={colors} setColors={setColors} />
-                        <ProductSelectCategory categoryId={categoryId} setCategoryId={setCategoryId} />
-                        <ProductSelectSubcategory categoryId={categoryId} setSubcategoryId={setSubcategoryId} />
+                        <ProductSelectCategory
+                            categoryId={categoryId}
+                            setCategoryId={setCategoryId}
+                        />
+                        <ProductSelectSubcategory
+                            categoryId={categoryId}
+                            setSubcategoryId={setSubcategoryId}
+                        />
                         <UpdateProductMainImage
                             mainImage={mainImage}
                             setMainImage={setMainImage}
@@ -178,7 +228,7 @@ const UpdateProduct = () => {
 
                         <Button
                             type="submit"
-                            className="sticky bottom-2 w-full bg-opacity-90 backdrop-blur-sm lg:col-span-2"
+                            className="sticky bottom-2 z-20 w-full bg-opacity-90 backdrop-blur-sm lg:col-span-2"
                             size={'lg'}
                             disabled={isPending}
                         >

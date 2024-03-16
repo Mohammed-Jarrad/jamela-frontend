@@ -69,7 +69,7 @@ const AdminUsers = () => {
                 <title>Admin Users</title>
             </Helmet>
 
-            {/* search users and refresh and create link and sort */}
+            {/* search users and sort */}
             <UsersTableFilters
                 sortItems={sortItems}
                 search={search}

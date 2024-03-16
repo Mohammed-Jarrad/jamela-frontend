@@ -178,3 +178,29 @@ export const useRestoreCoupon = () => {
         onError: handleErrors,
     })
 }
+
+export const useCheckCoupon = () => {
+    const { token } = useUserContext()
+    const handleErrors = useHandleErrors()
+    return useMutation({
+        mutationFn: async ({ couponName }: { couponName: string }) => {
+            type dataProps = { message: string; coupon: CouponProps }
+            const { data } = await axios.post(
+                `/coupons/checkCoupon`,
+                {
+                    couponName,
+                },
+                {
+                    headers: {
+                        Authorization: import.meta.env.VITE_BEARER_KEY + token,
+                    },
+                }
+            )
+            return data as dataProps
+        },
+        onSuccess: (_, { couponName }) => {
+            toast.success(`Coupon ${couponName} is valid`)
+        },
+        onError: handleErrors,
+    })
+}

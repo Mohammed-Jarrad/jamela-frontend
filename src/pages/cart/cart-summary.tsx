@@ -1,9 +1,14 @@
+import RequiredStar from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useUserContext } from '@/context/UserContextProvider'
+import { useCheckCoupon } from '@/hooks/use-coupons'
+import { cn } from '@/lib/utils'
 import { Flex, mq } from '@/styles/styles'
 import { useState } from 'react'
+import { BiShekel } from 'react-icons/bi'
+import { BeatLoader } from 'react-spinners'
 import styled, { css } from 'styled-components'
 
 type Props = {
@@ -15,28 +20,58 @@ const CartSummary: React.FC<Props> = () => {
     const { currentUser } = useUserContext()
     const { cart } = currentUser
 
+    const subTotal: number = Number(
+        cart?.products
+            .reduce((acc, curr) => acc + (curr?.productId?.finalPrice || 0) * curr.quantity, 0)
+            .toFixed(2)
+    )
+
     const [address, setAddress] = useState<string>(currentUser.address || '')
     const [phoneNumber, setPhoneNumber] = useState<string>(currentUser.phone || '')
     const [couponName, setCouponName] = useState<string>('')
+    
+    const [finalPrice, setFinalPrice] = useState<number>(subTotal)
+
+    const { data: validCoupon, mutate: checkCoupon, isPending: isCheckingCoupon } = useCheckCoupon()
+
+    function handleCheckCoupon(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        checkCoupon(
+            { couponName },
+            {
+                onSuccess: ({ coupon: { amount } }) => {
+                    if (amount) {
+                        setFinalPrice((prev) =>
+                            parseFloat((prev - prev * (amount / 100)).toFixed(2))
+                        )
+                    }
+                },
+                onError: () => setFinalPrice(subTotal),
+            }
+        )
+    }
 
     return (
         <Wrapper>
             <Title>Order Summary</Title>
             <Flex $items="center" $justify="space-between">
-                <p className="truncate text-muted-foreground">Sub Total</p>
-                <p>
-                    ₪
-                    {cart?.products
-                        .reduce((acc, curr) => acc + (curr?.productId?.finalPrice || 0) * curr.quantity, 0)
-                        .toFixed(2)}
+                <p className="truncate text-muted-foreground">
+                    Subtotal ({cart?.products.length} items)
+                </p>
+                <p className="flex items-center">
+                    <BiShekel />
+                    {subTotal}
                 </p>
             </Flex>
+
             <HR />
             <Flex $direction="column">
-                <p className="mb-3 truncate text-muted-foreground">Shipping Address</p>
+                <p className="mb-3 truncate text-base font-semibold">Shipping Address</p>
                 <Flex $direction="column" $gap="lg">
                     <InputBox>
-                        <Label htmlFor="address">Address</Label>
+                        <Label htmlFor="address" className="text-muted-foreground">
+                            Address <RequiredStar />
+                        </Label>
                         <Input
                             id="address"
                             placeholder="Address"
@@ -45,7 +80,9 @@ const CartSummary: React.FC<Props> = () => {
                         />
                     </InputBox>
                     <InputBox>
-                        <Label htmlFor="phoneNumber">Phone Number</Label>
+                        <Label htmlFor="phoneNumber" className="text-muted-foreground">
+                            Phone Number <RequiredStar />
+                        </Label>
                         <Input
                             id="phoneNumber"
                             placeholder="Phone Number"
@@ -56,17 +93,78 @@ const CartSummary: React.FC<Props> = () => {
                 </Flex>
             </Flex>
             <HR />
-            <InputBox>
+            <InputBox as="form" onSubmit={handleCheckCoupon}>
                 <Label htmlFor="couponName" className="text-base font-semibold">
                     Coupon Code
                 </Label>
-                <span className="text-sm text-muted-foreground">Coupon code will be applied on the checkout page</span>
-                <Input
-                    id="couponName"
-                    value={couponName}
-                    onChange={(e) => setCouponName(e.target.value)}
-                    placeholder="XXX"
-                />
+                <span className="text-sm text-muted-foreground">
+                    Coupon code will be applied on the checkout page
+                </span>
+                <Flex>
+                    <Input
+                        id="couponName"
+                        value={couponName}
+                        onChange={(e) => setCouponName(e.target.value)}
+                        placeholder="XXXXXXXX"
+                        className="flex-1"
+                    />
+                    <Button variant="link" disabled={isCheckingCoupon} size={'sm'} type="submit">
+                        {isCheckingCoupon ? (
+                            <BeatLoader size={10} color="hsl(var(--primary)" />
+                        ) : (
+                            'Check Coupon'
+                        )}
+                    </Button>
+                </Flex>
+                {/* Coupon info */}
+                {finalPrice < subTotal && (
+                    <div className="text-sm text-muted-foreground">
+                        {isCheckingCoupon ? (
+                            <BeatLoader size={10} color="hsl(var(--primary)" />
+                        ) : (
+                            <>
+                                <p>
+                                    You will get <strong>{validCoupon?.coupon?.amount}%</strong> off
+                                </p>
+                                <p>on your next order with this coupon code</p>
+                                <div className="flex items-center justify-between">
+                                    <b className="text-primary">{validCoupon?.coupon.name}</b>
+                                    <Button
+                                        onClick={() => {
+                                            setCouponName('')
+                                            setFinalPrice(subTotal)
+                                        }}
+                                        size={'sm'}
+                                        variant={'link'}
+                                        className="p-0 underline"
+                                    >
+                                        Remove
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                )}
+                <Flex
+                    $items="center"
+                    $justify="space-between"
+                    className={cn('my-2 rounded-lg p-2', {
+                        'ring-1 ring-green-500': finalPrice < subTotal,
+                    })}
+                >
+                    <p className="truncate font-semibold">Total</p>
+
+                    <p className="flex items-center gap-2">
+                        <span className="flex items-center">
+                            <BiShekel /> {finalPrice}
+                        </span>
+                        {finalPrice < subTotal && (
+                            <span className="flex items-center line-through">
+                                <BiShekel /> {subTotal}
+                            </span>
+                        )}
+                    </p>
+                </Flex>
             </InputBox>
             {/* Buttons */}
             <Flex $direction="column" className="mt-4">

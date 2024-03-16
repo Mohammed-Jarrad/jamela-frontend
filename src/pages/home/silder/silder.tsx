@@ -21,7 +21,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
     if (data) {
         const { images } = data
         return (
-            <Box className="mx-auto max-h-[500px] w-full max-w-[1536px]">
+            <Box className="mx-auto w-full max-w-[1536px]">
                 <Swiper
                     modules={[Navigation, Autoplay, Pagination, EffectFade]}
                     navigation={{
@@ -29,7 +29,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                         prevEl: '.swiper-button-prev',
                         disabledClass: 'pointer-events-auto opacity-50',
                     }}
-                    autoplay={{ delay: 3000 }}
+                    autoplay={{ delay: 3000, pauseOnMouseEnter: true }}
                     pagination={{ clickable: true }}
                     className="h-full w-full"
                     effect="fade"
@@ -37,12 +37,15 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                 >
                     {images.map((image) => (
                         <SwiperSlide key={image._id}>
-                            <Link to={image.link ? image.link : '#'}>
+                            <Link
+                                to={image.link ? image.link : '#'}
+                                className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]"
+                            >
                                 <img
                                     src={image.secure_url}
                                     alt="image slider image"
                                     loading="lazy"
-                                    className=" aspect-[16/9] max-h-[500px] w-full object-cover object-top"
+                                    className="object-cover"
                                 />
                             </Link>
                         </SwiperSlide>

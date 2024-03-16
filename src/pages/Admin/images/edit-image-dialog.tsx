@@ -1,9 +1,21 @@
 import CustomInput from '@/components/my/custom-input'
 import RequiredStar from '@/components/required-star'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useUpdateImage } from '@/hooks/use-images'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
@@ -46,7 +58,9 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
         e.preventDefault()
         const data = new FormData()
         infos.imageType !== image.imageType && data.append('imageType', infos.imageType as string)
-        infos.link && infos.link !== image.link && data.append('link', infos.link as string)
+        infos.link !== undefined &&
+            infos.link !== image.link &&
+            data.append('link', infos.link as string)
         infos.file && data.append('image', infos.file as File)
         update(
             { id: image._id, infos: data },
@@ -61,7 +75,9 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Edit image</DialogTitle>
-                    <DialogDescription>Edit the image details and upload a new one if needed.</DialogDescription>
+                    <DialogDescription>
+                        Edit the image details and upload a new one if needed.
+                    </DialogDescription>
                 </DialogHeader>
                 <form className="space-y-3" onSubmit={handleSubmit}>
                     <Flex
@@ -73,7 +89,9 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
                     >
                         {infos.file || image.secure_url ? (
                             <img
-                                src={infos.file ? URL.createObjectURL(infos.file) : image.secure_url}
+                                src={
+                                    infos.file ? URL.createObjectURL(infos.file) : image.secure_url
+                                }
                                 alt="uploaded image"
                                 className="aspect-[16/9] max-h-52 rounded object-cover"
                                 loading="lazy"
@@ -86,7 +104,12 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
                         )}
                         <Label className={cn(buttonVariants({ variant: 'outline' }), '')}>
                             <span>Browse file</span>
-                            <input className="hidden" type="file" onChange={handleChange} name="file" />
+                            <input
+                                className="hidden"
+                                type="file"
+                                onChange={handleChange}
+                                name="file"
+                            />
                         </Label>
                     </Flex>
 
@@ -98,7 +121,10 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
                             required
                             value={infos?.imageType}
                             onValueChange={(value) =>
-                                setInfos((pre) => ({ ...pre, imageType: value as ConstantImages['imageType'] }))
+                                setInfos((pre) => ({
+                                    ...pre,
+                                    imageType: value as ConstantImages['imageType'],
+                                }))
                             }
                         >
                             <SelectTrigger>
@@ -124,7 +150,11 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
                     />
 
                     <Button type="submit" className="w-full" disabled={isPending}>
-                        {isPending ? <BeatLoader className="text-center" color="white" /> : 'Upload'}
+                        {isPending ? (
+                            <BeatLoader className="text-center" color="white" />
+                        ) : (
+                            'Upload'
+                        )}
                     </Button>
                 </form>
             </DialogContent>

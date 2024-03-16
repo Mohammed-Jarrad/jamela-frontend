@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
 import { ImageProps, ProductProps } from '@/types'
-import { Box } from '@radix-ui/themes'
 import { useState } from 'react'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -19,26 +18,36 @@ const ProductImages: React.FC<Props> = ({ product }) => {
     }
 
     return (
-        <Box className="flex-1">
-            <div className="flex flex-col items-center gap-2">
-                <ImageMagnifier imageUrl={currentImage.secure_url} />
+        <div className="space-y-4">
+            <ImageMagnifier imageUrl={currentImage.secure_url} />
+            <div>
                 <Swiper
-                    slidesPerView={'auto'}
                     spaceBetween={10}
-                    className="w-full px-6"
+                    // breakpoints={{
+                    //     0: { slidesPerView: 1 },
+                    //     480: { slidesPerView: 2 },
+                    //     1024: { slidesPerView: 3 },
+                    //     1440: { slidesPerView: 4 },
+                    // }}
+                    slidesPerView="auto"
+                    className="max-w-[500px] px-6 py-2"
                     modules={[Navigation]}
                     navigation={true}
                     centerInsufficientSlides
                 >
                     {images.map((image, index) => (
-                        <SwiperSlide key={image.secure_url} className="h-[200px] w-[150px] cursor-pointer">
+                        <SwiperSlide
+                            key={image.secure_url}
+                            className="h-[250px] w-[150px] cursor-pointer"
+                        >
                             <img
                                 src={image.secure_url}
                                 alt={image.public_id!}
                                 loading="lazy"
                                 className={cn(
-                                    'h-full w-full rounded-3xl object-cover shadow',
-                                    currentImage.secure_url === image.secure_url && 'border border-primary/80 p-2'
+                                    'size-full rounded-3xl object-cover shadow',
+                                    currentImage.secure_url === image.secure_url &&
+                                        'p-1 ring-2 ring-primary/80'
                                 )}
                                 onClick={() => handleImageClick(index)}
                             />
@@ -46,7 +55,7 @@ const ProductImages: React.FC<Props> = ({ product }) => {
                     ))}
                 </Swiper>
             </div>
-        </Box>
+        </div>
     )
 }
 

@@ -36,11 +36,11 @@ export const useCreateNewImage = () => {
             })
             return data as { message: string; image: ConstantImages }
         },
-        onSuccess: ({ image: { imageType } }) => {
-            queryClient.invalidateQueries({ queryKey: ['images', imageType] })
+        onSuccess: (_, formData) => {
+            queryClient.invalidateQueries({ queryKey: ['images', formData.get('imageType')] })
             toast.success('Image created successfully')
         },
-        onError: handleErrors,
+        onError: handleErrors
     })
 }
 

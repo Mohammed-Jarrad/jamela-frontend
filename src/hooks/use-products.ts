@@ -35,7 +35,14 @@ export const useGetProducts = ({
     return useQuery({
         queryKey: ['all-products', page, limit, search, sort, rest],
         queryFn: async () => {
-            const formattedparams = formatQueryParams({ page, limit, search, sort, select, ...rest })
+            const formattedparams = formatQueryParams({
+                page,
+                limit,
+                search,
+                sort,
+                select,
+                ...rest,
+            })
             const { data } = await axios.get('/products', {
                 headers: {
                     Authorization: import.meta.env.VITE_BEARER_KEY + token,
@@ -59,7 +66,14 @@ export const useGetActiveProducts = ({
     return useQuery({
         queryKey: ['all-products', page, limit, search, sort, rest],
         queryFn: async () => {
-            const formattedparams = formatQueryParams({ page, limit, search, sort, select, ...rest })
+            const formattedparams = formatQueryParams({
+                page,
+                limit,
+                search,
+                sort,
+                select,
+                ...rest,
+            })
             const { data } = await axios.get('/products/active', {
                 params: formattedparams,
             })
@@ -94,7 +108,10 @@ export const useCreateProduct = () => {
     })
 }
 
-export const useGetProduct = (params: { id?: ProductProps['_id']; slug?: ProductProps['slug'] }) => {
+export const useGetProduct = (params: {
+    id?: ProductProps['_id']
+    slug?: ProductProps['slug']
+}) => {
     const { id, slug } = params
     return useQuery({
         queryKey: ['get-product', id, slug],
@@ -125,9 +142,9 @@ export const useUpdateProduct = () => {
             })
             return data as dataProps
         },
-        onSuccess: (_, { id }) => {
+        onSuccess: ({ product: { slug, _id: id } }) => {
             queryClient.invalidateQueries({ queryKey: ['all-products'] })
-            queryClient.invalidateQueries({ queryKey: ['get-product', id] })
+            queryClient.refetchQueries({ queryKey: ['get-product', slug, id] })
             toast.success('Product updated successfully')
         },
         onError: handleErrors,

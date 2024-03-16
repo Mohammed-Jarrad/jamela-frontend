@@ -27,8 +27,14 @@ export const useHandleErrors = () => {
     const { logout } = useUserContext()
 
     return (error: Error | AxiosError) => {
-        const message = error instanceof AxiosError ? error.response?.data?.message : error.message
-        const messages = error instanceof AxiosError ? error.response?.data?.messages || [] : []
+        const message =
+            error instanceof AxiosError && error.response
+                ? error.response.data.message
+                : error.message
+        const messages =
+            error instanceof AxiosError && error.response
+                ? error.response?.data?.messages || []
+                : []
 
         if (
             message == TOKEN_EXPIRED_MESSAGE ||

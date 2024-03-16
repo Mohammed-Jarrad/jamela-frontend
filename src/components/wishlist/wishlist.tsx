@@ -14,6 +14,7 @@ import { BeatLoader } from 'react-spinners'
 import { toast } from 'sonner'
 import styled from 'styled-components'
 import ToolTip from '../my/tooltip'
+import { BiShekel } from 'react-icons/bi'
 
 const Container = styled.div`
     position: relative;
@@ -109,7 +110,10 @@ const Wishlist = () => {
                                         </Flex>
                                         <Flex as="p" className="text-sm text-muted-foreground">
                                             Price:{' '}
-                                            <span className="text-foreground">₪{pro.price}</span>
+                                            <span className="flex items-center text-foreground">
+                                                <BiShekel />
+                                                {pro.price}
+                                            </span>
                                         </Flex>
                                         <p className="text-sm text-muted-foreground">
                                             {pro.stock! > 0 ? 'In stock' : 'Out of stock'}

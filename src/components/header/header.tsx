@@ -8,7 +8,7 @@ const Header = () => {
     const { theme } = useTheme()
 
     return (
-        <header className="sticky top-0 z-[999] h-header w-full border-b bg-background/80 !bg-opacity-70 shadow backdrop-blur-lg">
+        <header className="sticky top-0 z-[50] h-header w-full border-b bg-background/80 !bg-opacity-70 shadow backdrop-blur-lg">
             <Transition
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}

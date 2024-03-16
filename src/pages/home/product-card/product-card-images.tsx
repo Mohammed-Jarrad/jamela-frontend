@@ -27,7 +27,9 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
             className="relative rounded-xl"
         >
             {product.stock! == 0 && (
-                <div className={`pointer-events-none absolute inset-0 z-30 rounded-xl bg-black/30`} />
+                <div
+                    className={`pointer-events-none absolute inset-0 z-30 rounded-xl bg-black/30`}
+                />
             )}
             <Swiper
                 ref={swiperInstance}
@@ -40,8 +42,14 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                 scrollbar={isHovered ? { draggable: true, snapOnRelease: true } : false}
             >
                 {images?.map((image) => (
-                    <SwiperSlide key={image?.public_id} className=" w-full overflow-hidden rounded-xl">
-                        <Link to={`/product/${product.slug}`} className="h-full w-full">
+                    <SwiperSlide
+                        key={image?.public_id}
+                        className="w-full overflow-hidden rounded-xl"
+                    >
+                        <Link
+                            to={`/product/${product.slug}`}
+                            className="aspect-h-3 aspect-w-2 w-full"
+                        >
                             <motion.img
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
@@ -50,7 +58,7 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                                 src={image?.secure_url}
                                 alt={product.name}
                                 loading="lazy"
-                                className="aspect-[2/3] h-full w-full cursor-pointer !rounded-xl object-cover object-center"
+                                className=" cursor-pointer !rounded-xl object-cover"
                             />
                         </Link>
                     </SwiperSlide>

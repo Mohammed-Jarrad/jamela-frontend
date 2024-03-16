@@ -8,6 +8,7 @@ import { ProductProps, ProductSizesProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import { Minus, Plus } from 'lucide-react'
 import React, { useEffect } from 'react'
+import { BiShekel } from 'react-icons/bi'
 import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 import { BeatLoader } from 'react-spinners'
 
@@ -17,7 +18,8 @@ type Props = {
 
 const ProductContent: React.FC<Props> = ({ product }) => {
     const { currentUser } = useUserContext()
-    const { mutate: addOrRemoveToWishList, isPending: isPendingWishList } = useAddOrRemoveProductToWishList()
+    const { mutate: addOrRemoveToWishList, isPending: isPendingWishList } =
+        useAddOrRemoveProductToWishList()
     const { mutate: addToCart, isPending: isPendingCart } = useAddToCart()
     const [size, setSize] = React.useState<ProductSizesProps>()
     const [color, setColor] = React.useState<string>()
@@ -26,7 +28,12 @@ const ProductContent: React.FC<Props> = ({ product }) => {
         addOrRemoveToWishList(product._id)
     }
     function handleAddToCart() {
-        addToCart({ productId: product._id, quantity, ...(size && { size }), ...(color && { color }) })
+        addToCart({
+            productId: product._id,
+            quantity,
+            ...(size && { size }),
+            ...(color && { color }),
+        })
     }
     useEffect(() => {
         if (product.sizes && product.sizes?.length > 0) {
@@ -38,7 +45,7 @@ const ProductContent: React.FC<Props> = ({ product }) => {
     }, [product])
 
     return (
-        <Box className="flex-[1.5]  px-5">
+        <Box className="w-full flex-1 px-5">
             <div className="sticky top-[calc(var(--header-height)_+_0.5rem)]">
                 {/* Product Name */}
                 <p className="text-xl font-medium lg:text-2xl" title={product.name}>
@@ -47,9 +54,15 @@ const ProductContent: React.FC<Props> = ({ product }) => {
                 {/* Product Price */}
                 <p className="mt-2 space-x-2 text-base md:text-xl">
                     {product.discount! > 0 && (
-                        <span className="text-muted-foreground line-through">₪{product.price}</span>
+                        <span className="inline-flex items-center text-muted-foreground line-through">
+                            <BiShekel />
+                            {product.price}
+                        </span>
                     )}
-                    <span className="font-medium text-foreground">₪{product.finalPrice}</span>
+                    <span className="inline-flex items-center font-medium text-foreground">
+                        <BiShekel />
+                        {product.finalPrice}
+                    </span>
                 </p>
                 {/* Product Stock */}
                 <p className="mt-2 space-x-2 text-base">
@@ -134,8 +147,12 @@ const ProductContent: React.FC<Props> = ({ product }) => {
                     </Flex>
                 </Box>
                 {/* Sub total */}
-                <p className="mt-2 space-x-2 text-lg font-medium">
-                    Subtotal: <span>₪{((product.finalPrice || 0) * quantity).toFixed(2)}</span>
+                <p className="mt-2 flex items-center gap-2 space-x-2 text-lg font-medium">
+                    Subtotal:
+                    <span className="inline-flex items-center">
+                        <BiShekel />
+                        {((product.finalPrice || 0) * quantity).toFixed(2)}
+                    </span>
                 </p>
 
                 {/* Add to cart & Add to wishlist & By now buttons */}

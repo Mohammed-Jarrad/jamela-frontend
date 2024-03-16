@@ -150,3 +150,30 @@ export const useGetCurrentCart = () => {
         },
     })
 }
+
+export const useClearCart = () => {
+    const { token } = useUserContext()
+    const queryClient = useQueryClient()
+    const handleErrors = useHandleErrors()
+    return useMutation({
+        mutationFn: async () => {
+            const { data } = await axios.patch(
+                '/carts/clearCart',
+                {},
+                {
+                    headers: {
+                        Authorization: import.meta.env.VITE_BEARER_KEY + token,
+                    },
+                }
+            )
+            return data
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['current-user'] })
+            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
+            // queryClient.invalidateQueries({ queryKey: ['current-cart-length'] })
+            toast.success('Cart cleared successfully')
+        },
+        onError: handleErrors,
+    })
+}

@@ -5,6 +5,7 @@ import { CartProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import { Check, Edit2, Minus, Plus, X } from 'lucide-react'
 import { useState } from 'react'
+import { BiShekel } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import CartItemDialog from './cart-item-dialog'
@@ -91,11 +92,15 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                 <Flex as={Box} $center={true} $direction="column" className="flex-[3] text-center">
                     <Flex $items="center">
                         {product.productId?.discount && product.productId?.discount > 0 ? (
-                            <p className="text-xs text-muted-foreground line-through sm:text-sm">
-                                ₪{product.productId.price}
+                            <p className="flex items-center text-xs text-muted-foreground line-through sm:text-sm">
+                                <BiShekel />
+                                {product.productId.price}
                             </p>
                         ) : null}
-                        <p className="text-base sm:text-lg">₪{product.productId.finalPrice}</p>
+                        <p className="flex items-center text-base sm:text-lg">
+                            <BiShekel />
+                            {product.productId.finalPrice}
+                        </p>
                     </Flex>
                     <Flex $items="center">
                         <Button
@@ -115,7 +120,10 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                             className="rounded-xl !border p-1 max-sm:h-6"
                             title="increase"
                             onClick={() => handleChangeQuantity(1)}
-                            disabled={product.productId?.stock !== undefined && quantity >= product.productId?.stock}
+                            disabled={
+                                product.productId?.stock !== undefined &&
+                                quantity >= product.productId?.stock
+                            }
                         >
                             <Plus size={17} className="max-sm:w-4" />
                         </Button>
@@ -123,8 +131,8 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                 </Flex>
                 {/* Final Price * Quantity Box */}
                 <Box className="flex flex-1 items-center gap-1.5 text-center max-sm:hidden">
-                    <p className="text-lg">
-                        ₪
+                    <p className=" flex items-center text-lg">
+                        <BiShekel />
                         {product.productId?.finalPrice !== undefined
                             ? (product.productId.finalPrice * quantity).toFixed(2)
                             : 'N/A'}

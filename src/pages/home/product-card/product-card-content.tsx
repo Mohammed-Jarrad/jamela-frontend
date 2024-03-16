@@ -1,6 +1,7 @@
 import { ProductProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import React from 'react'
+import { BiShekel } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 
 type Props = { product: ProductProps }
@@ -16,13 +17,19 @@ const ProductCardContent: React.FC<Props> = ({ product }) => {
             <p className="space-x-2 text-center text-sm text-muted-foreground xs:text-lg">
                 {product.discount! > 0 && (
                     <>
-                        <span className="line-through">₪{product.price}</span>
+                        <span className="flex items-center line-through">
+                            <BiShekel />
+                            {product.price}
+                        </span>
                         <span className="absolute -left-1 top-1 z-20 rounded-[9px] bg-red-500 px-3 py-1 text-xs text-white shadow-sm drop-shadow-2xl">
                             {product.discount} %
                         </span>
                     </>
                 )}
-                <span className="text-foreground">₪{product.finalPrice}</span>
+                <span className="flex items-center text-foreground">
+                    <BiShekel />
+                    {product.finalPrice}
+                </span>
             </p>
         </Box>
     )

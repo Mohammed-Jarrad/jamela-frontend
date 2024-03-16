@@ -32,8 +32,8 @@ const Product = () => {
             </Helmet>
 
             {data !== undefined && (
-                <Container className="relative my-12">
-                    <Flex className="min-h-[60vh] max-md:flex-col" gap="lg">
+                <Container className="my-12">
+                    <Flex className="w-full max-md:flex-col" gap="lg">
                         <ProductImages product={data?.product} />
                         <ProductContent product={data?.product} />
                     </Flex>

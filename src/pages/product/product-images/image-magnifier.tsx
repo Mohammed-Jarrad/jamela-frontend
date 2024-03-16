@@ -8,7 +8,10 @@ type Props = {
 const ImageMagnifier: React.FC<Props> = ({ imageUrl }) => {
     const [show, setShow] = React.useState(false)
     const [position, setPosition] = React.useState<{ x: number; y: number }>({ x: 0, y: 0 })
-    const [mousePosition, setMousePosition] = React.useState<{ x: number; y: number }>({ x: 0, y: 0 })
+    const [mousePosition, setMousePosition] = React.useState<{ x: number; y: number }>({
+        x: 0,
+        y: 0,
+    })
     function handleMouseMove(e: React.MouseEvent<HTMLImageElement>) {
         const { width, height, left, top } = e.currentTarget.getBoundingClientRect()
         const x = ((e.clientX - left) / width) * 100
@@ -28,7 +31,7 @@ const ImageMagnifier: React.FC<Props> = ({ imageUrl }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 src={imageUrl}
-                alt={"image magnifier"}
+                alt={'image magnifier'}
                 loading="lazy"
                 className="h-full max-h-full-screen-header w-full rounded-3xl object-cover shadow"
             />

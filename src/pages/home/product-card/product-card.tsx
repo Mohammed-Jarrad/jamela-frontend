@@ -9,6 +9,7 @@ import ProductOptions from './product-options'
 const ProductContainer = styled(Flex)`
     position: relative;
     width: 100%;
+    height: 100%;
 `
 
 type Props = {

@@ -119,7 +119,10 @@ export const useUpdateCategory = () => {
     })
 }
 
-export const useGetCategory = (params: { id?: CategoryProps['_id']; slug?: CategoryProps['slug'] }) => {
+export const useGetCategory = (params: {
+    id?: CategoryProps['_id']
+    slug?: CategoryProps['slug']
+}) => {
     const { id, slug } = params
 
     return useQuery({

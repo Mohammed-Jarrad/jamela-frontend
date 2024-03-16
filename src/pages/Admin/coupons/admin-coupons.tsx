@@ -1,5 +1,6 @@
 import LimitController from '@/components/limit-controller'
 import Flex from '@/components/my/flex'
+import ToolTip from '@/components/my/tooltip'
 import {
     TableCreateLinkButton,
     TableCreateLinkButtonProps,
@@ -11,6 +12,7 @@ import {
     TableSortProps,
 } from '@/components/table-filter'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
+import { Button } from '@/components/ui/button'
 import {
     Table,
     TableBody,
@@ -30,10 +32,12 @@ import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { format } from 'date-fns'
+import { Copy } from 'lucide-react'
 import { useState } from 'react'
-import { BeatLoader } from 'react-spinners'
-import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
 import { Helmet } from 'react-helmet'
+import { BeatLoader } from 'react-spinners'
+import { toast } from 'sonner'
+import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
 
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
@@ -62,6 +66,11 @@ const AdminCoupons = () => {
     const { mutate: restore, isPending: isRestoring } = useRestoreCoupon()
     const handleErrors = useHandleErrors()
     const pagesCount = data ? Math.ceil(data?.totalResultsCounts / limit) : 0
+
+    function copy(text: string) {
+        navigator.clipboard.writeText(text)
+        toast.success(`Copied ${text}`)
+    }
 
     if (error) handleErrors(error)
 
@@ -108,6 +117,7 @@ const AdminCoupons = () => {
                                         <TableHead className="whitespace-nowrap">
                                             Expire Date
                                         </TableHead>
+                                        <TableHead className="whitespace-nowrap">Amount</TableHead>
                                         <TableHead className="whitespace-nowrap">
                                             Expired?
                                         </TableHead>
@@ -126,11 +136,27 @@ const AdminCoupons = () => {
                                                 {index + 1}
                                             </TableCell>
                                             <TableCell className="font-medium">
-                                                {coupon.name}
+                                                <div className="flex items-center gap-2">
+                                                    <span className="w-20">{coupon.name}</span>
+                                                    <ToolTip content="Copy">
+                                                        <Button
+                                                            size={'icon'}
+                                                            variant={'outline'}
+                                                            className="hover:ring-1 ring-primary"
+                                                            onClick={() => copy(coupon.name!)}
+                                                        >
+                                                            <Copy
+                                                                className="text-muted-foreground"
+                                                                size={14}
+                                                            />
+                                                        </Button>
+                                                    </ToolTip>
+                                                </div>
                                             </TableCell>
                                             <TableCell>
                                                 {format(coupon.expireDate!, 'dd-M-yyyy')}
                                             </TableCell>
+                                            <TableCell>{coupon.amount}%</TableCell>
                                             <TableCell>
                                                 {new Date(coupon.expireDate!) < new Date() ? (
                                                     <span className="text-rose-500">Expired</span>
