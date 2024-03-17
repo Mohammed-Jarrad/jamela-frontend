@@ -104,16 +104,19 @@ export const useUpdateSizeOrColor = () => {
     return useMutation({
         mutationFn: async ({
             itemId,
+            productId,
             size,
             color,
         }: {
             itemId: CartProps['products'][number]['_id']
+            productId: ProductProps['_id']
             size?: ProductSizesProps
             color?: string
         }) => {
             const { data } = await axios.patch(
                 '/carts/updateSizeOrColor',
                 {
+                    productId,
                     itemId,
                     ...(size && { size }),
                     ...(color && { color }),

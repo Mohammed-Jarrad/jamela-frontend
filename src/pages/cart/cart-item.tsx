@@ -1,3 +1,4 @@
+import ToolTip from '@/components/my/tooltip'
 import { Button } from '@/components/ui/button'
 import { useRemoveFromCart, useUpdateQuantity } from '@/hooks/use-cart'
 import { Flex } from '@/styles/styles'
@@ -103,30 +104,34 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                         </p>
                     </Flex>
                     <Flex $items="center">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="rounded-xl !border p-1 max-sm:h-6"
-                            title="decrease"
-                            onClick={() => handleChangeQuantity(-1)}
-                            disabled={quantity === 1}
-                        >
-                            <Minus size={17} className="max-sm:w-4" />
-                        </Button>
+                        <ToolTip content="Decrease">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="rounded-xl !border p-1 max-sm:h-6"
+                                title="decrease"
+                                onClick={() => handleChangeQuantity(-1)}
+                                disabled={quantity === 1}
+                            >
+                                <Minus size={17} className="max-sm:w-4" />
+                            </Button>
+                        </ToolTip>
                         <p className="w-10 text-center">{quantity}</p>
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="rounded-xl !border p-1 max-sm:h-6"
-                            title="increase"
-                            onClick={() => handleChangeQuantity(1)}
-                            disabled={
-                                product.productId?.stock !== undefined &&
-                                quantity >= product.productId?.stock
-                            }
-                        >
-                            <Plus size={17} className="max-sm:w-4" />
-                        </Button>
+                        <ToolTip content="Increase">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="rounded-xl !border p-1 max-sm:h-6"
+                                title="increase"
+                                onClick={() => handleChangeQuantity(1)}
+                                disabled={
+                                    product.productId?.stock !== undefined &&
+                                    quantity >= product.productId?.stock
+                                }
+                            >
+                                <Plus size={17} className="max-sm:w-4" />
+                            </Button>
+                        </ToolTip>
                     </Flex>
                 </Flex>
                 {/* Final Price * Quantity Box */}
@@ -149,11 +154,16 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                     <X size={17} />
                 </Button>
                 {/* Open Dialog Button */}
-                <Edit2
-                    size={20}
-                    className="absolute bottom-2 right-2 cursor-pointer text-muted-foreground hover:text-foreground max-sm:w-3.5 "
-                    onClick={handleUpdateItemVariants}
-                />
+                {((product.productId?.sizes && product.productId?.sizes.length > 0) ||
+                    (product.productId?.colors && product.productId?.colors.length > 0)) && (
+                    <ToolTip content="Edit Item Variants">
+                        <Edit2
+                            size={20}
+                            className="absolute bottom-2 right-2 cursor-pointer text-muted-foreground hover:text-foreground max-sm:w-3.5 "
+                            onClick={handleUpdateItemVariants}
+                        />
+                    </ToolTip>
+                )}
                 <CartItemDialog item={product} open={open} setOpen={setOpen} />
             </Flex>
 

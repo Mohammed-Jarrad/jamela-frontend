@@ -37,17 +37,28 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                 >
                     {images.map((image) => (
                         <SwiperSlide key={image._id}>
-                            <Link
-                                to={image.link ? image.link : '#'}
-                                className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]"
-                            >
-                                <img
-                                    src={image.secure_url}
-                                    alt="image slider image"
-                                    loading="lazy"
-                                    className="object-cover"
-                                />
-                            </Link>
+                            {image.link ? (
+                                <Link
+                                    to={image.link}
+                                    className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]"
+                                >
+                                    <img
+                                        src={image.secure_url}
+                                        alt="image slider image"
+                                        loading="lazy"
+                                        className="object-cover"
+                                    />
+                                </Link>
+                            ) : (
+                                <div className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]">
+                                    <img
+                                        src={image.secure_url}
+                                        alt="image slider image"
+                                        loading="lazy"
+                                        className="object-cover"
+                                    />
+                                </div>
+                            )}
                         </SwiperSlide>
                     ))}
                     <NextElement />

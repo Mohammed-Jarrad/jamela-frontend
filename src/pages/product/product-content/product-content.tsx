@@ -11,13 +11,14 @@ import React, { useEffect } from 'react'
 import { BiShekel } from 'react-icons/bi'
 import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 import { BeatLoader } from 'react-spinners'
+import { toast } from "sonner"
 
 type Props = {
     product: ProductProps
 }
 
 const ProductContent: React.FC<Props> = ({ product }) => {
-    const { currentUser } = useUserContext()
+    const { currentUser, token } = useUserContext()
     const { mutate: addOrRemoveToWishList, isPending: isPendingWishList } =
         useAddOrRemoveProductToWishList()
     const { mutate: addToCart, isPending: isPendingCart } = useAddToCart()
@@ -28,6 +29,9 @@ const ProductContent: React.FC<Props> = ({ product }) => {
         addOrRemoveToWishList(product._id)
     }
     function handleAddToCart() {
+        if (!token) {
+            return toast.error('Please login first')
+        }
         addToCart({
             productId: product._id,
             quantity,

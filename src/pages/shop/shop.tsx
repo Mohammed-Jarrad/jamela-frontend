@@ -105,6 +105,7 @@ const Shop = () => {
                 maxPrice={maxPrice}
                 setMaxPrice={setMaxPrice}
             />
+            
             <div className="flex-1">
                 <ProductsSide
                     showFilters={showFilters}

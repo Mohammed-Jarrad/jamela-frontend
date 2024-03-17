@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Flex, mq } from '@/styles/styles'
 import { useState } from 'react'
 import { BiShekel } from 'react-icons/bi'
+import { Link } from "react-router-dom"
 import { BeatLoader } from 'react-spinners'
 import styled, { css } from 'styled-components'
 
@@ -172,7 +173,7 @@ const CartSummary: React.FC<Props> = () => {
                     Checkout
                 </CustomButtom>
                 <CustomButtom size="lg" variant="outline">
-                    Continue Shopping
+                    <Link to={'/shop'}>Continue Shopping</Link>
                 </CustomButtom>
             </Flex>
         </Wrapper>

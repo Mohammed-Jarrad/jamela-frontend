@@ -21,7 +21,7 @@ const ImageMagnifier: React.FC<Props> = ({ imageUrl }) => {
     }
     return (
         <div
-            className="relative w-full cursor-zoom-in"
+            className="relative w-full lg:cursor-zoom-in "
             onMouseEnter={() => setShow(true)}
             onMouseLeave={() => setShow(false)}
             onMouseMove={handleMouseMove}
@@ -45,9 +45,10 @@ const ImageMagnifier: React.FC<Props> = ({ imageUrl }) => {
                     display: show ? 'block' : 'none',
                     pointerEvents: 'none',
                 }}
+                className="hidden lg:block"
             >
                 <div
-                    className="h-[200px] w-[200px] rounded-lg border-2 border-white bg-white"
+                    className="hidden h-[200px] w-[200px] rounded-lg border-2 border-white bg-white lg:block"
                     style={{
                         backgroundImage: `url(${imageUrl})`,
                         backgroundPosition: `${position.x}% ${position.y}%`,

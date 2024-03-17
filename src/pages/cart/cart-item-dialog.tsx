@@ -21,21 +21,29 @@ type Props = {
     item: CartProps['products'][number]
 }
 
-const CartItemDialog: React.FC<Props> = ({ open, setOpen, item: product }) => {
+const CartItemDialog: React.FC<Props> = ({ open, setOpen, item }) => {
     const [size, setSize] = React.useState<ProductSizesProps>()
     const [color, setColor] = React.useState<string>()
     const { mutate: updateSizeOrColor, isPending } = useUpdateSizeOrColor()
 
     useEffect(() => {
-        setSize(product?.size)
-        setColor(product?.color)
+        setSize(item?.size)
+        setColor(item?.color)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open])
 
     function handleUpdateSizeOrColor() {
+        console.log({
+            itemId: item._id,
+            productId: item.productId._id,
+            ...(size && { size }),
+            ...(color && { color }),
+        })
+
         updateSizeOrColor(
             {
-                itemId: product._id,
+                itemId: item._id,
+                productId: item.productId._id,
                 ...(size && { size }),
                 ...(color && { color }),
             },
@@ -49,15 +57,17 @@ const CartItemDialog: React.FC<Props> = ({ open, setOpen, item: product }) => {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="text-left">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl capitalize">{product.productId.name}</DialogTitle>
+                    <DialogTitle className="text-2xl capitalize">{item.productId.name}</DialogTitle>
                     <DialogDescription>Please choose your size or color</DialogDescription>
                 </DialogHeader>
                 <Box className="my-5 space-y-3">
                     {/* sizes options */}
                     <Flex gap="sm" align={'center'} className="flex-wrap max-md:flex-col">
-                        {product.productId.sizes?.length ? <p className="text-base font-medium">Sizes:</p> : null}
+                        {item.productId.sizes?.length ? (
+                            <p className="text-base font-medium">Sizes:</p>
+                        ) : null}
                         <Flex gap="sm" align="center" className="flex-wrap">
-                            {product.productId.sizes?.map((s) => (
+                            {item.productId.sizes?.map((s) => (
                                 <Box
                                     key={s}
                                     onClick={() => {
@@ -75,15 +85,20 @@ const CartItemDialog: React.FC<Props> = ({ open, setOpen, item: product }) => {
                     </Flex>
                     {/* colors options */}
                     <Flex gap="sm" align={'center'} className=" max-md:flex-col">
-                        {product.productId.colors?.length ? <p className="text-base font-medium">Colors:</p> : null}
+                        {item.productId.colors?.length ? (
+                            <p className="text-base font-medium">Colors:</p>
+                        ) : null}
                         <Flex gap="sm" align="center" className="flex-wrap">
-                            {product.productId.colors?.map((c) => (
+                            {item.productId.colors?.map((c) => (
                                 <Box
                                     key={c}
                                     onClick={() => {
                                         setColor(c)
                                     }}
-                                    className={cn('h-10 w-10 cursor-pointer rounded-xl', c == color && '!outline ')}
+                                    className={cn(
+                                        'h-10 w-10 cursor-pointer rounded-xl',
+                                        c == color && '!outline '
+                                    )}
                                     style={{ backgroundColor: c }}
                                 />
                             ))}
@@ -96,7 +111,11 @@ const CartItemDialog: React.FC<Props> = ({ open, setOpen, item: product }) => {
                             Close
                         </Button>
                     </DialogClose>
-                    <Button className="capitalize" onClick={handleUpdateSizeOrColor} disabled={isPending}>
+                    <Button
+                        className="capitalize"
+                        onClick={handleUpdateSizeOrColor}
+                        disabled={isPending}
+                    >
                         {isPending ? <BeatLoader color="white" /> : 'Update'}
                     </Button>
                 </DialogFooter>

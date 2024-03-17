@@ -23,12 +23,6 @@ const ProductImages: React.FC<Props> = ({ product }) => {
             <div>
                 <Swiper
                     spaceBetween={10}
-                    // breakpoints={{
-                    //     0: { slidesPerView: 1 },
-                    //     480: { slidesPerView: 2 },
-                    //     1024: { slidesPerView: 3 },
-                    //     1440: { slidesPerView: 4 },
-                    // }}
                     slidesPerView="auto"
                     className="max-w-[500px] px-6 py-2"
                     modules={[Navigation]}

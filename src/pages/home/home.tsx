@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet'
 import BestSellers from './best-sellers/best-sellers'
 import HomepageCategories from './homepage-categories/homepage-categories'
 import NewArrivals from './new-arrivals/new-arrivals'
-import Slider from './silder/silder'
+import Slider from './slider/slider'
 
 const Home = () => {
     return (
