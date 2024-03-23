@@ -8,7 +8,7 @@ const MyToaster = () => {
     return (
         <Toaster
             duration={3000}
-            position="top-center"
+            position="bottom-center"
             theme={theme}
             richColors
             className="!bg-red-500"

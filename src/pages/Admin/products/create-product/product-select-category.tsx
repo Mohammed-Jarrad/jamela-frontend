@@ -1,20 +1,41 @@
 import Flex from '@/components/my/flex'
 import RequiredStar from '@/components/required-star'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useGetCategories } from '@/hooks/use-categories'
 import { CategoryProps } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { BeatLoader } from 'react-spinners'
+import { ProductForm } from './create-product'
 
 type Props = {
-    categoryId: CategoryProps['_id']
-    setCategoryId: React.Dispatch<React.SetStateAction<CategoryProps['_id']>>
+    infos: ProductForm
+    setInfos: React.Dispatch<React.SetStateAction<ProductForm>>
 }
 
-const ProductSelectCategory: React.FC<Props> = ({ categoryId, setCategoryId }) => {
-    const { data, isLoading, error } = useGetCategories({ limit: 1000, select: 'name,image', sort: '-createdAt' })
+const ProductSelectCategory: React.FC<Props> = ({ infos, setInfos }) => {
+    const { categoryId } = infos
+
+    function changeCategory(categoryId: CategoryProps['_id']) {
+        setInfos((preInfos) => ({
+            ...preInfos,
+            categoryId,
+            subcategoryId: null, // reset subcategory when change category
+        }))
+    }
+
+    const { data, isLoading, error } = useGetCategories({
+        limit: 1000,
+        select: 'name,image',
+        sort: '-createdAt',
+    })
     const handleErrors = useHandleErrors()
 
     if (error) handleErrors(error)
@@ -28,13 +49,20 @@ const ProductSelectCategory: React.FC<Props> = ({ categoryId, setCategoryId }) =
                 <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
             ) : (
                 data && (
-                    <Select value={categoryId} onValueChange={(value) => setCategoryId(value)}>
+                    <Select
+                        value={categoryId || undefined}
+                        onValueChange={(value) => changeCategory(value)}
+                    >
                         <SelectTrigger>
                             <SelectValue placeholder="Category" />
                         </SelectTrigger>
                         <SelectContent className="max-h-60">
                             {data.categories.map((category) => (
-                                <SelectItem key={category._id} value={category._id!} className="cursor-pointer">
+                                <SelectItem
+                                    key={category._id}
+                                    value={category._id!}
+                                    className="cursor-pointer"
+                                >
                                     <Flex gap="sm" align="center">
                                         <img
                                             src={category.image?.secure_url}

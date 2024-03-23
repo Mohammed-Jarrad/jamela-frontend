@@ -1,39 +1,50 @@
 import Flex from '@/components/my/flex'
-import RequiredStar from '@/components/required-star'
+import NoDataMessage from '@/components/not-data'
+import { OptionalSpan } from '@/components/required-star'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useGetSubcategories } from '@/hooks/use-subcategories'
 import { CategoryProps, SubcategoryProps } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BeatLoader } from 'react-spinners'
 type Props = {
-    categoryId: CategoryProps['_id']
-    setSubcategoryId: React.Dispatch<React.SetStateAction<SubcategoryProps['_id']>>
+    categoryId: CategoryProps['_id'] | null
+    setSubcategoryId: React.Dispatch<React.SetStateAction<SubcategoryProps['_id'] | null>>
+    subcategoryId: SubcategoryProps['_id'] | null
 }
-const ProductSelectSubcategory: React.FC<Props> = ({ categoryId, setSubcategoryId }) => {
-    // const { data, isLoading, error, isSuccess } = useGetSucategoriesForCategory(categoryId || '')
-    const { data, isLoading, error, isSuccess } = useGetSubcategories({
+const ProductSelectSubcategory: React.FC<Props> = ({
+    categoryId,
+    setSubcategoryId,
+    subcategoryId,
+}) => {
+    const { data, isLoading, error } = useGetSubcategories({
         limit: 10000,
         categoryId,
-        checking: !!categoryId,
+        enabled: !!categoryId,
     })
     const handleErrors = useHandleErrors()
     if (error) handleErrors(error)
 
-    useEffect(() => {
-        if (isSuccess) {
-            if (data?.subcategories.length) {
-                setSubcategoryId(data.subcategories[0]._id)
-            }
-        }
-    }, [data, isSuccess, setSubcategoryId])
-
     return (
         <Box className="flex flex-col space-y-3">
             <Label htmlFor="categories" className="text-xs text-muted-foreground md:text-sm">
-                Subcategory <RequiredStar />
+                Subcategory <OptionalSpan />
+                {subcategoryId && (
+                    <span
+                        className="ml-2 text-primary hover:underline pointer"
+                        onClick={() => setSubcategoryId('')}
+                    >
+                        remove
+                    </span>
+                )}
             </Label>
             {isLoading ? (
                 <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
@@ -41,8 +52,8 @@ const ProductSelectSubcategory: React.FC<Props> = ({ categoryId, setSubcategoryI
                 <>
                     {data.subcategories.length ? (
                         <Select
-                            value={data.subcategories[0]._id || ''}
                             onValueChange={(value) => setSubcategoryId(value)}
+                            value={subcategoryId ?? undefined}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Subcategory" />
@@ -68,9 +79,10 @@ const ProductSelectSubcategory: React.FC<Props> = ({ categoryId, setSubcategoryI
                             </SelectContent>
                         </Select>
                     ) : (
-                        <p className="rounded border px-3  py-2 text-sm text-muted-foreground">
-                            No subcategories found please create one
-                        </p>
+                        <NoDataMessage
+                            message="No subcategories with category selected"
+                            className="justify-start text-sm items-center h-full"
+                        />
                     )}
                 </>
             ) : (

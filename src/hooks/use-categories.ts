@@ -119,19 +119,21 @@ export const useUpdateCategory = () => {
     })
 }
 
-export const useGetCategory = (params: {
+export const useGetCategory = (infos: {
     id?: CategoryProps['_id']
     slug?: CategoryProps['slug']
+    [key: string]: any
 }) => {
-    const { id, slug } = params
+    const { id, slug, ...rest } = infos
 
     return useQuery({
         queryKey: ['get-category', id, slug],
         queryFn: async () => {
-            type dataProps = { message: 'success' | string; category: CategoryProps }
+            type dataProps = { message: 'success'; category: CategoryProps }
             const { data } = await axios.get<dataProps>(`/categories/getSingle`, {
                 params: {
                     ...(id ? { _id: id } : { slug }),
+                    ...rest,
                 },
             })
             return data

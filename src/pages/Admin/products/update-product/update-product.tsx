@@ -5,6 +5,7 @@ import { OptionalSpan } from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Switch } from '@/components/ui/switch'
 import { useGetProduct, useUpdateProduct } from '@/hooks/use-products'
 import { froalaConfig } from '@/lib/froala'
@@ -26,10 +27,10 @@ import FroalaEditor from 'react-froala-wysiwyg'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
-import ProductColors from '../product-colors'
-import ProductSelectCategory from '../product-select-category'
-import ProductSelectSubcategory from '../product-select-subcategory'
-import ProductSizes from '../product-sizes'
+import ProductColors from './product-colors'
+import ProductSelectCategory from './product-select-category'
+import ProductSelectSubcategory from './product-select-subcategory'
+import ProductSizes from './product-sizes'
 import UpdateProductMainImage from './update-product-main-image'
 import UpdateproductSubImages from './update-product-sub-images'
 const UpdateProduct = () => {
@@ -42,8 +43,8 @@ const UpdateProduct = () => {
     const [discount, setDiscount] = useState<number>()
     const [status, setStatus] = useState<StatusType>()
     const [stock, setStock] = useState<number>()
-    const [categoryId, setCategoryId] = useState<CategoryProps['_id']>()
-    const [subcategoryId, setSubcategoryId] = useState<SubcategoryProps['_id']>()
+    const [categoryId, setCategoryId] = useState<CategoryProps['_id'] | null>(null)
+    const [subcategoryId, setSubcategoryId] = useState<SubcategoryProps['_id'] | null>(null)
     const [sizes, setSizes] = useState<ProductSizesProps[]>([])
     const [colors, setColors] = useState<string[]>([])
     const [mainImage, setMainImage] = useState<File | null>(null)
@@ -68,8 +69,7 @@ const UpdateProduct = () => {
         if (status && status !== data?.product.status) formData.append('status', status)
         if (categoryId && categoryId !== data?.product.categoryId?._id)
             formData.append('categoryId', categoryId)
-        if (subcategoryId && subcategoryId != data?.product.subcategoryId?._id)
-            formData.append('subcategoryId', subcategoryId)
+        if (subcategoryId != null) formData.append('subcategoryId', subcategoryId as string)
         if (sizes.length && sizes !== data?.product.sizes)
             sizes.forEach((size, index) => formData.append(`sizes[${index}]`, size as string))
         if (colors.length && colors !== data?.product.colors)
@@ -100,7 +100,7 @@ const UpdateProduct = () => {
             setColors(data?.product.colors || [])
             setStatus(data?.product.status)
             setCategoryId(data?.product.categoryId?._id)
-            setSubcategoryId(data?.product.subcategoryId?._id)
+            setSubcategoryId(data?.product.subcategoryId?._id || null)
             setExistingSubImages(data?.product.subImages || [])
         }
     }, [isSuccess, data])
@@ -116,44 +116,44 @@ const UpdateProduct = () => {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">
+                    <CardTitle className="custom-gradient mb-6 text-base font-bold md:text-center md:text-3xl font-poppins">
                         <Flex align="center" justify="center" gap="md">
                             <span>Update {data?.product.name}</span>
                             <ToolTip content={status}>
-                                <span>
+                                <div className="h-8 flex items-center">
                                     <Switch
                                         checked={status === 'Active' ? true : false}
                                         onCheckedChange={(e) =>
                                             setStatus(e ? 'Active' : 'Inactive')
                                         }
                                     />
-                                </span>
+                                </div>
                             </ToolTip>
-                            <ToolTip
-                                disableHoverableContent={false}
-                                content={
-                                    <div className="text-left text-xs">
-                                        <p>
-                                            created at:{' '}
-                                            {format(data!.product.createdAt as Date, 'Pp')}
-                                        </p>
-                                        <p>
-                                            updated at:{' '}
-                                            {format(data!.product.updatedAt as Date, 'Pp')}
-                                        </p>
-                                        <p>
-                                            updated by:{' '}
-                                            {(data!.product.updatedBy as UserProps).username}
-                                        </p>
-                                        <p>
-                                            created by:{' '}
-                                            {(data!.product.createdBy as UserProps).username}
-                                        </p>
-                                    </div>
-                                }
-                            >
-                                <Info className="cursor-pointer text-muted-foreground" size={20} />
-                            </ToolTip>
+                            <Popover>
+                                <ToolTip content={<span className="text-xs">info</span>}>
+                                    <PopoverTrigger>
+                                        <div className="h-8 flex items-center">
+                                            <Info
+                                                className="cursor-pointer text-muted-foreground"
+                                                size={20}
+                                            />
+                                        </div>
+                                    </PopoverTrigger>
+                                </ToolTip>
+                                <PopoverContent className="text-sm font-poppins w-max">
+                                    <b>created at: </b>
+                                    {format(data!.product.createdAt as Date, 'Pp')}
+                                    <br />
+                                    <b>updated at: </b>
+                                    {format(data!.product.updatedAt as Date, 'Pp')}
+                                    <br />
+                                    <b>updated by: </b>
+                                    {(data!.product.updatedBy as UserProps).username}
+                                    <br />
+                                    <b>created by: </b>
+                                    {(data!.product.createdBy as UserProps).username}
+                                </PopoverContent>
+                            </Popover>
                         </Flex>
                     </CardTitle>
                 </CardHeader>
@@ -212,6 +212,7 @@ const UpdateProduct = () => {
                         <ProductSelectSubcategory
                             categoryId={categoryId}
                             setSubcategoryId={setSubcategoryId}
+                            subcategoryId={subcategoryId}
                         />
                         <UpdateProductMainImage
                             mainImage={mainImage}

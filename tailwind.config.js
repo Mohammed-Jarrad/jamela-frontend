@@ -19,10 +19,6 @@ module.exports = {
                 '2xl': '6rem',
             },
         },
-        fontFamily: {
-            poppins: ['Poppins', 'sans-serif'],
-            jost: ['Jost', 'sans-serif'],
-        },
         screens: {
             xs: '480px',
             sm: '640px',
@@ -32,6 +28,10 @@ module.exports = {
             '2xl': '1536px',
         },
         extend: {
+            fontFamily: {
+                poppins: ['Poppins', 'sans-serif'],
+                jost: ['Jost', 'sans-serif'],
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

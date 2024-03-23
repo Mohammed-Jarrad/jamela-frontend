@@ -20,9 +20,12 @@ import {
 } from '@/components/ui/table'
 
 import LimitController from '@/components/limit-controller'
+import NoDataMessage from '@/components/not-data'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { useDeleteProduct, useGetProducts } from '@/hooks/use-products'
+import { Switch } from '@/components/ui/switch'
+import { useDeleteProduct, useGetProducts, useUpdateProduct } from '@/hooks/use-products'
 import { cn } from '@/lib/utils'
+import { ProductProps } from '@/types'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
@@ -52,11 +55,19 @@ const AdminProducts = () => {
         limit,
         search,
         sort,
-        select: 'name, slug, mainImage, price, stock, number_sellers, categoryId, status, subcategoryId',
+        select: 'name, slug, mainImage, price, stock, number_sellers, categoryId, status, subcategoryId, isNewArrival',
     })
     const { mutate: deleteProduct, isPending: isDeleting } = useDeleteProduct()
+    const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct()
     const pagesCount = data ? Math.ceil(data?.totalResultsCounts / limit) : 0
     const handleErrors = useHandleErrors()
+
+    function handleToggleProductNewState(id: ProductProps['_id'], value: boolean) {
+        const data = new FormData()
+        data.append('isNewArrival', value ? 'true' : 'false')
+
+        updateProduct({ id, infos: data })
+    }
 
     if (error) handleErrors(error)
 
@@ -85,11 +96,11 @@ const AdminProducts = () => {
             />
 
             {/* Table */}
-            {data?.resultCount === 0 ? (
-                <p className="text-center text-3xl font-bold">No products found</p>
+            {data?.products.length === 0 ? (
+                <NoDataMessage className="mt-12" message="No Products Found" />
             ) : (
                 <>
-                    {isDeleting && (
+                    {(isDeleting || isUpdating) && (
                         <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
                     )}
                     {isLoading ? (
@@ -104,6 +115,7 @@ const AdminProducts = () => {
                                         <TableHead>Category</TableHead>
                                         <TableHead>Subcategory</TableHead>
                                         <TableHead>Sellers</TableHead>
+                                        <TableHead>Is New?</TableHead>
                                         <TableHead>Stock</TableHead>
                                         <TableHead className="w-[70px] text-center">
                                             Status
@@ -134,10 +146,34 @@ const AdminProducts = () => {
                                                 {product.categoryId?.name}
                                             </TableCell>
                                             <TableCell className="truncate">
-                                                {product.subcategoryId?.name}
+                                                {product.subcategoryId?.name ? (
+                                                    product.subcategoryId.name
+                                                ) : (
+                                                    <span className="text-red-500">N/A</span>
+                                                )}
                                             </TableCell>
                                             <TableCell className="truncate font-semibold">
                                                 {product.number_sellers ?? 0}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex justify-center">
+                                                    <Switch
+                                                        checked={product.isNewArrival}
+                                                        disabled={isUpdating}
+                                                        onChange={() =>
+                                                            handleToggleProductNewState(
+                                                                product._id,
+                                                                !product.isNewArrival
+                                                            )
+                                                        }
+                                                        onCheckedChange={(value) =>
+                                                            handleToggleProductNewState(
+                                                                product._id,
+                                                                value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
                                             </TableCell>
                                             <TableCell className="truncate">
                                                 <div
@@ -175,7 +211,7 @@ const AdminProducts = () => {
                                         <TableCell colSpan={5}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
-                                        <TableCell colSpan={3}>
+                                        <TableCell colSpan={4}>
                                             <LimitController
                                                 limit={limit}
                                                 totalResultsCounts={data?.totalResultsCounts ?? 0}

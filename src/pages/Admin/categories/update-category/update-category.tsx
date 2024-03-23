@@ -2,7 +2,13 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useGetCategory, useUpdateCategory } from '@/hooks/use-categories'
 import { cn } from '@/lib/utils'
 import { CategoryProps, StatusType } from '@/types'
@@ -59,7 +65,9 @@ const UpdateCategory = () => {
             </Helmet>
             <Card>
                 <CardHeader>
-                    <h1 className="my-5 text-2xl font-medium text-muted-foreground ">Update Category</h1>
+                    <h1 className="my-5 text-2xl font-medium text-muted-foreground ">
+                        Update Category
+                    </h1>
                 </CardHeader>
                 <CardContent className="space-y-4 py-2">
                     {/* Name */}
@@ -98,7 +106,7 @@ const UpdateCategory = () => {
                             src={file ? URL.createObjectURL(file as any) : image?.secure_url}
                             alt={currentCategory.category.name}
                             loading="lazy"
-                            className="h-64 w-64 rounded border object-cover shadow"
+                            className="w-64 rounded border object-cover shadow"
                         />
                         <Label
                             className={cn(

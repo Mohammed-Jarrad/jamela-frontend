@@ -8,114 +8,202 @@ import { froalaConfig } from '@/lib/froala'
 import { CategoryProps, ProductSizesProps, SubcategoryProps } from '@/types'
 import Transition from '@/utils/transition'
 import { Box } from '@radix-ui/themes'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import FroalaEditor from 'react-froala-wysiwyg'
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
-import ProductColors from '../product-colors'
-import ProductSelectCategory from '../product-select-category'
-import ProductSelectSubcategory from '../product-select-subcategory'
-import ProductSizes from '../product-sizes'
+import { toast } from 'sonner'
+import * as Yup from 'yup'
+import ProductColors from './product-colors'
 import ProductMainImage from './product-main-image'
+import ProductSelectCategory from './product-select-category'
+import ProductSelectSubcategory from './product-select-subcategory'
+import ProductSizes from './product-sizes'
 import ProductSubImages from './product-sub-images'
-import { Helmet } from "react-helmet"
+
+export type ProductForm = {
+    name: string
+    price: number
+    discount?: number
+    stock?: number
+    description: string
+    sizes: ProductSizesProps[]
+    colors: string[]
+    categoryId: CategoryProps['_id'] | null
+    subcategoryId?: SubcategoryProps['_id'] | null
+    mainImage: File | null
+    subImages: File[]
+}
 
 const CreateProduct = () => {
-    const [inputs, setInputs] = useState<{ [key: string]: string }>({})
-    const [description, setDescription] = useState<string>()
-    const [categoryId, setCategoryId] = useState<CategoryProps['_id']>()
-    const [subcategoryId, setSubcategoryId] = useState<SubcategoryProps['_id']>()
-    const [sizes, setSizes] = useState<ProductSizesProps[]>([])
-    const [colors, setColors] = useState<string[]>([])
-    const [mainImage, setMainImage] = useState<File | null>(null)
-    const [subImages, setSubImages] = useState<File[]>([])
-    const { mutate: createProduct, isPending } = useCreateProduct()
-    function handleCreateProduct(e: FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const formData = new FormData()
-        for (const key in inputs) {
-            formData.append(key, inputs[key])
+    const [infos, setInfos] = useState<ProductForm>({
+        name: '',
+        price: 0,
+        description: '',
+        sizes: [],
+        colors: [],
+        categoryId: null,
+        mainImage: null,
+        subImages: [],
+    })
+
+    function validateForm() {
+        const schema = Yup.object().shape({
+            name: Yup.string()
+                .required('Name is required')
+                .min(3, 'Name must be at least 3 characters'),
+            price: Yup.number().required('Price is required').min(1, 'Price must be at least 1'),
+            discount: Yup.number().min(0, 'Discount must be at least 0').optional(),
+            stock: Yup.number().min(1, 'Stock must be at least 1').optional(),
+            description: Yup.string().required('Description is required'),
+            categoryId: Yup.string().required('Category is required'),
+            mainImage: Yup.mixed().required('Main image is required'),
+            subImages: Yup.array()
+                .min(1, 'Sub images are required')
+                .required('Sub images are required')
+                .of(Yup.mixed().required('Sub image is required')),
+        })
+        try {
+            schema.validateSync(infos, { abortEarly: false })
+            return true
+        } catch (error: any) {
+            if (error instanceof Yup.ValidationError) {
+                error.errors
+                    .reverse()
+                    .forEach((err) => toast.error(err, { position: 'bottom-left' }))
+            } else {
+                toast.error('message' in error ? error.message : 'An error occurred')
+            }
+            return false
         }
-        formData.append('description', description || '')
-        formData.append('categoryId', categoryId || '')
-        formData.append('subcategoryId', subcategoryId || '')
-        sizes.length && sizes.forEach((size, index) => formData.append(`sizes[${index}]`, size as string))
-        colors.length && colors.forEach((color, index) => formData.append(`colors[${index}]`, color))
-        formData.append('mainImage', mainImage as File)
-        subImages.length && subImages.forEach((image) => formData.append('subImages', image))
-        createProduct(formData)
     }
 
-    function handleChange(e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
-        setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value.trim() }))
+    function handleChangeInputs(
+        e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+    ) {
+        const { name, value } = e.target
+        setInfos((pre) => ({
+            ...pre,
+            [name]: typeof pre[name as keyof ProductForm] === 'number' ? Number(value) : value,
+        }))
+    }
+
+    useEffect(() => {
+        console.log('infos', infos)
+    }, [infos])
+
+    const { mutate: createProduct, isPending } = useCreateProduct()
+
+    function handleCreateProduct(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        if (!validateForm()) return
+
+        const data = new FormData()
+
+        data.append('name', infos.name)
+        data.append('price', infos.price.toString())
+        infos.discount && data.append('discount', infos.discount?.toString())
+        infos.stock && data.append('stock', infos.stock?.toString())
+        data.append('description', infos.description)
+        infos.categoryId && data.append('categoryId', infos.categoryId)
+        infos.subcategoryId && data.append('subcategoryId', infos.subcategoryId)
+        infos.sizes.length &&
+            infos.sizes.forEach((size, index) => data.append(`sizes[${index}]`, size))
+        infos.colors.length &&
+            infos.colors.forEach((color, index) => data.append(`colors[${index}]`, color))
+        infos.mainImage && data.append('mainImage', infos.mainImage)
+        infos.subImages.length &&
+            infos.subImages.forEach((image) => data.append('subImages', image))
+
+        createProduct(data)
     }
 
     return (
         <Transition>
             <Helmet>
-                <title>Create Product</title>
+                <title>Create Product Copy</title>
             </Helmet>
-            
+
             <Card>
                 <CardHeader>
-                    <CardTitle className="mb-6 bg-gradient-to-r from-[#667EEA] to-[#764BA2] bg-clip-text text-base font-bold text-transparent md:text-center md:text-3xl    ">
+                    <CardTitle className="custom-gradient mb-6 text-base font-bold md:text-center md:text-3xl font-poppins">
                         Create Product
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <form className="grid grid-cols-1 gap-3 lg:grid-cols-2" onSubmit={handleCreateProduct}>
+                    <form
+                        className="grid grid-cols-1 gap-3 lg:grid-cols-2"
+                        onSubmit={handleCreateProduct}
+                    >
                         <CustomInput
                             name="name"
                             placeholder="Product Name"
                             label="Name"
-                            required
                             type="text"
-                            onChange={handleChange}
+                            isRequired
+                            onChange={handleChangeInputs}
+                            value={infos.name || ''}
                         />
                         <CustomInput
                             name="price"
                             placeholder="Product Price"
                             label="Price"
-                            required
                             type="number"
-                            onChange={handleChange}
+                            isRequired
+                            onChange={handleChangeInputs}
+                            value={infos.price || ''}
                         />
                         <CustomInput
                             label="Discount"
                             name="discount"
                             type="number"
-                            onChange={handleChange}
+                            onChange={handleChangeInputs}
+                            value={infos.discount || ''}
                             placeholder="Product Discount"
-                            defaultValue={0}
                         />
                         <CustomInput
                             name="stock"
                             placeholder="Product Stock"
                             label="Stock"
                             type="number"
-                            onChange={handleChange}
-                            defaultValue={1}
+                            onChange={handleChangeInputs}
+                            value={infos.stock || ''}
                         />
+
                         <Box className="flex flex-col space-y-3 lg:col-span-2">
                             <Label htmlFor="description" className="w-fit text-muted-foreground">
                                 Description <RequiredStar />
                             </Label>
                             <FroalaEditor
                                 config={{
-                                    ...froalaConfig(),
+                                    ...froalaConfig({}),
                                 }}
-                                model={description}
-                                onModelChange={setDescription}
+                                model={infos.description || ''}
+                                onModelChange={(value: string) => {
+                                    setInfos((pre) => ({ ...pre, description: value }))
+                                }}
                             />
                         </Box>
 
-                        <ProductSizes setSizes={setSizes} sizes={sizes} />
-                        <ProductColors colors={colors} setColors={setColors} />
-                        <ProductSelectCategory categoryId={categoryId} setCategoryId={setCategoryId} />
-                        <ProductSelectSubcategory categoryId={categoryId} setSubcategoryId={setSubcategoryId} />
-                        <ProductMainImage mainImage={mainImage} setMainImage={setMainImage} />
-                        <ProductSubImages subImages={subImages} setSubImages={setSubImages} />
+                        <ProductSizes infos={infos} setInfos={setInfos} />
 
-                        <Button type="submit" className="w-40" size={'lg'} disabled={isPending}>
+                        <ProductColors infos={infos} setInfos={setInfos} />
+
+                        <ProductSelectCategory infos={infos} setInfos={setInfos} />
+
+                        <ProductSelectSubcategory infos={infos} setInfos={setInfos} />
+
+                        <ProductMainImage infos={infos} setInfos={setInfos} />
+
+                        <ProductSubImages infos={infos} setInfos={setInfos} />
+
+                        <Button
+                            type="submit"
+                            className="w-full sticky bottom-1 col-span-full"
+                            size={'lg'}
+                            disabled={isPending}
+                        >
                             {isPending ? <BeatLoader color="white" size={13} /> : 'Create'}
                         </Button>
                     </form>

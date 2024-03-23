@@ -2,8 +2,6 @@ import { useUserContext } from '@/context/UserContextProvider'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
-const TOKEN_EXPIRED_MESSAGE = 'token expired'
-
 export function handleAllErrors(message: string, messages: string[] = []) {
     if (message?.trim().split('\n').length > 1) {
         message
@@ -15,8 +13,9 @@ export function handleAllErrors(message: string, messages: string[] = []) {
         return
     }
     if (messages.length > 0) {
-        messages.forEach((msg: string) => {
-            toast.error(msg, { position: 'bottom-left' })
+        toast.error(message, { position: 'bottom-left' })
+        messages.reverse().forEach((msg: string) => {
+            toast.warning(msg, { position: 'bottom-left' })
         })
         return
     }
@@ -26,24 +25,25 @@ export function handleAllErrors(message: string, messages: string[] = []) {
 export const useHandleErrors = () => {
     const { logout } = useUserContext()
 
-    return (error: Error | AxiosError) => {
-        const message =
-            error instanceof AxiosError && error.response
-                ? error.response.data.message
-                : error.message
-        const messages =
-            error instanceof AxiosError && error.response
-                ? error.response?.data?.messages || []
-                : []
+    const checkAxiosError = (error: Error | AxiosError) =>
+        error instanceof AxiosError ? error : null
 
-        if (
-            message == TOKEN_EXPIRED_MESSAGE ||
-            (error instanceof AxiosError && error?.response?.data?.action == 'logout')
-        ) {
-            logout()
-            window.location.assign('/auth/login?message=token-expired')
+    return (error: Error | AxiosError) => {
+        type ErrorDataProps = { message: string; messages: string[]; logout?: boolean }
+
+        const data: ErrorDataProps = {
+            message: checkAxiosError(error)?.response?.data?.message || error.message,
+            messages: checkAxiosError(error)?.response?.data?.messages || [],
+            logout: checkAxiosError(error)?.response?.data?.logout || false,
         }
 
-        handleAllErrors(message, messages)
+        console.log('error data: ', data)
+
+        if (data?.logout) {
+            logout()
+            window.location.assign(`/auth/login?message=${data.message || 'you must login again'}`)
+        }
+
+        handleAllErrors(data.message, data.messages)
     }
 }

@@ -8,16 +8,16 @@ import { cn } from "@/lib/utils"
 interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label: string
     name: string
-    required?: boolean
     parentClassName?: string
+    isRequired?: boolean
 }
 
 const CustomInput = React.forwardRef<HTMLInputElement, CustomInputProps>(
-    ({ label, name, required = false, parentClassName, ...props }, ref) => {
+    ({ label, name, required = false, isRequired = false, parentClassName, ...props }, ref) => {
         return (
             <Box className={cn("flex flex-col space-y-3", parentClassName)}>
                 <Label htmlFor={name} className="w-fit text-xs text-muted-foreground md:text-sm">
-                    {label} {required ? <RequiredStar /> : <OptionalSpan />}
+                    {label} {(required || isRequired) ? <RequiredStar /> : <OptionalSpan />}
                 </Label>
                 <Input ref={ref} name={name} id={name} required={required} {...props} />
             </Box>

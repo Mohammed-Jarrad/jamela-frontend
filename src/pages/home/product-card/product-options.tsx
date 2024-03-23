@@ -23,7 +23,7 @@ const ProductOptions = ({ product }: Props) => {
     }
     function handleAddToCart() {
         if (!token) return toast.warning('Please login first', { position: 'bottom-center' })
-        else if (product.colors || product.sizes) setOpen(true)
+        else if (product.colors?.length || product.sizes?.length) setOpen(true)
         else addToCart({ productId: product._id })
     }
     return (

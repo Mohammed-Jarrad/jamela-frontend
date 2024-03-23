@@ -22,6 +22,7 @@ import Login from '@/pages/auth/login/login'
 import ResetPassword from '@/pages/auth/reset-password/reset-password'
 import SignUp from '@/pages/auth/sign-up/sign-up'
 import Cart from '@/pages/cart/cart'
+import Category from '@/pages/category/category'
 import Home from '@/pages/home/home'
 import Notfound from '@/pages/not-found/not-found'
 import Product from '@/pages/product/product'
@@ -45,6 +46,7 @@ const MainContent = () => {
                     <Route path="/" element={<Root />}>
                         <Route index element={<Home />} />
                         <Route path="product/:slug" element={<Product />} />
+                        <Route path="category/:slug" element={<Category />} />
                         <Route path="shop" element={<Shop />} />
                         {/* Auth Routes */}
                         <Route path="auth">

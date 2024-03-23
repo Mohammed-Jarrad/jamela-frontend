@@ -63,11 +63,11 @@ const NavItem = forwardRef<HTMLAnchorElement, NavItemProps>(
                             <motion.span
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{
-                                    type: 'spring',
-                                    stiffness: 150,
-                                    damping: 20,
-                                }}
+                                // transition={{
+                                //     type: 'spring',
+                                //     stiffness: 150,
+                                //     damping: 20,
+                                // }}
                                 className="absolute inset-0 z-[-1] rounded-lg bg-gradient-to-tr from-primary to-primary/80 "
                                 layoutId="nav-item-indicator"
                             />

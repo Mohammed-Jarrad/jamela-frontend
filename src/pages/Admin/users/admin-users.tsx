@@ -1,5 +1,6 @@
 import LimitController from '@/components/limit-controller'
 import Flex from '@/components/my/flex'
+import NoDataMessage from '@/components/not-data'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
 import {
     Select,
@@ -87,8 +88,8 @@ const AdminUsers = () => {
                 }}
             />
 
-            {data?.resultCount == 0 ? (
-                <p className="text-center text-3xl font-bold">No Coupons Found</p>
+            {data?.users.length == 0 ? (
+                <NoDataMessage className="mt-12" message="No Users Found" />
             ) : (
                 <>
                     {(isChanging || isDeleting) && (

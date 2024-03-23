@@ -12,11 +12,11 @@ type DashboardContextProps = {
 export const DashboardContext = React.createContext<DashboardContextProps | null>(null)
 
 const Dashboard = () => {
-    const [showNav, setShowNav] = React.useState(true)
+    const [showNav, setShowNav] = React.useState(false)
 
     useEffect(() => {
-        if (window.matchMedia('(max-width: 1024px)').matches) {
-            setShowNav(false)
+        if (window.matchMedia('(min-width: 1024px)').matches) {
+            setShowNav(true)
         }
     }, [])
 

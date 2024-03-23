@@ -93,6 +93,7 @@ export type ProductProps = {
     subcategoryId?: string & SubcategoryProps
     isDeleted?: boolean
     status?: StatusType
+    isNewArrival?: boolean
     createdBy?: string | UserProps
     updatedBy?: string | UserProps
     _id?: string

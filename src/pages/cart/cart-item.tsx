@@ -54,12 +54,15 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                 {/* Image & Details Box */}
                 <Box className="flex-[3]">
                     <Flex $items="stretch">
-                        <Link to={`/product/${product.productId.slug}`} className="w-16 sm:w-24">
+                        <Link
+                            to={`/product/${product.productId.slug}`}
+                            className="w-16 sm:w-24 h-32"
+                        >
                             <img
                                 src={product.productId.mainImage?.secure_url}
                                 alt={product.productId.name}
                                 loading="lazy"
-                                className="h-full max-h-32  w-full rounded-xl object-cover"
+                                className="rounded-xl object-cover size-full"
                             />
                         </Link>
 
@@ -144,15 +147,17 @@ const CartItem: React.FC<Props> = ({ cartItem: product }) => {
                     </p>
                 </Box>
                 {/* Remove Item Button */}
-                <Button
-                    size="sm"
-                    className="absolute -right-2 -top-2 rounded-xl p-[2px] pr-2.5 pt-2.5"
-                    variant="destructive"
-                    onClick={handleRemove}
-                    title="remove from cart"
-                >
-                    <X size={17} />
-                </Button>
+                <ToolTip content="Remove Item">
+                    <Button
+                        size="sm"
+                        className="absolute -right-2 -top-2 rounded-xl p-[2px] pr-2.5 pt-2.5"
+                        variant="destructive"
+                        onClick={handleRemove}
+                        title="remove from cart"
+                    >
+                        <X size={17} />
+                    </Button>
+                </ToolTip>
                 {/* Open Dialog Button */}
                 {((product.productId?.sizes && product.productId?.sizes.length > 0) ||
                     (product.productId?.colors && product.productId?.colors.length > 0)) && (

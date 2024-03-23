@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import CreateImageDialog from './create-image-dialog'
 import ImageCard from './image-card'
+import NoDataMessage from '@/components/not-data'
 
 export type ImageTypeProps = ConstantImages['imageType']
 
@@ -64,9 +65,7 @@ const ImagesContent = () => {
                         ))}
                     </div>
                 ) : (
-                    <p className="mt-5 text-center text-muted-foreground md:text-lg">
-                        No images found
-                    </p>
+                    <NoDataMessage className="mt-12" message="No Images Found" />
                 )}
                 <Button
                     variant="default"

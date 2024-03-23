@@ -102,7 +102,7 @@ const Login = () => {
                                         <Checkbox
                                             id="remember"
                                             name="remember"
-                                            className="h-4 w-4"
+                                            className="size-4"
                                             checked={remember}
                                             onChange={() => setRemember((p) => !p)}
                                         />

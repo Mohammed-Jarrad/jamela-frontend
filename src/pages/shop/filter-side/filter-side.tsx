@@ -1,10 +1,12 @@
+import Checkbox from '@/components/my/checkbox'
 import { MultiRange } from '@/components/my/multi-range'
 import Radio from '@/components/my/radio'
+import NoDataMessage from '@/components/not-data'
 import { Button } from '@/components/ui/button'
 import { useGetActiveCategories } from '@/hooks/use-categories'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
-import { CategoryProps } from '@/types'
+import { CategoryProps, SubcategoryProps } from '@/types'
 import useClickOutside from '@/utils/use-click-outside'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
@@ -27,6 +29,11 @@ type Props = {
     setMinPrice: React.Dispatch<React.SetStateAction<number>>
     maxPrice: number
     setMaxPrice: React.Dispatch<React.SetStateAction<number>>
+    setSubcategoryId: React.Dispatch<React.SetStateAction<SubcategoryProps['_id'] | null>>
+    isNewArrival: boolean | null
+    setIsNewArrival: React.Dispatch<React.SetStateAction<boolean | null>>
+    sort: string | null
+    setSort: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 const FilterSide: React.FC<Props> = ({
@@ -41,9 +48,15 @@ const FilterSide: React.FC<Props> = ({
     setMaxPrice,
     minPrice,
     setMinPrice,
+    setSubcategoryId,
+    isNewArrival,
+    setIsNewArrival,
+    sort,
+    setSort,
 }) => {
     const { data, error, isLoading: categoriesLoading } = useGetActiveCategories()
     const handleErrors = useHandleErrors()
+
     const ref = useClickOutside(() => {
         if (window.matchMedia('(max-width: 768px)').matches) setShowFilters(false)
     })
@@ -62,7 +75,7 @@ const FilterSide: React.FC<Props> = ({
                 animate={showFilters ? 'visible' : 'hidden'}
                 transition={{ ease: 'linear' }}
                 className={cn(
-                    'fixed left-0 top-[--header-height] z-50 h-full-screen-header w-[--filters-width] space-y-5 overflow-y-auto border-r bg-card px-6 py-6',
+                    'fixed left-0 top-[--header-height] z-[45] h-full-screen-header w-[--filters-width] space-y-5 overflow-y-auto border-r bg-card px-6 py-6',
                     showFilters && 'md:sticky'
                 )}
             >
@@ -77,27 +90,40 @@ const FilterSide: React.FC<Props> = ({
                     {categoriesLoading ? (
                         <BeatLoader color="hsl(var(--primary))" />
                     ) : (
-                        <ul className="mt-2 space-y-1 text-sm">
-                            {data?.categories?.map((category) => (
-                                <li
-                                    key={category._id}
-                                    className={cn(
-                                        'relative w-fit cursor-pointer px-2 text-muted-foreground hover:text-foreground',
-                                        categoryId === category._id && '!text-white'
-                                    )}
-                                    onClick={() => setCategoryId(category._id)}
-                                >
-                                    <span>{category.name}</span>
-                                    {categoryId === category._id && (
-                                        <motion.span
-                                            className="absolute inset-0 -z-[1] rounded-md bg-primary"
-                                            layoutId="categories filtering"
-                                            transition={{ type: 'spring', stiffness: 150, damping: 20 }}
-                                        />
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                        <>
+                            {data?.categories.length ? (
+                                <ul className="mt-2 space-y-1 text-sm">
+                                    {data?.categories?.map((category) => (
+                                        <li
+                                            key={category._id}
+                                            className={cn(
+                                                'relative w-fit cursor-pointer px-2 text-muted-foreground hover:text-foreground',
+                                                categoryId === category._id && '!text-white'
+                                            )}
+                                            onClick={() => {
+                                                setCategoryId(category._id)
+                                                setSubcategoryId(null)
+                                            }}
+                                        >
+                                            <span>{category.name}</span>
+                                            {categoryId === category._id && (
+                                                <motion.span
+                                                    className="absolute inset-0 -z-[1] rounded-md bg-primary"
+                                                    layoutId="categories filtering"
+                                                    transition={{
+                                                        type: 'spring',
+                                                        stiffness: 150,
+                                                        damping: 20,
+                                                    }}
+                                                />
+                                            )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <NoDataMessage className="text-sm justify-start" />
+                            )}
+                        </>
                     )}
                 </Box>
                 {/* In Stock section */}
@@ -109,7 +135,10 @@ const FilterSide: React.FC<Props> = ({
                         </FilterClear>
                     </Flex>
                     <div className="mt-2 space-y-1 text-sm">
-                        <label className="flex cursor-pointer items-center gap-2" htmlFor="in-stock">
+                        <label
+                            className="flex cursor-pointer items-center gap-2"
+                            htmlFor="in-stock"
+                        >
                             <Radio
                                 name="inStock"
                                 id="in-stock"
@@ -118,7 +147,10 @@ const FilterSide: React.FC<Props> = ({
                             />
                             <span className="">In Stock</span>
                         </label>
-                        <label className="flex cursor-pointer items-center gap-2" htmlFor="out-of-stock">
+                        <label
+                            className="flex cursor-pointer items-center gap-2"
+                            htmlFor="out-of-stock"
+                        >
                             <Radio
                                 name="inStock"
                                 id="out-of-stock"
@@ -126,6 +158,52 @@ const FilterSide: React.FC<Props> = ({
                                 onChange={() => setInStock(false)}
                             />
                             <span>Out of Stock</span>
+                        </label>
+                    </div>
+                </Box>
+                {/* New Arrivals section */}
+                <Box>
+                    <Flex $items="center">
+                        <FilterTitle>Our Collections</FilterTitle>
+                        <FilterClear
+                            onClick={() => {
+                                setIsNewArrival(null)
+                                setSort(null)
+                            }}
+                            hidden={isNewArrival == null && sort !== '-number_sellers'}
+                        >
+                            clear
+                        </FilterClear>
+                    </Flex>
+                    <div className="mt-2 text-sm">
+                        <label
+                            className="flex cursor-pointer items-center gap-2"
+                            htmlFor="new-arrivals"
+                        >
+                            <Checkbox
+                                id="new-arrivals"
+                                name="new-collections"
+                                checked={isNewArrival == true}
+                                onChange={({ target: { checked } }) =>
+                                    setIsNewArrival(checked ? true : null)
+                                }
+                            />
+                            <span className="">New Collections</span>
+                        </label>
+
+                        <label
+                            className="flex cursor-pointer items-center gap-2"
+                            htmlFor="best-sellers"
+                        >
+                            <Checkbox
+                                id="best-sellers"
+                                name="best-sellers"
+                                checked={sort === '-number_sellers'}
+                                onChange={({ target: { checked } }) =>
+                                    setSort(checked ? '-number_sellers' : null)
+                                }
+                            />
+                            <span className="">Best Sellers</span>
                         </label>
                     </div>
                 </Box>
@@ -170,9 +248,11 @@ const FilterSide: React.FC<Props> = ({
                 <Button variant={'destructive'} className="!mt-12 w-full" onClick={clearFilters}>
                     Clear
                 </Button>
-
                 {/* Close button */}
-                <X className="absolute right-3 top-0 cursor-pointer" onClick={() => setShowFilters(false)} />
+                <X
+                    className="absolute right-3 top-0 cursor-pointer"
+                    onClick={() => setShowFilters(false)}
+                />
             </motion.div>
 
             {/* overlay */}

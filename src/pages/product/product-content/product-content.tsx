@@ -11,7 +11,7 @@ import React, { useEffect } from 'react'
 import { BiShekel } from 'react-icons/bi'
 import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 import { BeatLoader } from 'react-spinners'
-import { toast } from "sonner"
+import { toast } from 'sonner'
 
 type Props = {
     product: ProductProps
@@ -26,11 +26,14 @@ const ProductContent: React.FC<Props> = ({ product }) => {
     const [color, setColor] = React.useState<string>()
     const [quantity, setQuantity] = React.useState(1)
     function toggleWishList() {
+        if (!token) {
+            return toast.warning('Please login first')
+        }
         addOrRemoveToWishList(product._id)
     }
     function handleAddToCart() {
         if (!token) {
-            return toast.error('Please login first')
+            return toast.warning('Please login first')
         }
         addToCart({
             productId: product._id,
@@ -52,8 +55,16 @@ const ProductContent: React.FC<Props> = ({ product }) => {
         <Box className="w-full flex-1 px-5">
             <div className="sticky top-[calc(var(--header-height)_+_0.5rem)]">
                 {/* Product Name */}
-                <p className="text-xl font-medium lg:text-2xl" title={product.name}>
-                    {product.name}
+                <p
+                    className="text-xl font-medium flex items-center gap-2 lg:text-2xl"
+                    title={product.name}
+                >
+                    <span>{product.name}</span>
+                    {product.isNewArrival && (
+                        <span className="text-xs bg-gradient-to-r from-pink-500 to-rose-500 rounded-md px-2 py-1 text-white select-none capitalize inline-block">
+                            new
+                        </span>
+                    )}
                 </p>
                 {/* Product Price */}
                 <p className="mt-2 space-x-2 text-base md:text-xl">

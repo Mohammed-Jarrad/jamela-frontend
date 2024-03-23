@@ -24,7 +24,7 @@ const Product = () => {
                 <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
             </div>
         )
-
+            
     return (
         <Transition>
             <Helmet>

@@ -1,5 +1,6 @@
 import LimitController from '@/components/limit-controller'
 import Flex from '@/components/my/flex'
+import NoDataMessage from '@/components/not-data'
 import {
     TableCreateLinkButton,
     TableCreateLinkButtonProps,
@@ -11,15 +12,23 @@ import {
     TableSortProps,
 } from '@/components/table-filter'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 import { useDeleteCategory, useGetCategories } from '@/hooks/use-categories'
 import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
-import { Helmet } from "react-helmet"
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -34,7 +43,13 @@ const AdminCategories = () => {
     const [search, setSearch] = useState<string>()
     const [sort, setSort] = useState<string>()
     const { mutate: deleteCategory, isPending: isDeleting } = useDeleteCategory()
-    const { data, isLoading, error } = useGetCategories({ page, limit, search, select: 'name,slug,status,image', sort })
+    const { data, isLoading, error } = useGetCategories({
+        page,
+        limit,
+        search,
+        select: 'name,slug,status,image',
+        sort,
+    })
     const pagesCount = data ? Math.ceil(data?.totalResultsCounts / limit) : 0
 
     const handleErrors = useHandleErrors()
@@ -65,11 +80,13 @@ const AdminCategories = () => {
                 link="/dashboard/categories/create"
             />
 
-            {data?.resultCount == 0 ? (
-                <p className="text-center text-3xl font-bold">No Categories Found</p>
+            {data?.categories.length === 0 ? (
+                <NoDataMessage className="mt-12" message="No Categories Found" />
             ) : (
                 <>
-                    {isDeleting && <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />}
+                    {isDeleting && (
+                        <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+                    )}
                     {isLoading ? (
                         <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
                     ) : (
@@ -79,14 +96,20 @@ const AdminCategories = () => {
                                     <TableRow>
                                         <TableHead>Number</TableHead>
                                         <TableHead>Name</TableHead>
-                                        <TableHead className="w-[70px] text-center">Status</TableHead>
-                                        <TableHead className="w-[70px] text-center">Actions</TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Status
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {data?.categories.map((category, index) => (
                                         <TableRow key={category._id}>
-                                            <TableCell className="font-medium">{index + 1}</TableCell>
+                                            <TableCell className="font-medium">
+                                                {index + 1}
+                                            </TableCell>
                                             <TableCell>
                                                 <Flex>
                                                     <img
@@ -95,14 +118,18 @@ const AdminCategories = () => {
                                                         loading="lazy"
                                                         className="mr-3 h-8 w-8 rounded-full object-cover object-center"
                                                     />
-                                                    <span className="block truncate">{category.name}</span>
+                                                    <span className="block truncate">
+                                                        {category.name}
+                                                    </span>
                                                 </Flex>
                                             </TableCell>
                                             <TableCell className="w-[70px] text-center">
                                                 <div
                                                     className={cn(
                                                         'mx-auto h-3 w-3 rounded-full',
-                                                        category.status == 'Active' ? 'bg-green-500' : 'bg-rose-500'
+                                                        category.status == 'Active'
+                                                            ? 'bg-green-500'
+                                                            : 'bg-rose-500'
                                                     )}
                                                 />
                                             </TableCell>
@@ -149,7 +176,10 @@ const AdminCategories = () => {
 
 export default AdminCategories
 
-type TableFiltersProps = TableSortProps & TableSearchProps & TableRefreshDataProps & TableCreateLinkButtonProps
+type TableFiltersProps = TableSortProps &
+    TableSearchProps &
+    TableRefreshDataProps &
+    TableCreateLinkButtonProps
 
 const CategoriesTableFilters = (props: TableFiltersProps) => {
     return (

@@ -6,13 +6,23 @@ import { cn } from '@/lib/utils'
 import { Box } from '@radix-ui/themes'
 import React from 'react'
 import { toast } from 'sonner'
+import { ProductForm } from './create-product'
 
 type Props = {
-    mainImage: File | null
-    setMainImage: React.Dispatch<React.SetStateAction<File | null>>
+    infos: ProductForm
+    setInfos: React.Dispatch<React.SetStateAction<ProductForm>>
 }
 
-const ProductMainImage: React.FC<Props> = ({ mainImage, setMainImage }) => {
+const ProductMainImage: React.FC<Props> = ({ infos, setInfos }) => {
+    const { mainImage } = infos
+
+    function changeMainImage(file: File) {
+        setInfos((preInfos) => ({
+            ...preInfos,
+            mainImage: file,
+        }))
+    }
+
     function handleOnDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         const file = e.dataTransfer.files[0]
@@ -24,7 +34,7 @@ const ProductMainImage: React.FC<Props> = ({ mainImage, setMainImage }) => {
     }
     function handleFile(file: File) {
         if (file.type.startsWith('image/')) {
-            setMainImage(file)
+            changeMainImage(file)
         } else {
             toast.error('Only image files are allowed')
         }
@@ -49,11 +59,16 @@ const ProductMainImage: React.FC<Props> = ({ mainImage, setMainImage }) => {
                         className="mx-auto max-h-40 max-w-full rounded-md object-cover"
                     />
                 ) : (
-                    <p className="text-center text-muted-foreground">Drag image here or click to upload one</p>
+                    <p className="text-center text-muted-foreground">
+                        Drag image here or click to upload one
+                    </p>
                 )}
                 <Label
                     htmlFor="file"
-                    className={cn(buttonVariants({ size: 'lg', variant: 'secondary' }), 'mx-auto flex w-fit border')}
+                    className={cn(
+                        buttonVariants({ size: 'lg', variant: 'secondary' }),
+                        'mx-auto flex w-fit border'
+                    )}
                 >
                     Browse Files
                 </Label>

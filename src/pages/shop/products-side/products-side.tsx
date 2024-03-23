@@ -1,4 +1,5 @@
 import ToolTip from '@/components/my/tooltip'
+import NoDataMessage from '@/components/not-data'
 import { TableSort } from '@/components/table-filter'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -88,13 +89,13 @@ const ProductsSide: React.FC<Props> = ({
                         setSort={setSort}
                         sort={sort || ''}
                         sortItems={[
-                            { value: 'name', label: 'Alphabetically A-Z' },
-                            { value: '-name', label: 'Alphabetically Z-A' },
-                            { value: '-number_sellers', label: 'Best sellers' },
-                            { value: '-createdAt', label: 'New arrivals' },
+                            { value: '-number_sellers', label: 'Number of Sellers' },
+                            { value: '-createdAt', label: 'Date, Newest' },
                             { value: 'createdAt', label: 'Date, Oldest' },
                             { value: 'price', label: 'Price, low to high' },
                             { value: '-price', label: 'Price, high to low' },
+                            { value: 'name', label: 'Alphabetically A-Z' },
+                            { value: '-name', label: 'Alphabetically Z-A' },
                         ]}
                     />
                     <Select
@@ -135,7 +136,7 @@ const ProductsSide: React.FC<Props> = ({
             </Flex>
 
             {/* Products */}
-            {isLoading ? (
+            {(isLoading || !data) ? (
                 <ProductsLoading />
             ) : (
                 <div className="grid grid-cols-2 place-items-center gap-4 xs:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
@@ -144,13 +145,12 @@ const ProductsSide: React.FC<Props> = ({
                             <ProductCard key={product._id} product={product} />
                         ))
                     ) : (
-                        <p
-                            style={{ fontSize: 'clamp(16px, 5vw, 24px)' }}
-                            className="col-span-full space-y-4 text-center text-muted-foreground"
-                        >
-                            <span className="block">No products found</span>
-                            {<Button onClick={clearFilters}>Clear Filters</Button>}
-                        </p>
+                        <div className="col-span-full space-y-4">
+                            <NoDataMessage />
+                            <Button onClick={clearFilters} className="block mx-auto">
+                                Clear Filters
+                            </Button>
+                        </div>
                     )}
                 </div>
             )}

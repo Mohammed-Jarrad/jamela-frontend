@@ -1,6 +1,5 @@
-import { ModeToggle } from "@/components/mode-toggle"
-import { useTheme } from '@/context/ThemeContextProvider'
 import styled from 'styled-components'
+import CreateProduct from '../Admin/products/create-product/create-product'
 
 const Container = styled.div`
     min-height: 100vh;
@@ -10,11 +9,10 @@ const Container = styled.div`
 
 const Test = () => {
     return (
-        <Container>
-           <ModeToggle />
-        </Container>
+        <div className="p-2">
+            <CreateProduct />
+        </div>
     )
 }
 
 export default Test
- 

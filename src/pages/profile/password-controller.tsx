@@ -42,7 +42,7 @@ const PasswordController = () => {
                 <CardTitle>Password</CardTitle>
             </CardHeader>
             <CardContent>
-                <form className="max-w-[320px] gap-3" onSubmit={handleUpdatePassword}>
+                <form className="max-w-[320px] flex flex-col gap-3" onSubmit={handleUpdatePassword}>
                     <CustomInput
                         label="Old Password"
                         name="oldPassword"

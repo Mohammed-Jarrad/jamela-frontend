@@ -13,7 +13,7 @@ type getSubcategoriesProps = {
     populate?: boolean
     select?: string
     subselect?: string
-    checking?: boolean
+    enabled?: boolean
     [key: string]: any
 }
 export const useGetSubcategories = ({
@@ -24,7 +24,7 @@ export const useGetSubcategories = ({
     select,
     sort,
     subselect,
-    checking = true,
+    enabled = true,
     ...rest
 }: getSubcategoriesProps) => {
     const { token } = useUserContext()
@@ -46,7 +46,7 @@ export const useGetSubcategories = ({
             })
             return data
         },
-        enabled: !!checking,
+        enabled: !!enabled,
     })
 }
 
@@ -138,3 +138,6 @@ export const useDeleteSubcategory = () => {
         onError: handleErrors,
     })
 }
+
+
+ 

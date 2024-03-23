@@ -12,7 +12,15 @@ import {
 // import SearchAndRefresh from '@/components/TableFilters'
 import Flex from '@/components/my/flex'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 import { useDeleteSubcategory, useGetSubcategories } from '@/hooks/use-subcategories'
 import { cn } from '@/lib/utils'
 import { CategoryProps } from '@/types'
@@ -21,7 +29,8 @@ import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
+import NoDataMessage from '@/components/not-data'
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -75,11 +84,13 @@ const AdminSubcategories = () => {
                 setSort={setSort}
                 sortItems={sortItems}
             />
-            {data?.resultCount == 0 ? (
-                <p className="text-center text-3xl font-bold">No Subcategories Found</p>
+            {data?.subcategories.length == 0 ? (
+                <NoDataMessage className="mt-12" message="No Sub Categories Found" />
             ) : (
                 <>
-                    {isDeleting && <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />}
+                    {isDeleting && (
+                        <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+                    )}
                     {isLoading ? (
                         <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
                     ) : (
@@ -90,14 +101,20 @@ const AdminSubcategories = () => {
                                         <TableHead>Number</TableHead>
                                         <TableHead>Name</TableHead>
                                         <TableHead>Category</TableHead>
-                                        <TableHead className="w-[70px] text-center">Status</TableHead>
-                                        <TableHead className="w-[70px] text-center">Actions</TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Status
+                                        </TableHead>
+                                        <TableHead className="w-[70px] text-center">
+                                            Actions
+                                        </TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
                                     {data?.subcategories.map((subcategory, index) => (
                                         <TableRow key={subcategory._id}>
-                                            <TableCell className="font-medium">{index + 1}</TableCell>
+                                            <TableCell className="font-medium">
+                                                {index + 1}
+                                            </TableCell>
                                             <TableCell>
                                                 <Flex>
                                                     <img
@@ -106,15 +123,21 @@ const AdminSubcategories = () => {
                                                         loading="lazy"
                                                         className="mr-3 h-8 w-8 rounded-full object-cover object-center"
                                                     />
-                                                    <span className="block truncate">{subcategory.name}</span>
+                                                    <span className="block truncate">
+                                                        {subcategory.name}
+                                                    </span>
                                                 </Flex>
                                             </TableCell>
-                                            <TableCell>{(subcategory.categoryId as CategoryProps).name}</TableCell>
+                                            <TableCell>
+                                                {(subcategory.categoryId as CategoryProps).name}
+                                            </TableCell>
                                             <TableCell className="w-[70px] text-center">
                                                 <div
                                                     className={cn(
                                                         'mx-auto h-3 w-3 rounded-full',
-                                                        subcategory.status == 'Active' ? 'bg-green-500' : 'bg-rose-500'
+                                                        subcategory.status == 'Active'
+                                                            ? 'bg-green-500'
+                                                            : 'bg-rose-500'
                                                     )}
                                                 />
                                             </TableCell>

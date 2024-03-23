@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { ProductProps } from '@/types'
 import { Box } from '@radix-ui/themes'
 import React from 'react'
@@ -21,9 +22,6 @@ const ProductCardContent: React.FC<Props> = ({ product }) => {
                             <BiShekel />
                             {product.price}
                         </span>
-                        <span className="absolute -left-1 top-1 z-20 rounded-[9px] bg-red-500 px-3 py-1 text-xs text-white shadow-sm drop-shadow-2xl">
-                            {product.discount} %
-                        </span>
                     </>
                 )}
                 <span className="flex items-center text-foreground">
@@ -31,6 +29,20 @@ const ProductCardContent: React.FC<Props> = ({ product }) => {
                     {product.finalPrice}
                 </span>
             </p>
+
+            <div
+                className={cn(
+                    'absolute top-1 left-1 z-30 rounded-[9px] px-3 py-1 text-xs text-white shadow-2xl bg-gradient-to-r select-none',
+                    product.isNewArrival && product.discount! > 0
+                        ? 'from-pink-500 to-violet-500 space-x-3'
+                        : product.discount! > 0
+                        ? 'from-pink-500 to-rose-500'
+                        : product.isNewArrival && 'from-violet-500 to-indigo-500'
+                )}
+            >
+                {product.discount! > 0 && <span>{product.discount} %</span>}
+                {product.isNewArrival && <span>New</span>}
+            </div>
         </Box>
     )
 }

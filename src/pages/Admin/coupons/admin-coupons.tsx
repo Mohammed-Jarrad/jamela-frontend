@@ -38,6 +38,7 @@ import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'sonner'
 import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
+import NoDataMessage from "@/components/not-data"
 
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
@@ -98,8 +99,8 @@ const AdminCoupons = () => {
                 link="/dashboard/coupons/create"
             />
 
-            {data?.resultCount == 0 ? (
-                <p className="text-center text-3xl font-bold">No Coupons Found</p>
+            {data?.coupons.length == 0 ? (
+                <NoDataMessage className="mt-12" message="No Coupons Found" />
             ) : (
                 <>
                     {(isHardDeleting || isSoftDeleting || isRestoring) && (
@@ -196,7 +197,7 @@ const AdminCoupons = () => {
                                         <TableCell colSpan={4}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
-                                        <TableCell colSpan={2}>
+                                        <TableCell colSpan={3}>
                                             <LimitController
                                                 limit={limit}
                                                 totalResultsCounts={data?.totalResultsCounts ?? 0}

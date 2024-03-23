@@ -2,16 +2,17 @@ import Container from '@/components/my/container'
 import { useGetActiveCategories } from '@/hooks/use-categories'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { motion } from 'framer-motion'
-import Category from './category'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 // import Swiper core and required modules
 import { Navigation } from 'swiper/modules'
 // Import Swiper styles
+import NoDataMessage from '@/components/not-data'
 import { NextElement, PrevElement } from '@/components/swiper-navigation'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import CategoriesLoading from './categories-loading'
+import CategoryCard from './category-card'
 
 const HomepageCategories = () => {
     // get active categories
@@ -23,6 +24,7 @@ const HomepageCategories = () => {
     })
     const handleErrors = useHandleErrors()
     if (error) handleErrors(error)
+    if (!data) return null
 
     return (
         <Container className="my-12">
@@ -38,31 +40,37 @@ const HomepageCategories = () => {
             {isLoading ? (
                 <CategoriesLoading />
             ) : (
-                <Swiper
-                    className="mt-8 w-full"
-                    breakpoints={{
-                        0: { slidesPerView: 2 },
-                        480: { slidesPerView: 2 },
-                        768: { slidesPerView: 3 },
-                        1280: { slidesPerView: 4 },
-                    }}
-                    spaceBetween={30}
-                    centerInsufficientSlides
-                    modules={[Navigation]}
-                    navigation={{
-                        nextEl: '.swiper-button-next',
-                        prevEl: '.swiper-button-prev',
-                        disabledClass: 'pointer-events-auto opacity-50',
-                    }}
-                >
-                    {data?.categories.map((category, index) => (
-                        <SwiperSlide key={category._id} className="w-full">
-                            <Category category={category} index={index} />
-                        </SwiperSlide>
-                    ))}
-                    <NextElement />
-                    <PrevElement />
-                </Swiper>
+                <>
+                    {data.categories.length ? (
+                        <Swiper
+                            className="mt-8 w-full bg-transparent p-1"
+                            breakpoints={{
+                                0: { slidesPerView: 2 },
+                                // 480: { slidesPerView: 2 },
+                                768: { slidesPerView: 3 },
+                                1280: { slidesPerView: 4 },
+                            }}
+                            spaceBetween={30}
+                            centerInsufficientSlides
+                            modules={[Navigation]}
+                            navigation={{
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                                disabledClass: 'pointer-events-auto opacity-50',
+                            }}
+                        >
+                            {data?.categories.map((category, index) => (
+                                <SwiperSlide key={category._id} className="w-full">
+                                    <CategoryCard category={category} index={index} />
+                                </SwiperSlide>
+                            ))}
+                            <NextElement />
+                            <PrevElement />
+                        </Swiper>
+                    ) : (
+                        <NoDataMessage />
+                    )}
+                </>
             )}
         </Container>
     )

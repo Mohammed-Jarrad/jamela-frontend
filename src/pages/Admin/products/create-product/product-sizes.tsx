@@ -9,13 +9,21 @@ import { Box } from '@radix-ui/themes'
 import { AnimatePresence } from 'framer-motion'
 import { XCircle } from 'lucide-react'
 import React from 'react'
+import { ProductForm } from './create-product'
 
 type SizesProps = {
-    sizes: ProductSizesProps[]
-    setSizes: React.Dispatch<React.SetStateAction<ProductSizesProps[]>>
+    // sizes: ProductSizesProps[]
+    // methods: {
+    //     addSize: (size: ProductSizesProps) => void
+    //     removeSize: (size: ProductSizesProps) => void
+    // }
+    infos: ProductForm
+    setInfos: React.Dispatch<React.SetStateAction<ProductForm>>
 }
 
-const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
+const ProductSizes: React.FC<SizesProps> = ({ infos, setInfos }) => {
+    const { sizes } = infos
+
     const sizesArray: ProductSizesProps[] = [
         'XS',
         'S',
@@ -24,29 +32,42 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
         'XL',
         'XXL',
         'XXXL',
-        36,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        49,
-        50,
+        '36',
+        '37',
+        '38',
+        '39',
+        '40',
+        '41',
+        '42',
+        '43',
+        '44',
+        '45',
+        '46',
+        '47',
+        '48',
+        '49',
+        '50',
     ]
 
     const addSize = (size: ProductSizesProps) => {
-        setSizes((prevSizes) => (prevSizes.includes(size) ? prevSizes.filter((s) => s !== size) : [...prevSizes, size]))
+        setInfos((preInfos) => {
+            const { sizes: oldSizes } = preInfos
+            return {
+                ...preInfos,
+                sizes: oldSizes.includes(size)
+                    ? oldSizes.filter((s) => s !== size)
+                    : [...oldSizes, size],
+            }
+        })
     }
-
     const removeSize = (size: ProductSizesProps) => {
-        setSizes((prevSizes) => prevSizes.filter((s) => s !== size))
+        setInfos((preInfos) => {
+            const { sizes: oldSizes } = preInfos
+            return {
+                ...preInfos,
+                sizes: oldSizes.filter((s) => s !== size),
+            }
+        })
     }
 
     return (
@@ -63,7 +84,9 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
                                 key={index}
                                 onClick={() => addSize(size)}
                                 closeOnClick={false}
-                                className={cn(sizes.includes(size) ? 'border !bg-secondary' : 'bg-transparent')}
+                                className={cn(
+                                    sizes.includes(size) ? 'border !bg-secondary' : 'bg-transparent'
+                                )}
                             >
                                 <span>{size}</span>
                             </DropdownItem>
@@ -89,7 +112,9 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
                                 />
                             </Transition>
                         ))}
-                        {sizes.length === 0 && <span className="text-muted-foreground">No sizes selected</span>}
+                        {sizes.length === 0 && (
+                            <span className="text-muted-foreground">No sizes selected</span>
+                        )}
                     </AnimatePresence>
                 </Box>
             </Flex>

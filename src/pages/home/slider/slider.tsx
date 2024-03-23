@@ -18,6 +18,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
 
     if (error) handleErrors(error)
     if (isLoading) return <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
+    if (data?.images.length === 0) return null
     if (data) {
         const { images } = data
         return (

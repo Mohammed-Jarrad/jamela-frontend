@@ -52,9 +52,7 @@
     --input: 215 27.9% 16.9%;
     --ring: 263.4 70% 50.4%;
   }
-}
 
-@layer base {
   * {
     @apply border-border font-jost tracking-wide;
   }
@@ -133,6 +131,8 @@
   }
 }
 
+
+
 @layer utilities {
   .circle {
     @apply rounded-full
@@ -140,5 +140,19 @@
 
   .square {
     @apply rounded-lg
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent capitalize;
+  }
+
+  .pointer {
+    @apply cursor-pointer
+  }
+}
+
+@layer components {
+  .custom-gradient {
+    @apply bg-gradient-to-r from-[#667EEA] from-30% to-[#764BA2] gradient-text;
   }
 }

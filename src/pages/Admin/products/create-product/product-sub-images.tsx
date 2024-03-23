@@ -7,21 +7,24 @@ import { Box } from '@radix-ui/themes'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import { toast } from 'sonner'
+import { ProductForm } from './create-product'
 
 type Props = {
-    subImages: File[]
-    setSubImages: React.Dispatch<React.SetStateAction<File[]>>
+    infos: ProductForm
+    setInfos: React.Dispatch<React.SetStateAction<ProductForm>>
 }
 
-const ProductSubImages: React.FC<Props> = ({ subImages, setSubImages }) => {
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+const ProductSubImages: React.FC<Props> = ({ infos, setInfos }) => {
+    const { subImages } = infos
+
+    function handleDrop(event: React.DragEvent<HTMLDivElement>) {
         event.preventDefault()
         const files = Array.from(event.dataTransfer.files)
         if (subImages.length >= 4) return toast.error('You can only upload up to 4 images')
         handleFiles(files)
     }
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         const files = Array.from(event.target.files || [])
         if (subImages.length >= 4) return toast.error('You can only upload up to 4 images')
         handleFiles(files)
@@ -34,10 +37,16 @@ const ProductSubImages: React.FC<Props> = ({ subImages, setSubImages }) => {
         }
         const remainingSpace = 4 - subImages.length
         if (remainingSpace === 0) return toast.error('You can only upload up to 4 images')
-        setSubImages((prev) => [...prev, ...files.slice(0, remainingSpace)])
+        setInfos((preInfos) => ({
+            ...preInfos,
+            subImages: [...preInfos.subImages, ...files.slice(0, remainingSpace)],
+        }))
     }
-    const handleRemoveImage = (index: number) => {
-        setSubImages((prevSubImages) => prevSubImages.filter((_, i) => i !== index))
+    function removeSubImage(index: number) {
+        setInfos((preInfos) => ({
+            ...preInfos,
+            subImages: preInfos.subImages.filter((_, i) => i !== index),
+        }))
     }
 
     return (
@@ -80,7 +89,7 @@ const ProductSubImages: React.FC<Props> = ({ subImages, setSubImages }) => {
                                         variant={'destructive'}
                                         size={'sm'}
                                         className="max-sm:self-end"
-                                        onClick={() => handleRemoveImage(index)}
+                                        onClick={() => removeSubImage(index)}
                                     >
                                         remove
                                     </Button>

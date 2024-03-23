@@ -9,10 +9,11 @@ import { Box } from '@radix-ui/themes'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
+import { BeatLoader } from 'react-spinners'
 import styled from 'styled-components'
 import CartItem from './cart-item'
 import CartSummary from './cart-summary'
-import { BeatLoader } from 'react-spinners'
+import NewArrivals from '../home/new-arrivals/new-arrivals'
 
 const Cart = () => {
     const [note, setNote] = useState('')
@@ -48,46 +49,50 @@ const Cart = () => {
                     )}
                 </h2>
                 {isCartFounded ? (
-                    <Flex gap="md" className="max-lg:flex-col">
-                        {/* Cart Content */}
-                        <CartItemsWrapper className="flex-1">
-                            <Box className="w-full space-y-5">
-                                <Flex gap="sm">
-                                    <span className="flex-[3] text-lg font-medium uppercase">
-                                        Product
+                    <>
+                        <Flex gap="md" className="max-lg:flex-col">
+                            {/* Cart Content */}
+                            <CartItemsWrapper className="flex-1">
+                                <Box className="w-full space-y-5">
+                                    <Flex gap="sm">
+                                        <span className="flex-[3] text-lg font-medium uppercase">
+                                            Product
+                                        </span>
+                                        <span className="flex-1 text-lg font-medium uppercase">
+                                            price
+                                        </span>
+                                        <span className="flex-1 text-lg font-medium uppercase max-sm:hidden">
+                                            Total
+                                        </span>
+                                    </Flex>
+                                    {/* Cart Items */}
+                                    <div className="space-y-3">
+                                        {cart?.products.map((product) => (
+                                            <CartItem cartItem={product} key={product._id} />
+                                        ))}
+                                    </div>
+                                </Box>
+                                {/* Addtional Note */}
+                                <AdditionalNote>
+                                    <span className="text-base font-medium uppercase">
+                                        Additional Note
                                     </span>
-                                    <span className="flex-1 text-lg font-medium uppercase">
-                                        price
-                                    </span>
-                                    <span className="flex-1 text-lg font-medium uppercase max-sm:hidden">
-                                        Total
-                                    </span>
-                                </Flex>
-                                {/* Cart Items */}
-                                <div className="space-y-3">
-                                    {cart?.products.map((product) => (
-                                        <CartItem cartItem={product} key={product._id} />
-                                    ))}
-                                </div>
-                            </Box>
-                            {/* Addtional Note */}
-                            <AdditionalNote>
-                                <span className="text-base font-medium uppercase">
-                                    Additional Note
-                                </span>
-                                <Textarea
-                                    placeholder="Additional Note"
-                                    className="w-full"
-                                    rows={5}
-                                    value={note}
-                                    onChange={(e) => setNote(e.target.value)}
-                                />
-                            </AdditionalNote>
-                        </CartItemsWrapper>
+                                    <Textarea
+                                        placeholder="Additional Note"
+                                        className="w-full"
+                                        rows={5}
+                                        value={note}
+                                        onChange={(e) => setNote(e.target.value)}
+                                    />
+                                </AdditionalNote>
+                            </CartItemsWrapper>
 
-                        {/* Cart Summary */}
-                        <CartSummary note={note} setNote={setNote} />
-                    </Flex>
+                            {/* Cart Summary */}
+                            <CartSummary note={note} setNote={setNote} />
+                        </Flex>
+
+                        <NewArrivals />
+                    </>
                 ) : (
                     <Flex className="flex-col items-center justify-center gap-6">
                         <img

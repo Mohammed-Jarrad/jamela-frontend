@@ -75,7 +75,7 @@ const CreateSubcategory = () => {
                                 <img
                                     src={URL.createObjectURL(file as any)}
                                     alt="cateogry image"
-                                    className="h-64 w-64 rounded border object-cover shadow"
+                                    className="w-64 rounded border object-cover shadow"
                                 />
                             ) : (
                                 <div className="flex h-64 w-64 items-center justify-center rounded border shadow">

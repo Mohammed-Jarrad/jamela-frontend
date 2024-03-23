@@ -5,11 +5,10 @@ import { Label } from '@/components/ui/label'
 import { useCreateCategory } from '@/hooks/use-categories'
 import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useState } from 'react'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 
 const CreateCategory = () => {
@@ -17,12 +16,10 @@ const CreateCategory = () => {
     const [name, setName] = useState<string>('')
     const [file, setFile] = useState<File | null>(null)
     const { mutate: createCategory, isPending } = useCreateCategory()
-    const handleErrors = useHandleErrors()
     function handleCreateCategory() {
         const formData = new FormData()
-        if (!name || !file) return handleErrors(new Error(`${!name ? 'Name' : 'Image'} is required`))
-        formData.append('name', name)
-        formData.append('image', file)
+        name && formData.append('name', name)
+        file && formData.append('image', file)
         createCategory(formData)
     }
 
@@ -51,17 +48,6 @@ const CreateCategory = () => {
                         {/* image */}
                         <Box className="flex flex-col space-y-3">
                             <Label>Image</Label>
-                            {file ? (
-                                <img
-                                    src={URL.createObjectURL(file as any)}
-                                    alt="cateogry image"
-                                    className="h-64 w-64 rounded border object-cover shadow"
-                                />
-                            ) : (
-                                <div className="flex h-64 w-64 items-center justify-center rounded border shadow">
-                                    <Image size={30} />
-                                </div>
-                            )}
                             <Label
                                 className={cn(
                                     buttonVariants({ variant: 'ghost' }),
@@ -71,6 +57,17 @@ const CreateCategory = () => {
                             >
                                 <Image size={18} /> <span>Select Image</span>
                             </Label>
+                            {file ? (
+                                <img
+                                    src={URL.createObjectURL(file as any)}
+                                    alt="cateogry image"
+                                    className="w-64 rounded border object-cover shadow"
+                                />
+                            ) : (
+                                <div className="flex h-64 w-64 items-center justify-center rounded border shadow">
+                                    <Image size={30} />
+                                </div>
+                            )}
                             <input
                                 type="file"
                                 id="file"

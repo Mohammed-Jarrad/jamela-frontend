@@ -3,7 +3,13 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useGetCategories } from '@/hooks/use-categories'
 import { useGetSubcategory, useUpdateSubcategory } from '@/hooks/use-subcategories'
 import { cn } from '@/lib/utils'
@@ -43,7 +49,8 @@ const UpdateSubcategory = () => {
         if (status) formData.append('status', status)
         // append the category if founded
         if (
-            categorySelectId !== (currentSubcategory?.subcategory.categoryId as CategoryProps)._id &&
+            categorySelectId !==
+                (currentSubcategory?.subcategory.categoryId as CategoryProps)._id &&
             categorySelectId !== undefined
         )
             formData.append('categoryId', categorySelectId)
@@ -76,7 +83,9 @@ const UpdateSubcategory = () => {
             </Helmet>
             <Card>
                 <CardHeader>
-                    <h1 className="my-5 text-2xl font-medium text-muted-foreground ">Update Subcategory</h1>
+                    <h1 className="my-5 text-2xl font-medium text-muted-foreground ">
+                        Update Subcategory
+                    </h1>
                 </CardHeader>
                 <CardContent className="space-y-4 py-2">
                     {/* Name */}
@@ -121,7 +130,7 @@ const UpdateSubcategory = () => {
                             src={file ? URL.createObjectURL(file as any) : image?.secure_url}
                             alt="sub category image"
                             loading="lazy"
-                            className="h-64 w-64 rounded border object-cover shadow"
+                            className="w-64 rounded border object-cover shadow"
                         />
                         <Label
                             className={cn(
@@ -177,7 +186,10 @@ const CategoriesSelect = ({ setCategorySelectId, categorySelectId }: CategoriesS
             <>
                 <Box className="flex flex-col space-y-3">
                     <Label>Category</Label>
-                    <Select value={categorySelectId} onValueChange={(value) => setCategorySelectId(value)}>
+                    <Select
+                        value={categorySelectId}
+                        onValueChange={(value) => setCategorySelectId(value)}
+                    >
                         <SelectTrigger className="">
                             <SelectValue placeholder="Category" className="" />
                         </SelectTrigger>

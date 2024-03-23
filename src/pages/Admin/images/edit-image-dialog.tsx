@@ -49,11 +49,13 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
         }
         setInfos((pre) => ({ ...pre, [name]: value }))
     }
+    
     function onDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         const file = e.dataTransfer.files[0]
         setInfos((pre) => ({ ...pre, file }))
     }
+
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         const data = new FormData()
