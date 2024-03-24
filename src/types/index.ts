@@ -1,7 +1,4 @@
-export interface LoginInputsProps {
-    email?: string
-    password?: string
-}
+
 export interface LoginData {
     token: string
     message: string
@@ -10,14 +7,7 @@ export interface LoginData {
 
 export type Gender = 'Male' | 'Female'
 
-export interface SignupInputsProps {
-    username?: string
-    email?: string
-    password?: string
-    phone?: string
-    address?: string
-    gender?: Gender
-}
+
 export interface SignupData {
     message: string
 }

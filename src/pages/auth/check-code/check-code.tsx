@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
 import { useCheckCode } from '@/hooks/use-auth'
+import { yupValidateForm } from "@/lib/yup-validate-form"
 import Transition from '@/utils/transition'
 import { FormEvent, Fragment, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
+import * as Yup from 'yup'
 
 const CheckCode = () => {
     const { token } = useParams()
@@ -15,6 +17,12 @@ const CheckCode = () => {
     const checkCodeMutation = useCheckCode()
     function handleCheckCode(e: FormEvent) {
         e.preventDefault()
+
+        const schema = Yup.object().shape({
+            code: Yup.string().required('Code is required').length(4, 'Code must be 4 characters'),
+        })
+        if (!yupValidateForm(schema, { code })) return
+        
         checkCodeMutation.mutate({ code, token: String(token) })
     }
 

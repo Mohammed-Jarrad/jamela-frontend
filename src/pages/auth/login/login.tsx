@@ -5,9 +5,9 @@ import Flex from '@/components/my/flex'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { useLogin } from '@/hooks/use-auth'
+import { LoginInputsProps, useLogin } from '@/hooks/use-auth'
 import { cn } from '@/lib/utils'
-import { LoginInputsProps } from '@/types'
+import { yupValidateForm } from '@/lib/yup-validate-form'
 import Transition from '@/utils/transition'
 import useHandleMessages from '@/utils/use-handle-query-messages'
 import { Box } from '@radix-ui/themes'
@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
+import * as Yup from 'yup'
 
 const Login = () => {
     useHandleMessages()
@@ -42,6 +43,12 @@ const Login = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const schema = Yup.object({
+            email: Yup.string().email('Invalid email').required('Email is required'),
+            password: Yup.string().required('Password is required').min(6),
+        })
+        if (!yupValidateForm(schema, inputs)) return
+
         login(inputs)
         if (remember) {
             Cookies.set('email', inputs?.email as string, { expires: 30 })
@@ -76,10 +83,10 @@ const Login = () => {
                                     label="Email"
                                     name="email"
                                     value={inputs?.email}
-                                    required
+                                    isRequired
                                     onChange={handleChange}
                                     placeholder="example@gmail.com"
-                                    type="email"
+                                    type="text"
                                     className=""
                                 />
                                 <CustomInput
@@ -88,13 +95,15 @@ const Login = () => {
                                     onChange={handleChange}
                                     value={inputs?.password}
                                     type="password"
-                                    required
+                                    isRequired
                                     placeholder="******"
-                                    minLength={6}
                                 />
 
                                 <Flex justify="between">
-                                    <Link to={'/auth/forget-password'} className="text-sm underline">
+                                    <Link
+                                        to={'/auth/forget-password'}
+                                        className="text-sm underline"
+                                    >
                                         forget password?
                                     </Link>
                                     <Label className="flex cursor-pointer items-center gap-2">
@@ -111,7 +120,11 @@ const Login = () => {
 
                                 <Box className="flex justify-between gap-2 max-sm:flex-col">
                                     <Button size="lg" type="submit" className="sm:flex-1">
-                                        {isPending ? <BeatLoader className="text-center" color="white" /> : 'Login'}
+                                        {isPending ? (
+                                            <BeatLoader className="text-center" color="white" />
+                                        ) : (
+                                            'Login'
+                                        )}
                                     </Button>
                                     <Link
                                         to="/signup"

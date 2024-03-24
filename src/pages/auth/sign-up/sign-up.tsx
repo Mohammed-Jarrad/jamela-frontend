@@ -4,15 +4,23 @@ import Flex from '@/components/my/flex'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useSignup } from '@/hooks/use-auth'
-import { Gender, SignupInputsProps } from '@/types'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import { SignupInputsProps, useSignup } from '@/hooks/use-auth'
+import { yupValidateForm } from '@/lib/yup-validate-form'
+import { Gender } from '@/types'
 import { Box } from '@radix-ui/themes'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { FaFemale, FaMale } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
+import * as Yup from 'yup'
 import Transition from '../../../utils/transition'
 
 export const genders: { label: Gender; icon: JSX.Element }[] = [
@@ -20,13 +28,27 @@ export const genders: { label: Gender; icon: JSX.Element }[] = [
     { label: 'Female', icon: <FaFemale /> },
 ]
 const SignUp = () => {
-    const [inputs, setInputs] = useState<SignupInputsProps>({})
+    const [inputs, setInputs] = useState<SignupInputsProps>({
+        username: '',
+        email: '',
+        password: '',
+    })
     const { mutate: signup, isPending } = useSignup()
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputs({ ...inputs, [e.target.name]: e.target.value })
     }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        const schema = Yup.object({
+            username: Yup.string().required('Username is required'),
+            email: Yup.string().email('Invalid email').required('Email is required'),
+            password: Yup.string().required('Password is required').min(6),
+            gender: Yup.string().oneOf(['Male', 'Female']),
+            phone: Yup.string().min(10, 'Phone must be at least 10 characters'),
+            address: Yup.string().min(3),
+        })
+        if (!yupValidateForm(schema, inputs)) return
+
         signup(inputs)
     }
 
@@ -60,24 +82,23 @@ const SignUp = () => {
                                         <CustomInput
                                             label="User name"
                                             name="username"
-                                            required
+                                            isRequired
                                             type="text"
                                             onChange={handleChange}
                                             placeholder="John Doe"
-                                            minLength={3}
                                         />
                                         <CustomInput
                                             label="Email"
                                             name="email"
-                                            required
-                                            type="email"
+                                            isRequired
+                                            type="text"
                                             onChange={handleChange}
                                             placeholder="example@gmail.com"
                                         />
                                         <CustomInput
                                             label="Password"
                                             name="password"
-                                            required
+                                            isRequired
                                             type="password"
                                             onChange={handleChange}
                                             placeholder="******"
@@ -101,12 +122,18 @@ const SignUp = () => {
                                         />
                                         <Box className="flex flex-col space-y-3">
                                             <Label htmlFor="gender">
-                                                Gender <span className="text-xs text-gray-300">(optional)</span>
+                                                Gender{' '}
+                                                <span className="text-xs text-gray-300">
+                                                    (optional)
+                                                </span>
                                             </Label>
                                             <Select
                                                 name="gender"
                                                 onValueChange={(value) =>
-                                                    setInputs({ ...inputs, gender: value as Gender })
+                                                    setInputs({
+                                                        ...inputs,
+                                                        gender: value as Gender,
+                                                    })
                                                 }
                                             >
                                                 <SelectTrigger className="flex">
@@ -114,7 +141,10 @@ const SignUp = () => {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {genders.map((gender) => (
-                                                        <SelectItem value={gender.label} key={gender.label}>
+                                                        <SelectItem
+                                                            value={gender.label}
+                                                            key={gender.label}
+                                                        >
                                                             <Flex gap="sm" align={'center'}>
                                                                 {gender.icon} {gender.label}
                                                             </Flex>
@@ -128,7 +158,11 @@ const SignUp = () => {
 
                                 <Flex justify="between" gap="md" className="max-sm:flex-col">
                                     <Button size="lg" type="submit" className="sm:flex-1">
-                                        {isPending ? <BeatLoader className="text-center" color="white" /> : 'Sign Up'}
+                                        {isPending ? (
+                                            <BeatLoader className="text-center" color="white" />
+                                        ) : (
+                                            'Sign Up'
+                                        )}
                                     </Button>
                                     <Link
                                         to="/login"

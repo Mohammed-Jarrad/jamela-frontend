@@ -1,10 +1,23 @@
 import { useUserContext } from '@/context/UserContextProvider'
-import { LoginInputsProps, SignupData, SignupInputsProps, UserProps } from '@/types'
+import { Gender, SignupData, UserProps } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
+
+export interface SignupInputsProps {
+    username: string
+    email: string
+    password: string
+    phone?: string
+    address?: string
+    gender?: Gender
+}
+export interface LoginInputsProps {
+    email: string
+    password: string
+}
 
 export const useLogin = () => {
     const { setToken } = useUserContext()

@@ -18,9 +18,9 @@ type CartContextProviderProps = {
 }
 const CartContextProvider: React.FC<CartContextProviderProps> = ({ children }) => {
     const [cart, setCart] = React.useState<CartProps | null>(null)
-    const { token } = useUserContext()
+    const { token, currentUser } = useUserContext()
     const cartQuery = useGetCurrentCart({
-        enabled: !!token,
+        enabled: !!(token && currentUser?.role === 'User'), // only fetch cart if user is logged in
     })
     const { data, error, isSuccess } = cartQuery
     const handleErrors = useHandleErrors()

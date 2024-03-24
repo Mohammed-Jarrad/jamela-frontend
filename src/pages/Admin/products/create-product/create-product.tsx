@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { useCreateProduct } from '@/hooks/use-products'
 import { froalaConfig } from '@/lib/froala'
+import { yupValidateForm } from '@/lib/yup-validate-form'
 import { CategoryProps, ProductSizesProps, SubcategoryProps } from '@/types'
 import Transition from '@/utils/transition'
 import { Box } from '@radix-ui/themes'
@@ -12,7 +13,6 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import FroalaEditor from 'react-froala-wysiwyg'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
-import { toast } from 'sonner'
 import * as Yup from 'yup'
 import ProductColors from './product-colors'
 import ProductMainImage from './product-main-image'
@@ -46,37 +46,21 @@ const CreateProduct = () => {
         mainImage: null,
         subImages: [],
     })
-
-    function validateForm() {
-        const schema = Yup.object().shape({
-            name: Yup.string()
-                .required('Name is required')
-                .min(3, 'Name must be at least 3 characters'),
-            price: Yup.number().required('Price is required').min(1, 'Price must be at least 1'),
-            discount: Yup.number().min(0, 'Discount must be at least 0').optional(),
-            stock: Yup.number().min(1, 'Stock must be at least 1').optional(),
-            description: Yup.string().required('Description is required'),
-            categoryId: Yup.string().required('Category is required'),
-            mainImage: Yup.mixed().required('Main image is required'),
-            subImages: Yup.array()
-                .min(1, 'Sub images are required')
-                .required('Sub images are required')
-                .of(Yup.mixed().required('Sub image is required')),
-        })
-        try {
-            schema.validateSync(infos, { abortEarly: false })
-            return true
-        } catch (error: any) {
-            if (error instanceof Yup.ValidationError) {
-                error.errors
-                    .reverse()
-                    .forEach((err) => toast.error(err, { position: 'bottom-left' }))
-            } else {
-                toast.error('message' in error ? error.message : 'An error occurred')
-            }
-            return false
-        }
-    }
+    const schema = Yup.object().shape({
+        name: Yup.string()
+            .required('Name is required')
+            .min(3, 'Name must be at least 3 characters'),
+        price: Yup.number().required('Price is required').min(1, 'Price must be at least 1'),
+        discount: Yup.number().min(0, 'Discount must be at least 0').optional(),
+        stock: Yup.number().min(1, 'Stock must be at least 1').optional(),
+        description: Yup.string().required('Description is required'),
+        categoryId: Yup.string().required('Category is required'),
+        mainImage: Yup.mixed().required('Main image is required'),
+        subImages: Yup.array()
+            .min(1, 'Sub images are required')
+            .required('Sub images are required')
+            .of(Yup.mixed().required('Sub image is required')),
+    })
 
     function handleChangeInputs(
         e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
@@ -97,7 +81,7 @@ const CreateProduct = () => {
     function handleCreateProduct(e: FormEvent<HTMLFormElement>) {
         e.preventDefault()
 
-        if (!validateForm()) return
+        if (!yupValidateForm(schema, infos)) return
 
         const data = new FormData()
 
