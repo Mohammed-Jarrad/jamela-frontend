@@ -1,3 +1,4 @@
+import { useCart } from '@/context/CartContextProvider'
 import { useUserContext } from '@/context/UserContextProvider'
 import { cn } from '@/lib/utils'
 import { Contact, Home, Info, ShoppingCart } from 'lucide-react'
@@ -9,6 +10,7 @@ import NavItem from './nav-item'
 
 const HeaderContent = () => {
     const { token, currentUser } = useUserContext()
+    const { cart } = useCart()
 
     return (
         <>
@@ -34,7 +36,7 @@ const HeaderContent = () => {
 
             {/* Controls & Profile */}
             <div className="flex items-center gap-4 max-md:w-full max-md:justify-end">
-                {token && currentUser?.cart && <CartLink />}
+                {token && cart && <CartLink link="/cart" />}
                 {token && Object.keys(currentUser).length > 0 && <Wishlist />}
                 {token ? (
                     <ProfileButton />
@@ -44,9 +46,9 @@ const HeaderContent = () => {
                         <NavItem link="/auth/signup">Singup</NavItem>
                     </>
                 )}
-                <span className={cn(token && 'max-md:hidden')}>
+                <div className={cn(token && 'max-md:hidden')}>
                     <ModeToggle />
-                </span>
+                </div>
             </div>
         </>
     )

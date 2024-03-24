@@ -1,15 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import Footer from './components/footer'
 import Header from './components/header/header'
-import { useUserContext } from './context/UserContextProvider'
 import ScrollWhenRefresh from './utils/scroll-when-refresh'
+import { useUserContext } from "./context/UserContextProvider"
 
 const Root = () => {
-    const { token, currentUser } = useUserContext()
-    const isAdmin = token && currentUser?.role === 'Admin'
+    const { currentUser, token } = useUserContext()
+    const isAdmin = currentUser?.role === "Admin" && token
 
     if (isAdmin) return <Navigate to="/dashboard" />
-
+    
     return (
         <ScrollWhenRefresh>
             <Header />

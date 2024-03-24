@@ -35,6 +35,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                     className="h-full w-full"
                     effect="fade"
                     fadeEffect={{ crossFade: true }}
+                    loop
                 >
                     {images.map((image) => (
                         <SwiperSlide key={image._id}>

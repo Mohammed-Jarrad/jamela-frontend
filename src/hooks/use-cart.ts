@@ -30,9 +30,7 @@ export const useAddToCart = () => {
             return data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['current-user'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart-length'] })
+            queryClient.invalidateQueries({ queryKey: ['current-cart'] })
             toast.success('Product added to cart successfully')
         },
         onError: handleErrors,
@@ -57,8 +55,7 @@ export const useRemoveFromCart = () => {
             return data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['current-user'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
+            queryClient.invalidateQueries({ queryKey: ['current-cart'] })
             toast.success('Done')
         },
         onError: handleErrors,
@@ -89,8 +86,7 @@ export const useUpdateQuantity = () => {
             return data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['current-user'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
+            queryClient.invalidateQueries({ queryKey: ['current-cart'] })
             toast.success('Done')
         },
         onError: handleErrors,
@@ -130,15 +126,14 @@ export const useUpdateSizeOrColor = () => {
             return data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['current-user'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
+            queryClient.invalidateQueries({ queryKey: ['current-cart'] })
             toast.success('Done')
         },
         onError: handleErrors,
     })
 }
 
-export const useGetCurrentCart = () => {
+export const useGetCurrentCart = ({ enabled = true }: { enabled: boolean }) => {
     const { token } = useUserContext()
     return useQuery({
         queryKey: ['current-cart'],
@@ -149,8 +144,9 @@ export const useGetCurrentCart = () => {
                     Authorization: import.meta.env.VITE_BEARER_KEY + token,
                 },
             })
-            return data
+            return data.cart
         },
+        enabled,
     })
 }
 
@@ -172,9 +168,7 @@ export const useClearCart = () => {
             return data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['current-user'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart'] })
-            // queryClient.invalidateQueries({ queryKey: ['current-cart-length'] })
+            queryClient.invalidateQueries({ queryKey: ['current-cart'] })
             toast.success('Cart cleared successfully')
         },
         onError: handleErrors,

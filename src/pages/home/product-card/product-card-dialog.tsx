@@ -23,8 +23,12 @@ type Props = {
 const ProductCardDialog: React.FC<Props> = ({ open, setOpen, product }) => {
     const { mutate: addToCart, isPending: cartLoading } = useAddToCart()
 
-    const [size, setSize] = React.useState<ProductSizesProps | undefined>(() => product.sizes?.[0] || undefined)
-    const [color, setColor] = React.useState<string | undefined>(() => product.colors?.[0] || undefined)
+    const [size, setSize] = React.useState<ProductSizesProps | undefined>(
+        () => product.sizes?.[0] || undefined
+    )
+    const [color, setColor] = React.useState<string | undefined>(
+        () => product.colors?.[0] || undefined
+    )
     function handleAddToCart() {
         addToCart(
             { productId: product._id, ...(size && { size }), ...(color && { color }) },
@@ -44,7 +48,9 @@ const ProductCardDialog: React.FC<Props> = ({ open, setOpen, product }) => {
                 <Box className="my-5 space-y-3">
                     {/* sizes options */}
                     <Flex gap="sm" align={'center'} className="flex-wrap max-md:flex-col">
-                        {product.sizes?.length ? <p className="text-base font-medium">Sizes:</p> : null}
+                        {product.sizes?.length ? (
+                            <p className="text-base font-medium">Sizes:</p>
+                        ) : null}
                         <Flex gap="sm" align="center" className="flex-wrap">
                             {product.sizes?.map((s) => (
                                 <Box
@@ -64,7 +70,9 @@ const ProductCardDialog: React.FC<Props> = ({ open, setOpen, product }) => {
                     </Flex>
                     {/* colors options */}
                     <Flex gap="sm" align={'center'} className=" max-md:flex-col">
-                        {product.colors?.length ? <p className="text-base font-medium">Colors:</p> : null}
+                        {product.colors?.length ? (
+                            <p className="text-base font-medium">Colors:</p>
+                        ) : null}
                         <Flex gap="sm" align="center" className="flex-wrap">
                             {product.colors?.map((c) => (
                                 <Box
@@ -72,7 +80,10 @@ const ProductCardDialog: React.FC<Props> = ({ open, setOpen, product }) => {
                                     onClick={() => {
                                         setColor(c)
                                     }}
-                                    className={cn('h-10 w-10 cursor-pointer rounded-xl', c == color && '!outline ')}
+                                    className={cn(
+                                        'h-10 w-10 cursor-pointer rounded-xl',
+                                        c == color && '!outline '
+                                    )}
                                     style={{ backgroundColor: c }}
                                 />
                             ))}

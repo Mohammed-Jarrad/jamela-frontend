@@ -2,6 +2,7 @@ import RequiredStar from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useCart } from "@/context/CartContextProvider"
 import { useUserContext } from '@/context/UserContextProvider'
 import { useCheckCoupon } from '@/hooks/use-coupons'
 import { cn } from '@/lib/utils'
@@ -19,7 +20,7 @@ type Props = {
 
 const CartSummary: React.FC<Props> = () => {
     const { currentUser } = useUserContext()
-    const { cart } = currentUser
+    const { cart } = useCart()
 
     const subTotal: number = Number(
         cart?.products

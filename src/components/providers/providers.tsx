@@ -1,3 +1,4 @@
+import CartContextProvider from '@/context/CartContextProvider'
 import ThemeProvider from '@/context/ThemeContextProvider'
 import UserContextProvider from '@/context/UserContextProvider'
 import React from 'react'
@@ -16,10 +17,12 @@ const Providers = ({ children }: PorvidersType) => {
             <ReactQueryProvider>
                 <ThemeProvider defaultTheme="light" storageKey="ui-theme">
                     <UserContextProvider>
-                        <TooltipProvider delayDuration={200} disableHoverableContent>
-                            <MyToaster />
-                            {children}
-                        </TooltipProvider>
+                        <CartContextProvider>
+                            <TooltipProvider delayDuration={200} disableHoverableContent>
+                                <MyToaster />
+                                {children}
+                            </TooltipProvider>
+                        </CartContextProvider>
                     </UserContextProvider>
                 </ThemeProvider>
             </ReactQueryProvider>

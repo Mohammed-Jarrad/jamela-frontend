@@ -33,13 +33,6 @@ const CartItemDialog: React.FC<Props> = ({ open, setOpen, item }) => {
     }, [open])
 
     function handleUpdateSizeOrColor() {
-        console.log({
-            itemId: item._id,
-            productId: item.productId._id,
-            ...(size && { size }),
-            ...(color && { color }),
-        })
-
         updateSizeOrColor(
             {
                 itemId: item._id,

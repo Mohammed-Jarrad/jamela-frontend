@@ -11,10 +11,9 @@ export const useLogin = () => {
     const handleErrors = useHandleErrors()
     const navigate = useNavigate()
     return useMutation({
-        mutationKey: ['login'],
-        mutationFn: async ({ email, password }: LoginInputsProps) => {
+        mutationFn: async (infos: LoginInputsProps) => {
             type dataProps = { message: string; token: string; user: UserProps }
-            const { data } = await axios.post(`/auth/signin`, { email, password })
+            const { data } = await axios.post(`/auth/signin`, infos)
             return data as dataProps
         },
         onSuccess: (data) => {
@@ -27,14 +26,13 @@ export const useLogin = () => {
 export const useSignup = () => {
     const handleErrors = useHandleErrors()
     return useMutation({
-        mutationKey: ['signup'],
         mutationFn: async (infos: SignupInputsProps) => {
             const { data } = await axios.post<SignupData>(`/auth/signup`, infos)
             return data
         },
         onSuccess: () =>
-            toast.success('Account created successfully Please', {
-                description: `check your email to verify your account`,
+            toast.success('Account created successfully', {
+                description: `Please check your email to verify your account`,
             }),
         onError: handleErrors,
     })
@@ -50,7 +48,7 @@ export const useSendCode = () => {
             return data as dataProps
         },
         onSuccess: ({ token }, { email }) => {
-            toast.success(`We sent a code to this email`, {
+            toast.success(`Code sent to`, {
                 description: email,
             })
             navigate(`/auth/check-code/${token}`)

@@ -33,7 +33,7 @@ import Root from '@/root'
 import ScrollWhenRefresh from '@/utils/scroll-when-refresh'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AdminRoutes from './routes/admin-routes'
-import PrivateRoutes from './routes/private-routes'
+import UserRoutes from './routes/user-routes'
 
 const MainContent = () => {
     const { token } = useUserContext()
@@ -42,12 +42,12 @@ const MainContent = () => {
         <main className="grid min-h-full-screen-header grid-cols-1">
             <ScrollWhenRefresh>
                 <Routes>
-                    {/* Not Admin Routes */}
                     <Route path="/" element={<Root />}>
                         <Route index element={<Home />} />
                         <Route path="product/:slug" element={<Product />} />
                         <Route path="category/:slug" element={<Category />} />
                         <Route path="shop" element={<Shop />} />
+
                         {/* Auth Routes */}
                         <Route path="auth">
                             <Route element={token && <Navigate to={'/'} />}>
@@ -58,11 +58,16 @@ const MainContent = () => {
                             <Route path="check-code/:token" element={<CheckCode />} />
                             <Route path="reset-password/:token" element={<ResetPassword />} />
                         </Route>
+
                         {/* User Routes */}
-                        <Route element={<PrivateRoutes />}>
+                        <Route element={<UserRoutes />}>
                             <Route path="cart" element={<Cart />} />
                             <Route path="profile" element={<Profile />} />
                         </Route>
+
+                        {/* Test Page */}
+                        <Route path="/test" element={<Test />} />
+                        {/* Not Found */}
                         <Route path="*" element={<Notfound />} />
                     </Route>
 
@@ -104,8 +109,6 @@ const MainContent = () => {
                         </Route>
                         <Route path="*" element={<Notfound />} />
                     </Route>
-                    {/* Test Page */}
-                    <Route path="/test" element={<Test />} />
                 </Routes>
             </ScrollWhenRefresh>
         </main>

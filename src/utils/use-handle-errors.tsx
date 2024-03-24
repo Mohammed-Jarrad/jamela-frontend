@@ -2,7 +2,9 @@ import { useUserContext } from '@/context/UserContextProvider'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
-export function handleAllErrors(message: string, messages: string[] = []) {
+export function handleAllErrors(data: ErrorDataProps) {
+    const { message, messages } = data
+
     if (message?.trim().split('\n').length > 1) {
         message
             .trim()
@@ -22,6 +24,8 @@ export function handleAllErrors(message: string, messages: string[] = []) {
     return toast.error(message, { position: 'bottom-left' })
 }
 
+type ErrorDataProps = { message: string; messages: string[]; logout?: boolean }
+
 export const useHandleErrors = () => {
     const { logout } = useUserContext()
 
@@ -29,21 +33,17 @@ export const useHandleErrors = () => {
         error instanceof AxiosError ? error : null
 
     return (error: Error | AxiosError) => {
-        type ErrorDataProps = { message: string; messages: string[]; logout?: boolean }
-
         const data: ErrorDataProps = {
             message: checkAxiosError(error)?.response?.data?.message || error.message,
             messages: checkAxiosError(error)?.response?.data?.messages || [],
             logout: checkAxiosError(error)?.response?.data?.logout || false,
         }
 
-        console.log('error data: ', data)
-
         if (data?.logout) {
             logout()
             window.location.assign(`/auth/login?message=${data.message || 'you must login again'}`)
         }
 
-        handleAllErrors(data.message, data.messages)
+        handleAllErrors(data)
     }
 }

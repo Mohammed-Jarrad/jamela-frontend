@@ -1,28 +1,34 @@
 import Container from '@/components/my/container'
 import Flex from '@/components/my/flex'
 import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { useUserContext } from '@/context/UserContextProvider'
+import { useCart } from '@/context/CartContextProvider'
 import { useClearCart } from '@/hooks/use-cart'
 import Transition from '@/utils/transition'
-import { Box } from '@radix-ui/themes'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
-import styled from 'styled-components'
-import CartItem from './cart-item'
-import CartSummary from './cart-summary'
 import NewArrivals from '../home/new-arrivals/new-arrivals'
+import CartSummary from './components/cart-summary'
+import CartContent from './components/cart-content'
 
 const Cart = () => {
     const [note, setNote] = useState('')
-    const { currentUser } = useUserContext()
-    const { cart } = currentUser
-    const isCartFounded = cart && cart?.products.length > 0
+    
+    const {
+        cart,
+        cartQuery: { isLoading },
+    } = useCart()
+    const isCartFounded = cart && cart?.products && cart?.products.length > 0
 
     const { mutate: clearCart, isPending: isClearing } = useClearCart()
-
+    if (isLoading) {
+        return (
+            <div>
+                <BeatLoader color="hsl(var(--primary))" className="my-20 text-center" />
+            </div>
+        )
+    }
     return (
         <Container>
             <Helmet>
@@ -52,40 +58,7 @@ const Cart = () => {
                     <>
                         <Flex gap="md" className="max-lg:flex-col">
                             {/* Cart Content */}
-                            <CartItemsWrapper className="flex-1">
-                                <Box className="w-full space-y-5">
-                                    <Flex gap="sm">
-                                        <span className="flex-[3] text-lg font-medium uppercase">
-                                            Product
-                                        </span>
-                                        <span className="flex-1 text-lg font-medium uppercase">
-                                            price
-                                        </span>
-                                        <span className="flex-1 text-lg font-medium uppercase max-sm:hidden">
-                                            Total
-                                        </span>
-                                    </Flex>
-                                    {/* Cart Items */}
-                                    <div className="space-y-3">
-                                        {cart?.products.map((product) => (
-                                            <CartItem cartItem={product} key={product._id} />
-                                        ))}
-                                    </div>
-                                </Box>
-                                {/* Addtional Note */}
-                                <AdditionalNote>
-                                    <span className="text-base font-medium uppercase">
-                                        Additional Note
-                                    </span>
-                                    <Textarea
-                                        placeholder="Additional Note"
-                                        className="w-full"
-                                        rows={5}
-                                        value={note}
-                                        onChange={(e) => setNote(e.target.value)}
-                                    />
-                                </AdditionalNote>
-                            </CartItemsWrapper>
+                            <CartContent note={note} setNote={setNote} />
 
                             {/* Cart Summary */}
                             <CartSummary note={note} setNote={setNote} />
@@ -113,10 +86,3 @@ const Cart = () => {
 }
 
 export default Cart
-
-const CartItemsWrapper = styled(Flex)`
-    flex-direction: column;
-`
-const AdditionalNote = styled(Flex)`
-    flex-direction: column;
-`
