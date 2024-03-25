@@ -1,37 +1,46 @@
+import CustomInput from '@/components/my/custom-input'
+import RequiredStar from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useCreateCoupon } from '@/hooks/use-coupons'
 import { cn } from '@/lib/utils'
+import { yupValidateForm } from '@/lib/yup-validate-form'
 import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
+import * as Yup from 'yup'
 
 const CreateCoupon = () => {
-    const [expireDate, setExpireDate] = useState<Date>()
-    const [name, setName] = useState<string>('')
-    const [amount, setAmount] = useState<number>(0)
-    const handleErrors = useHandleErrors()
+    type DataProps = {
+        name?: string
+        amount?: number
+        expireDate?: Date
+    }
+    const [data, setData] = useState<DataProps>({})
+
     // create coupon mutation
     const { mutate: createCoupon, isPending: isCreating } = useCreateCoupon()
     function handleCreateCoupon(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
-        if (!name || !amount || !expireDate) {
-            let errorMessage: string = ''
-            if (!expireDate || expireDate < new Date()) errorMessage += '\nExpire Date is required.'
-            if (!amount) errorMessage += '\nAmount is required.'
-            if (!name) errorMessage += '\nName is required.'
-            return handleErrors(new Error(errorMessage))
-        }
-        createCoupon({ name, amount, expireDate: new Date(expireDate) })
+        const schema = Yup.object().shape({
+            name: Yup.string().required('Name is required').max(10).min(3).label('Coupon Name'),
+            amount: Yup.number().required('Amount is required'),
+            expireDate: Yup.date().required('Expire date is required'),
+        })
+        if (!yupValidateForm(schema, data)) return
+
+        createCoupon({
+            name: data.name!,
+            amount: data.amount!,
+            expireDate: new Date(data.expireDate!),
+        })
     }
 
     return (
@@ -44,62 +53,67 @@ const CreateCoupon = () => {
                     Create Coupon
                 </CardHeader>
                 <CardContent>
-                    <form className="space-y-4" onSubmit={handleCreateCoupon}>
-                        <Box className="flex flex-col space-y-3">
-                            <Label htmlFor="name">Coupon Code</Label>
-                            <Input
+                    <form onSubmit={handleCreateCoupon}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <CustomInput
+                                type="text"
+                                label="Coupon Name"
                                 id="name"
                                 name="name"
-                                placeholder="XXXXXX"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                placeholder="COUPON"
+                                isRequired
+                                value={data.name || ''}
+                                onChange={(e) => setData({ ...data, name: e.target.value })}
                             />
-                        </Box>
-
-                        <Box className="flex flex-col space-y-3">
-                            <Label htmlFor="amount">Amount</Label>
-                            <Input
+                            <CustomInput
+                                type="number"
+                                label="Coupon Amount"
                                 id="amount"
                                 name="amount"
                                 placeholder="50%"
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(Number(e.target.value))}
+                                isRequired
+                                value={data.amount || ''}
+                                onChange={(e) =>
+                                    setData({ ...data, amount: Number(e.target.value) })
+                                }
                             />
-                        </Box>
-
-                        <Box className="flex w-fit flex-col space-y-3">
-                            <Label htmlFor="expireDate">Expire Date</Label>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant={'outline'}
-                                        className={cn(
-                                            'w-[280px] justify-start text-left font-normal',
-                                            !expireDate && 'text-muted-foreground'
-                                        )}
-                                    >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {expireDate ? (
-                                            format(expireDate, 'dd-M-yyyy')
-                                        ) : (
-                                            <span>Pick a date</span>
-                                        )}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        mode="single"
-                                        selected={expireDate}
-                                        onSelect={(date) => setExpireDate(date as Date)}
-                                        className="rounded-md border shadow"
-                                        classNames={{
-                                            day_today: 'border-2',
-                                        }}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                        </Box>
+                            <Box className="flex w-full flex-col justify-between space-y-3">
+                                <Label htmlFor="expireDate">
+                                    Expire Date <RequiredStar />
+                                </Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                            variant={'outline'}
+                                            className={cn(
+                                                'justify-start text-left',
+                                                !data.expireDate && 'text-muted-foreground'
+                                            )}
+                                        >
+                                            <CalendarIcon className="mr-2 size-4" />
+                                            {data.expireDate ? (
+                                                format(data.expireDate, 'dd-M-yyyy')
+                                            ) : (
+                                                <span>Pick a date</span>
+                                            )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Calendar
+                                            mode="single"
+                                            selected={data.expireDate}
+                                            onSelect={(date) =>
+                                                setData({ ...data, expireDate: date })
+                                            }
+                                            className="rounded-md border shadow"
+                                            classNames={{
+                                                day_today: 'border-2',
+                                            }}
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                            </Box>
+                        </div>
 
                         <Button type="submit" className="!mt-10" disabled={isCreating}>
                             {isCreating ? <BeatLoader size={13} color="white" /> : 'Create Coupon'}

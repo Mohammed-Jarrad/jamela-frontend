@@ -2,6 +2,7 @@ import Container from '@/components/my/container'
 import Flex from '@/components/my/flex'
 import { Button } from '@/components/ui/button'
 import { useCart } from '@/context/CartContextProvider'
+import { useUserContext } from '@/context/UserContextProvider'
 import { useClearCart } from '@/hooks/use-cart'
 import Transition from '@/utils/transition'
 import { useState } from 'react'
@@ -9,19 +10,34 @@ import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import NewArrivals from '../home/new-arrivals/new-arrivals'
-import CartSummary from './components/cart-summary'
 import CartContent from './components/cart-content'
+import CartSummary from './components/cart-summary'
+
+export type NewOrderProps = {
+    couponName: string
+    phoneNumber: string
+    address: string
+    note: string
+}
 
 const Cart = () => {
-    const [note, setNote] = useState('')
-    
+    const { currentUser } = useUserContext()
+
+    const [newOrderData, setNewOrderData] = useState<NewOrderProps>({
+        couponName: '',
+        phoneNumber: currentUser.phone ?? '',
+        address: currentUser.address ?? '',
+        note: '',
+    })
+
     const {
         cart,
         cartQuery: { isLoading },
     } = useCart()
-    const isCartFounded = cart && cart?.products && cart?.products.length > 0
 
+    const isCartFounded = cart && cart?.products && cart?.products.length > 0
     const { mutate: clearCart, isPending: isClearing } = useClearCart()
+
     if (isLoading) {
         return (
             <div>
@@ -58,10 +74,15 @@ const Cart = () => {
                     <>
                         <Flex gap="md" className="max-lg:flex-col">
                             {/* Cart Content */}
-                            <CartContent note={note} setNote={setNote} />
-
+                            <CartContent
+                                newOrderData={newOrderData}
+                                setNewOrderData={setNewOrderData}
+                            />
                             {/* Cart Summary */}
-                            <CartSummary note={note} setNote={setNote} />
+                            <CartSummary
+                                newOrderData={newOrderData}
+                                setNewOrderData={setNewOrderData}
+                            />
                         </Flex>
 
                         <NewArrivals />

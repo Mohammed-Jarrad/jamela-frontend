@@ -1,21 +1,24 @@
+import { OptionalSpan } from '@/components/required-star'
+import { Label } from '@/components/ui/label'
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Textarea } from '@/components/ui/textarea'
 import { useCart } from '@/context/CartContextProvider'
 import { Flex } from '@/styles/styles'
 import React from 'react'
 import styled from 'styled-components'
+import { NewOrderProps } from '../cart'
 import CartItemRow from './cart-item-row'
 
 type Props = {
-    note: string
-    setNote: React.Dispatch<React.SetStateAction<string>>
+    newOrderData: NewOrderProps
+    setNewOrderData: React.Dispatch<React.SetStateAction<NewOrderProps>>
 }
 
-const CartContent: React.FC<Props> = ({ note, setNote }) => {
+const CartContent: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
     const { cart } = useCart()
 
     return (
-        <CartItemsWrapper className="flex-1">
+        <CartItemsWrapper className="flex-1 space-y-5">
             {/* Cart table */}
             <Table>
                 <TableHeader>
@@ -35,13 +38,18 @@ const CartContent: React.FC<Props> = ({ note, setNote }) => {
 
             {/* Addtional Note */}
             <AdditionalNote>
-                <span className="text-base font-medium uppercase">Additional Note</span>
+                <Label htmlFor="note" className="text-base font-medium uppercase">
+                    Additional Note <OptionalSpan />
+                </Label>
                 <Textarea
                     placeholder="Additional Note"
                     className="w-full"
+                    id="note"
                     rows={5}
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
+                    value={newOrderData.note}
+                    onChange={({ target: { value } }) =>
+                        setNewOrderData((pre) => ({ ...pre, note: value }))
+                    }
                 />
             </AdditionalNote>
         </CartItemsWrapper>

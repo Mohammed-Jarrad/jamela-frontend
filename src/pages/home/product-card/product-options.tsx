@@ -30,7 +30,7 @@ const ProductOptions = ({ product }: Props) => {
         <motion.div
             initial={{ opacity: 0, scale: 0.4, y: 30 }}
             whileInView={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.3 } }}
-            className="absolute top-[30%] z-30 hidden w-full flex-col items-center justify-center gap-2 group-hover:flex md:top-[50%]"
+            className="absolute top-[30%] z-30 hidden w-full flex-col items-center justify-center gap-2 group-hover:flex"
         >
             <Button
                 className="block rounded-none uppercase"

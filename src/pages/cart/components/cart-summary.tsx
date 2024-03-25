@@ -1,45 +1,55 @@
-import RequiredStar from '@/components/required-star'
+import RequiredStar, { OptionalSpan } from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCart } from "@/context/CartContextProvider"
-import { useUserContext } from '@/context/UserContextProvider'
+import { useCart } from '@/context/CartContextProvider'
 import { useCheckCoupon } from '@/hooks/use-coupons'
 import { cn } from '@/lib/utils'
+import { yupValidateForm } from '@/lib/yup-validate-form'
 import { Flex, mq } from '@/styles/styles'
 import { useState } from 'react'
 import { BiShekel } from 'react-icons/bi'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import styled, { css } from 'styled-components'
+import * as Yup from 'yup'
+import { NewOrderProps } from '../cart'
 
 type Props = {
-    note: string
-    setNote: React.Dispatch<React.SetStateAction<string>>
+    newOrderData: NewOrderProps
+    setNewOrderData: React.Dispatch<React.SetStateAction<NewOrderProps>>
 }
 
-const CartSummary: React.FC<Props> = () => {
-    const { currentUser } = useUserContext()
+const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
     const { cart } = useCart()
 
     const subTotal: number = Number(
         cart?.products
-            .reduce((acc, curr) => acc + (curr?.productId?.finalPrice || 0) * curr.quantity, 0)
+            .reduce((acc, item) => acc + (item?.productId?.finalPrice || 0) * item.quantity, 0)
             .toFixed(2)
     )
 
-    const [address, setAddress] = useState<string>(currentUser.address || '')
-    const [phoneNumber, setPhoneNumber] = useState<string>(currentUser.phone || '')
-    const [couponName, setCouponName] = useState<string>('')
-    
     const [finalPrice, setFinalPrice] = useState<number>(subTotal)
-
     const { data: validCoupon, mutate: checkCoupon, isPending: isCheckingCoupon } = useCheckCoupon()
 
+    function handleChangeNewOrderData(e: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target
+        setNewOrderData((pre) => ({ ...pre, [name]: value }))
+    }
     function handleCheckCoupon(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        const schema = Yup.object().shape({
+            couponName: Yup.string()
+                .required('Coupon name is required')
+                .max(10)
+                .min(3)
+                .label('Coupon Name'),
+        })
+
+        if (!yupValidateForm(schema, { couponName: newOrderData.couponName })) return
+
         checkCoupon(
-            { couponName },
+            { couponName: newOrderData.couponName },
             {
                 onSuccess: ({ coupon: { amount } }) => {
                     if (amount) {
@@ -48,9 +58,23 @@ const CartSummary: React.FC<Props> = () => {
                         )
                     }
                 },
-                onError: () => setFinalPrice(subTotal),
+                onError: () => {
+                    setFinalPrice(subTotal)
+                    setNewOrderData((pre) => ({ ...pre, couponName: '' }))
+                },
             }
         )
+    }
+    function handleCreateOrder() {
+        const schema = Yup.object().shape({
+            address: Yup.string().required('Address is required'),
+            phoneNumber: Yup.string().required('Phone number is required'),
+            note: Yup.string(),
+            couponName: Yup.string().min(3).max(10),
+        })
+        if (!yupValidateForm(schema, newOrderData)) return
+
+        // TODO: create order
     }
 
     return (
@@ -77,8 +101,9 @@ const CartSummary: React.FC<Props> = () => {
                         <Input
                             id="address"
                             placeholder="Address"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
+                            value={newOrderData.address}
+                            name="address"
+                            onChange={handleChangeNewOrderData}
                         />
                     </InputBox>
                     <InputBox>
@@ -87,9 +112,10 @@ const CartSummary: React.FC<Props> = () => {
                         </Label>
                         <Input
                             id="phoneNumber"
+                            name="phoneNumber"
                             placeholder="Phone Number"
-                            value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            value={newOrderData.phoneNumber}
+                            onChange={handleChangeNewOrderData}
                         />
                     </InputBox>
                 </Flex>
@@ -97,7 +123,7 @@ const CartSummary: React.FC<Props> = () => {
             <HR />
             <InputBox as="form" onSubmit={handleCheckCoupon}>
                 <Label htmlFor="couponName" className="text-base font-semibold">
-                    Coupon Code
+                    Coupon Code <OptionalSpan />
                 </Label>
                 <span className="text-sm text-muted-foreground">
                     Coupon code will be applied on the checkout page
@@ -105,8 +131,9 @@ const CartSummary: React.FC<Props> = () => {
                 <Flex>
                     <Input
                         id="couponName"
-                        value={couponName}
-                        onChange={(e) => setCouponName(e.target.value)}
+                        name="couponName"
+                        value={newOrderData.couponName}
+                        onChange={handleChangeNewOrderData}
                         placeholder="XXXXXXXX"
                         className="flex-1"
                     />
@@ -133,7 +160,7 @@ const CartSummary: React.FC<Props> = () => {
                                     <b className="text-primary">{validCoupon?.coupon.name}</b>
                                     <Button
                                         onClick={() => {
-                                            setCouponName('')
+                                            setNewOrderData((pre) => ({ ...pre, couponName: '' }))
                                             setFinalPrice(subTotal)
                                         }}
                                         size={'sm'}
@@ -170,7 +197,7 @@ const CartSummary: React.FC<Props> = () => {
             </InputBox>
             {/* Buttons */}
             <Flex $direction="column" className="mt-4">
-                <CustomButtom $main={true} size="lg" variant="outline">
+                <CustomButtom $main={true} size="lg" variant="outline" onClick={handleCreateOrder}>
                     Checkout
                 </CustomButtom>
                 <CustomButtom size="lg" variant="outline">

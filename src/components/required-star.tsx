@@ -10,7 +10,7 @@ const RequiredStar = () => {
 
 export const OptionalSpan = () => {
     return (
-        <span className="text-xs text-gray-400" title="This field is optional">
+        <span className="text-xs text-gray-400 !normal-case" title="This field is optional">
             (Optional)
         </span>
     )

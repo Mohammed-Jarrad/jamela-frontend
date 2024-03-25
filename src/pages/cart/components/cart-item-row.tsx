@@ -55,8 +55,11 @@ const CartItemRow: React.FC<Props> = ({ cartItem: item }) => {
         <TableRow className="relative">
             {/* Item Info */}
             <TableCell>
-                <Flex className="w-fit">
-                    <Link to={`/item/${item.productId.slug}`} className="w-16 sm:w-24 h-24 sm:h-32">
+                <Flex className="w-fit" $items="center">
+                    <Link
+                        to={`/product/${item.productId.slug}`}
+                        className="w-16 sm:w-24 h-24 sm:h-32"
+                    >
                         <img
                             src={item.productId.mainImage?.secure_url}
                             alt={item.productId.name}

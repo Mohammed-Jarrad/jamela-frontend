@@ -199,7 +199,11 @@ export const useCheckCoupon = () => {
             return data as dataProps
         },
         onSuccess: (_, { couponName }) => {
-            toast.success(`Coupon ${couponName} is valid`)
+            toast.success(
+                <>
+                    Coupon <b className="text-teal-500 font-poppins">{couponName}</b> is valid
+                </>
+            )
         },
         onError: handleErrors,
     })

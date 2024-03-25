@@ -33,7 +33,7 @@ const ImageMagnifier: React.FC<Props> = ({ imageUrl }) => {
                 src={imageUrl}
                 alt={'image magnifier'}
                 loading="lazy"
-                className="h-full max-h-full-screen-header w-full rounded-3xl object-cover shadow"
+                className="h-full max-h-full-screen-header w-full max-w-lg rounded-3xl object-cover shadow"
             />
             {/* Magnifier */}
             <div
