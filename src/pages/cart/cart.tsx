@@ -14,20 +14,18 @@ import CartContent from './components/cart-content'
 import CartSummary from './components/cart-summary'
 
 export type NewOrderProps = {
-    couponName: string
-    phoneNumber: string
     address: string
-    note: string
+    phoneNumber: string
+    couponName?: string
+    note?: string
 }
 
 const Cart = () => {
     const { currentUser } = useUserContext()
 
     const [newOrderData, setNewOrderData] = useState<NewOrderProps>({
-        couponName: '',
         phoneNumber: currentUser.phone ?? '',
         address: currentUser.address ?? '',
-        note: '',
     })
 
     const {

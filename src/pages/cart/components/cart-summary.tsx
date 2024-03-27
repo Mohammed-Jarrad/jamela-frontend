@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCart } from '@/context/CartContextProvider'
 import { useCheckCoupon } from '@/hooks/use-coupons'
+import { useCreateOrder } from '@/hooks/use-orders'
 import { cn } from '@/lib/utils'
 import { yupValidateForm } from '@/lib/yup-validate-form'
 import { Flex, mq } from '@/styles/styles'
@@ -31,7 +32,7 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
 
     const [finalPrice, setFinalPrice] = useState<number>(subTotal)
     const { data: validCoupon, mutate: checkCoupon, isPending: isCheckingCoupon } = useCheckCoupon()
-
+    const { mutate: createOrder, isPending: isCreating } = useCreateOrder()
     function handleChangeNewOrderData(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
         setNewOrderData((pre) => ({ ...pre, [name]: value }))
@@ -42,14 +43,13 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
             couponName: Yup.string()
                 .required('Coupon name is required')
                 .max(10)
-                .min(3)
                 .label('Coupon Name'),
         })
 
         if (!yupValidateForm(schema, { couponName: newOrderData.couponName })) return
 
         checkCoupon(
-            { couponName: newOrderData.couponName },
+            { couponName: newOrderData.couponName! },
             {
                 onSuccess: ({ coupon: { amount } }) => {
                     if (amount) {
@@ -70,11 +70,10 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
             address: Yup.string().required('Address is required'),
             phoneNumber: Yup.string().required('Phone number is required'),
             note: Yup.string(),
-            couponName: Yup.string().min(3).max(10),
+            couponName: Yup.string().max(10).label('Coupon Code'),
         })
-        if (!yupValidateForm(schema, newOrderData)) return
-
-        // TODO: create order
+        if (!yupValidateForm<NewOrderProps>(schema, newOrderData)) return
+        createOrder(newOrderData)
     }
 
     return (
@@ -132,7 +131,7 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
                     <Input
                         id="couponName"
                         name="couponName"
-                        value={newOrderData.couponName}
+                        value={newOrderData.couponName || ''}
                         onChange={handleChangeNewOrderData}
                         placeholder="XXXXXXXX"
                         className="flex-1"
@@ -197,8 +196,14 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
             </InputBox>
             {/* Buttons */}
             <Flex $direction="column" className="mt-4">
-                <CustomButtom $main={true} size="lg" variant="outline" onClick={handleCreateOrder}>
-                    Checkout
+                <CustomButtom
+                    $main={true}
+                    size="lg"
+                    variant="outline"
+                    onClick={handleCreateOrder}
+                    disabled={isCreating}
+                >
+                    {isCreating ? <BeatLoader size={10} color="white" /> : 'Checkout'}
                 </CustomButtom>
                 <CustomButtom size="lg" variant="outline">
                     <Link to={'/shop'}>Continue Shopping</Link>

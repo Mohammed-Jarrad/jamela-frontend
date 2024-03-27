@@ -1,4 +1,3 @@
-
 export interface LoginData {
     token: string
     message: string
@@ -6,7 +5,6 @@ export interface LoginData {
 }
 
 export type Gender = 'Male' | 'Female'
-
 
 export interface SignupData {
     message: string
@@ -122,26 +120,39 @@ export type ConstantImages = {
 }
 
 export type OrderProductProps = {
-    productId?: string | ProductProps
-    quantity?: number
-    unitPrice?: number
-    finalPrice?: number
-    name?: string
+    productId: string | ProductProps
+    quantity: number
+    unitPrice: number
+    finalPrice: number
+    color?: string
+    size?: ProductSizesProps
+    name: string
 }
 export type PaymentProps = 'cart' | 'cash'
-export type OrderStatusProps = 'pending' | 'confirmed' | 'onWay' | 'delivered' | 'cancelled'
+enum OrderStatus {
+    pending = 'pending',
+    confirmed = 'confirmed',
+    onWay = 'onWay',
+    delivered = 'delivered',
+    cancelled = 'cancelled',
+}
+export type OrderStatusProps = keyof typeof OrderStatus
+
 export type OrderProps = {
-    userId?: string | UserProps
+    _id: string
+    userId: string | UserProps
     products: OrderProductProps[]
     couponName?: string
-    finalPrice?: number
-    address?: string
-    phoneNumber?: string
+    finalPrice: number
+    address: string
+    phoneNumber: string
     paymentType?: PaymentProps
-    status?: OrderStatusProps
+    status: OrderStatusProps
     reasonRejected?: string
     note?: string
     updatedBy?: string | UserProps
+    createdAt: Date
+    updatedAt: Date
 }
 export type PaginationProps = {
     limit: number

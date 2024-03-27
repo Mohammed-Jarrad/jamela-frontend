@@ -54,7 +54,7 @@
   }
 
   * {
-    @apply border-border font-jost tracking-wide;
+    @apply border-border font-apple tracking-wide;
   }
 
   body {
@@ -148,6 +148,9 @@
 
   .pointer {
     @apply cursor-pointer
+  }
+  .centered {
+    @apply flex items-center justify-center
   }
 }
 

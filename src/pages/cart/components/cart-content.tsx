@@ -46,7 +46,7 @@ const CartContent: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
                     className="w-full"
                     id="note"
                     rows={5}
-                    value={newOrderData.note}
+                    value={newOrderData.note || ''}
                     onChange={({ target: { value } }) =>
                         setNewOrderData((pre) => ({ ...pre, note: value }))
                     }

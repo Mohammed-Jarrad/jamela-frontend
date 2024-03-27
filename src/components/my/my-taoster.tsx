@@ -20,7 +20,11 @@ const MyToaster = () => {
                 classNames: {
                     title: '!text-muted-foreground font-poppins tracking-tight text-sm',
                 },
-                closeButton: true
+                closeButton: true,
+                actionButtonStyle: {
+                    background: 'hsl(var(--muted-foreground) / 15%)',
+                    color: 'hsl(var(--muted-foreground))',
+                },
             }}
         />
     )

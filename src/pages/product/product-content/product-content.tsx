@@ -59,7 +59,7 @@ const ProductContent: React.FC<Props> = ({ product }) => {
                     className="text-xl font-medium flex items-center gap-2 lg:text-2xl"
                     title={product.name}
                 >
-                    <span>{product.name}</span>
+                    <span className="capitalize">{product.name}</span>
                     {product.isNewArrival && (
                         <span className="text-xs bg-gradient-to-r from-pink-500 to-rose-500 rounded-md px-2 py-1 text-white select-none capitalize inline-block">
                             new

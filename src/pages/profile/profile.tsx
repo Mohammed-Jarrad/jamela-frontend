@@ -26,12 +26,20 @@ const Profile = () => {
             </Helmet>
 
             <Flex $justify={'center'}>
-                <Tabs defaultValue={defaultTab} className="w-full md:container">
+                <Tabs defaultValue={defaultTab} className="w-full">
                     <TabsList className="flex items-center gap-2">
-                        <TabsTrigger className="flex-1" value="account" onClick={() => handleClickTab('account')}>
+                        <TabsTrigger
+                            className="flex-1"
+                            value="account"
+                            onClick={() => handleClickTab('account')}
+                        >
                             Account
                         </TabsTrigger>
-                        <TabsTrigger className="flex-1" value="password" onClick={() => handleClickTab('password')}>
+                        <TabsTrigger
+                            className="flex-1"
+                            value="password"
+                            onClick={() => handleClickTab('password')}
+                        >
                             Password
                         </TabsTrigger>
                     </TabsList>
