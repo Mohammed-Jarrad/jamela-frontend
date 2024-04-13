@@ -54,7 +54,7 @@
   }
 
   * {
-    @apply border-border font-apple tracking-wide;
+    @apply border-border font-apple;
   }
 
   body {

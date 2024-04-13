@@ -8,7 +8,7 @@ import { useCreateOrder } from '@/hooks/use-orders'
 import { cn } from '@/lib/utils'
 import { yupValidateForm } from '@/lib/yup-validate-form'
 import { Flex, mq } from '@/styles/styles'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BiShekel } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
@@ -33,6 +33,11 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
     const [finalPrice, setFinalPrice] = useState<number>(subTotal)
     const { data: validCoupon, mutate: checkCoupon, isPending: isCheckingCoupon } = useCheckCoupon()
     const { mutate: createOrder, isPending: isCreating } = useCreateOrder()
+
+    useEffect(() => {
+        setFinalPrice(subTotal)
+    }, [subTotal])
+    
     function handleChangeNewOrderData(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
         setNewOrderData((pre) => ({ ...pre, [name]: value }))
@@ -68,7 +73,7 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
     function handleCreateOrder() {
         const schema = Yup.object().shape({
             address: Yup.string().required('Address is required'),
-            phoneNumber: Yup.string().required('Phone number is required'),
+            phoneNumber: Yup.string().min(10).required('Phone number is required'),
             note: Yup.string(),
             couponName: Yup.string().max(10).label('Coupon Code'),
         })

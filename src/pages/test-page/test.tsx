@@ -1,16 +1,17 @@
-import styled from 'styled-components'
-import CreateProduct from '../Admin/products/create-product/create-product'
+import Dialog from "@/components/my/my-dialog"
+import React from "react"
 
-const Container = styled.div`
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-`
+ 
 
 const Test = () => {
+    const [show, setShow] = React.useState(false)
+    
     return (
         <div className="p-2">
-            <CreateProduct />
+            <button onClick={() => setShow(!show)}>{show ? "Hide" : "Show"}</button>
+            <Dialog open={show} onOpenChange={setShow}>
+                helllllllllo
+            </Dialog>
         </div>
     )
 }

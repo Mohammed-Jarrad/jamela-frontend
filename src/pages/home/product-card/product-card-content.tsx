@@ -18,13 +18,13 @@ const ProductCardContent: React.FC<Props> = ({ product }) => {
             <p className="space-x-2 text-center text-sm text-muted-foreground xs:text-lg">
                 {product.discount! > 0 && (
                     <>
-                        <span className="flex items-center line-through">
+                        <span className="inline-flex items-center line-through">
                             <BiShekel />
                             {product.price}
                         </span>
                     </>
                 )}
-                <span className="flex items-center text-foreground">
+                <span className="inline-flex items-center text-foreground">
                     <BiShekel />
                     {product.finalPrice}
                 </span>

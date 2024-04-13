@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { useGetCoupon, useUpdateCoupon } from '@/hooks/use-coupons'
+import { useClearCoupon, useGetCoupon, useUpdateCoupon } from '@/hooks/use-coupons'
 import { cn } from '@/lib/utils'
 import Transition from '@/utils/transition'
 import { useHandleErrors } from '@/utils/use-handle-errors'
@@ -28,6 +28,8 @@ const UpdateCoupon: React.FC = () => {
     const { data, isLoading, error, isSuccess } = useGetCoupon(id)
     // update coupon mutation
     const { mutate: updateCoupon, isPending: isUpdating } = useUpdateCoupon()
+    //  clear coupon mutation
+    const { mutate: clearCoupon, isPending: isClearing } = useClearCoupon()
     const handleErrors = useHandleErrors()
     function handleUpdateCoupon(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -70,10 +72,24 @@ const UpdateCoupon: React.FC = () => {
                                 {format(new Date(coupon.updatedAt!), 'dd MMM yyyy')}
                             </span>
                         )}
-                        <span className="text-xs text-muted-foreground">
-                            Used by <strong>{coupon.usedBy.length}</strong> user
-                            {coupon.usedBy.length > 1 && 's'}
-                        </span>
+                        <div className="text-xs text-muted-foreground flex items-center gap-2">
+                            <span>
+                                Used by <strong>{coupon.usedBy.length}</strong> user
+                                {coupon.usedBy.length > 1 && 's'}
+                            </span>
+                            <Button
+                                size="sm"
+                                variant={null}
+                                className={cn(
+                                    'h-6 bg-red-500 text-white text-xs',
+                                    coupon.usedBy.length == 0 && 'hidden'
+                                )}
+                                disabled={isClearing}
+                                onClick={() => clearCoupon({ id })}
+                            >
+                                {isClearing ? <BeatLoader size={5} color="white" /> : 'Clear'}
+                            </Button>
+                        </div>
                     </CardHeader>
 
                     <CardContent>
@@ -112,7 +128,7 @@ const UpdateCoupon: React.FC = () => {
                                                 !expireDate && 'text-muted-foreground'
                                             )}
                                         >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                            <CalendarIcon className="mr-2 h-4 w-4" />
                                             {expireDate ? (
                                                 format(expireDate, 'dd-M-yyyy')
                                             ) : (

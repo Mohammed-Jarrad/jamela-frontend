@@ -1,8 +1,9 @@
 import { useUserContext } from '@/context/UserContextProvider'
-import { Gender, SignupData, UserProps } from '@/types'
+import { Gender, SignupData, StatusType } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -25,17 +26,20 @@ export const useLogin = () => {
     const navigate = useNavigate()
     return useMutation({
         mutationFn: async (infos: LoginInputsProps) => {
-            type dataProps = { message: string; token: string; user: UserProps }
+            type dataProps = { message: string; token: string }
             const { data } = await axios.post(`/auth/signin`, infos)
             return data as dataProps
         },
-        onSuccess: (data) => {
-            setToken(data.token)
-            data.user.role == 'Admin' ? navigate('/dashboard') : navigate('/')
+        onSuccess: ({ token }) => {
+            setToken(token)
+            type TokenPayload = { role: string; id: string; status: StatusType }
+            const tokenPayload = jwtDecode<TokenPayload>(token)
+            tokenPayload.role == 'Admin' ? navigate('/dashboard') : navigate('/')
         },
         onError: handleErrors,
     })
 }
+
 export const useSignup = () => {
     const handleErrors = useHandleErrors()
     return useMutation({
@@ -52,6 +56,7 @@ export const useSignup = () => {
 }
 
 export const useSendCode = () => {
+    const { token, currentUser } = useUserContext()
     const navigate = useNavigate()
     const handleErrors = useHandleErrors()
     return useMutation({
@@ -60,17 +65,22 @@ export const useSendCode = () => {
             const { data } = await axios.patch(`/auth/sendCode`, { email })
             return data as dataProps
         },
-        onSuccess: ({ token }, { email }) => {
+        onSuccess: ({ token: resultToken }, { email }) => {
             toast.success(`Code sent to`, {
                 description: email,
             })
-            navigate(`/auth/check-code/${token}`)
+            if (!token || (token && currentUser.role != 'Admin')) {
+                navigate(`/auth/check-code/${resultToken}`)
+            } else {
+                navigate(`/dashboard/check-code/${resultToken}`)
+            }
         },
         onError: handleErrors,
     })
 }
 
 export const useCheckCode = () => {
+    const { token, currentUser } = useUserContext()
     const navigate = useNavigate()
     const handleErrors = useHandleErrors()
     return useMutation({
@@ -80,7 +90,11 @@ export const useCheckCode = () => {
             return data as dataProps
         },
         onSuccess: ({ token: resetPasswordToken }) => {
-            navigate(`/auth/reset-password/${resetPasswordToken}`)
+            if (!token || (token && currentUser.role != 'Admin')) {
+                navigate(`/auth/reset-password/${resetPasswordToken}`)
+            } else {
+                navigate(`/dashboard/reset-password/${resetPasswordToken}`)
+            }
         },
         onError: handleErrors,
     })

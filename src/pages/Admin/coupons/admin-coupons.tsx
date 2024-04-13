@@ -107,6 +107,7 @@ const AdminCoupons = () => {
                                     <TableRow>
                                         <TableHead>Number</TableHead>
                                         <TableHead>Coupon</TableHead>
+                                        <TableHead>Used By</TableHead>
                                         <TableHead className="whitespace-nowrap">
                                             Expire Date
                                         </TableHead>
@@ -132,6 +133,11 @@ const AdminCoupons = () => {
                                                 <div className="flex items-center gap-2">
                                                     <span className="w-30">{coupon.name}</span>
                                                     <Copy text={coupon.name!}/>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="font-medium">
+                                                <div className="text-xs w-fit px-2 h-6 bg-primary text-white circle centered">
+                                                    {coupon.usedBy.length} user
                                                 </div>
                                             </TableCell>
                                             <TableCell>
@@ -177,7 +183,7 @@ const AdminCoupons = () => {
                                         <TableCell colSpan={4}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
-                                        <TableCell colSpan={3}>
+                                        <TableCell colSpan={4}>
                                             <LimitController
                                                 limit={limit}
                                                 totalResultsCounts={data?.totalResultsCounts ?? 0}

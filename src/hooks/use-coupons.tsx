@@ -208,3 +208,30 @@ export const useCheckCoupon = () => {
         onError: handleErrors,
     })
 }
+
+export const useClearCoupon = () => {
+    const { token } = useUserContext()
+    const queryClient = useQueryClient()
+    const handleErrors = useHandleErrors()
+    return useMutation({
+        mutationFn: async ({ id }: { id: CouponProps['_id'] }) => {
+            type dataProps = { message: string }
+            const { data } = await axios.patch(
+                `/coupons/clearCoupon/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: import.meta.env.VITE_BEARER_KEY + token,
+                    },
+                }
+            )
+            return data as dataProps
+        },
+        onSuccess: (_, { id }) => {
+            queryClient.invalidateQueries({ queryKey: ['all-coupons'] })
+            queryClient.invalidateQueries({ queryKey: ['get-coupon', id] })
+            toast.success('Coupon cleared successfully')
+        },
+        onError: handleErrors,
+    })    
+}

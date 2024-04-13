@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import Footer from './components/footer'
-import Header from './components/header/header'
-import ScrollWhenRefresh from './utils/scroll-when-refresh'
-import { useUserContext } from "./context/UserContextProvider"
+import { useUserContext } from "../../context/UserContextProvider"
+import ScrollWhenRefresh from '../../utils/scroll-when-refresh'
+import Footer from '../footer'
+import Header from '../header/header'
 
 const Root = () => {
     const { currentUser, token } = useUserContext()

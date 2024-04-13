@@ -2,28 +2,6 @@ import { useUserContext } from '@/context/UserContextProvider'
 import { AxiosError } from 'axios'
 import { toast } from 'sonner'
 
-export function handleAllErrors(data: ErrorDataProps) {
-    const { message, messages } = data
-
-    if (message?.trim().split('\n').length > 1) {
-        message
-            .trim()
-            .split('\n')
-            .forEach((msg: string) => {
-                toast.error(msg, { position: 'bottom-left' })
-            })
-        return
-    }
-    if (messages.length > 0) {
-        toast.error(message, { position: 'bottom-left' })
-        messages.reverse().forEach((msg: string) => {
-            toast.warning(msg, { position: 'bottom-left' })
-        })
-        return
-    }
-    return toast.error(message, { position: 'bottom-left' })
-}
-
 type ErrorDataProps = { message: string; messages: string[]; logout?: boolean }
 
 export const useHandleErrors = () => {
@@ -44,6 +22,15 @@ export const useHandleErrors = () => {
             window.location.assign(`/auth/login?message=${data.message || 'you must login again'}`)
         }
 
-        handleAllErrors(data)
+        const { message, messages } = data
+
+        if (messages.length > 0) {
+            toast.error(message, { position: 'bottom-left' })
+            messages.reverse().forEach((msg: string) => {
+                toast.warning(msg, { position: 'bottom-left' })
+            })
+            return
+        }
+        return toast.error(message, { position: 'bottom-left' })
     }
 }

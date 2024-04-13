@@ -1,7 +1,6 @@
 import LimitController from '@/components/limit-controller'
 import NoDataMessage from '@/components/not-data'
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
     Table,
@@ -12,38 +11,35 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useAcceptAllOrders, useGetAdminOrders } from '@/hooks/use-orders'
-import AdminOrderRow from '@/pages/Admin/orders/admin-orders/admin-order-row'
-import OrdersTableFilter from '@/pages/profile/components/orders-table-filter'
+import { useGetUserOrders } from '@/hooks/use-orders'
 import { OrderStatusProps } from '@/types'
 import { useHandleErrors } from '@/utils/use-handle-errors'
 import { useState } from 'react'
-import { Helmet } from 'react-helmet'
-import { FcAcceptDatabase } from 'react-icons/fc'
-import { BeatLoader } from 'react-spinners'
+import { Helmet } from "react-helmet"
+import OrderRow from './order-row'
+import OrdersTableFilter from './orders-table-filter'
 
-const AdminOrders = () => {
+const UserOrders = () => {
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(5)
     const [sort, setSort] = useState<string>('')
     const [status, setStatus] = useState<OrderStatusProps | null>(null)
 
-    const { data, isLoading, error, refetch } = useGetAdminOrders({
+    const { data, isLoading, error, refetch } = useGetUserOrders({
         page,
         limit,
         ...(sort && { sort }),
         ...(status && { status: { eq: status } }),
     })
-    const { mutate: acceptAll, isPending: isAccepting } = useAcceptAllOrders()
     const handleErrors = useHandleErrors()
     if (error) handleErrors(error)
 
     return (
         <div id="orders" className="my-2">
             <Helmet>
-                <title>Admin Orders</title>
+                <title>{'User Orders'}</title>
             </Helmet>
-            <div className="my-2 flex flex-col md:flex-row gap-2 items-center justify-between">
+            <div className="my-2 flex md:items-center justify-between flex-col md:flex-row">
                 <OrdersTableFilter
                     sort={sort}
                     setSort={setSort}
@@ -51,16 +47,6 @@ const AdminOrders = () => {
                     setStatus={setStatus}
                     refetch={refetch}
                 />
-                <Button disabled={isAccepting} className="bg-green-500 w-full md:w-52 text-white gap-2 hover:bg-green-600" variant={null} onClick={() => acceptAll()}>
-                    {isAccepting ? (
-                        <BeatLoader size={10} color="white" />
-                    ) : (
-                        <>
-                            <FcAcceptDatabase size={20} />
-                            Accept All Orders
-                        </>
-                    )}
-                </Button>
             </div>
             {isLoading ? (
                 <OrdersLoading />
@@ -72,7 +58,6 @@ const AdminOrders = () => {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead className="text-center">Number</TableHead>
-                                        <TableHead className="">User</TableHead>
                                         <TableHead className="text-center">Date</TableHead>
                                         <TableHead className="text-center">Address</TableHead>
                                         <TableHead className="text-center w-[120px]">
@@ -90,7 +75,7 @@ const AdminOrders = () => {
                                 </TableHeader>
                                 <TableBody>
                                     {data?.orders.map((order, idx) => (
-                                        <AdminOrderRow key={order._id} order={order} index={idx} />
+                                        <OrderRow key={order._id} order={order} index={idx} />
                                     ))}
                                 </TableBody>
                                 <TableFooter>
@@ -129,14 +114,11 @@ const AdminOrders = () => {
     )
 }
 
-export default AdminOrders
+export default UserOrders
 
 export const OrdersLoading = () => {
     return (
         <div className="w-full">
-            <Skeleton className="w-full h-10 my-1 square" />
-            <Skeleton className="w-full h-10 my-1 square" />
-            <Skeleton className="w-full h-10 my-1 square" />
             <Skeleton className="w-full h-10 my-1 square" />
             <Skeleton className="w-full h-10 my-1 square" />
             <Skeleton className="w-full h-10 my-1 square" />

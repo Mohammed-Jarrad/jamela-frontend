@@ -4,7 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 
 const AdminRoutes: React.FC = () => {
     const { token, currentUser } = useUserContext()
-    return token && currentUser?.role === 'Admin' ? <Outlet /> : <Navigate to="/auth/login" />
+    return token && currentUser?.role === 'Admin' ? <Outlet /> : <Navigate to="/auth/login" replace/>
 }
 
 export default AdminRoutes

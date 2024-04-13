@@ -4,8 +4,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 interface UserContextType {
-    token: string
-    setToken: React.Dispatch<React.SetStateAction<string>>
+    token: string | null
+    setToken: React.Dispatch<React.SetStateAction<string | null>>
     currentUser: UserProps
     setCurrentUser: React.Dispatch<React.SetStateAction<UserProps>>
     logout: () => void
@@ -15,12 +15,16 @@ interface UserContextProviderProps {
     children: React.ReactNode
 }
 const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<string>(Cookies.get(import.meta.env.VITE_TOKEN_NAME) || '')
+    const [token, setToken] = useState<string | null>(
+        Cookies.get(import.meta.env.VITE_TOKEN_NAME) || null
+    )
     const [currentUser, setCurrentUser] = useState<UserProps>({})
     const queryClient = useQueryClient()
 
     useEffect(() => {
-        Cookies.set(import.meta.env.VITE_TOKEN_NAME, token)
+        token
+            ? Cookies.set(import.meta.env.VITE_TOKEN_NAME, token)
+            : Cookies.remove(import.meta.env.VITE_TOKEN_NAME)
     }, [token])
 
     function logout() {

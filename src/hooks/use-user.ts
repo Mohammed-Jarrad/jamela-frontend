@@ -5,8 +5,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'sonner'
 
-export const useGetCurrentUser = ({ enabled = true }: { enabled: boolean }) => {
-    const { token, setCurrentUser } = useUserContext()
+export const useGetCurrentUser = (
+    { enabled = true }: { enabled: boolean },
+    callback?: (user: UserProps) => void
+) => {
+    const { token } = useUserContext()
     return useQuery({
         queryKey: ['current-user'],
         queryFn: async () => {
@@ -16,8 +19,8 @@ export const useGetCurrentUser = ({ enabled = true }: { enabled: boolean }) => {
                     Authorization: import.meta.env.VITE_BEARER_KEY + token,
                 },
             })
-            if (status === 200) {
-                setCurrentUser(data.user)
+            if (data.message === 'success' || status === 200) {
+                callback && callback(data.user)
             }
             return data
         },
@@ -110,7 +113,15 @@ export const useChangeUserRoleAndStatus = () => {
     const queryClient = useQueryClient()
     const handleErrors = useHandleErrors()
     return useMutation({
-        mutationFn: async ({ userId, role, status }: { userId: UserProps['_id']; role?: string; status?: string }) => {
+        mutationFn: async ({
+            userId,
+            role,
+            status,
+        }: {
+            userId: UserProps['_id']
+            role?: string
+            status?: string
+        }) => {
             const { data } = await axios.patch(
                 `/users/${userId}`,
                 { role, status },

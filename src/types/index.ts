@@ -119,17 +119,18 @@ export type ConstantImages = {
     imageType: 'main' | 'banner'
 }
 
-export type OrderProductProps = {
-    productId: string | ProductProps
+export type OrderItemProps = {
+    productId: string & ProductProps
     quantity: number
     unitPrice: number
     finalPrice: number
     color?: string
     size?: ProductSizesProps
     name: string
+    _id: string
 }
 export type PaymentProps = 'cart' | 'cash'
-enum OrderStatus {
+export enum OrderStatus {
     pending = 'pending',
     confirmed = 'confirmed',
     onWay = 'onWay',
@@ -140,8 +141,8 @@ export type OrderStatusProps = keyof typeof OrderStatus
 
 export type OrderProps = {
     _id: string
-    userId: string | UserProps
-    products: OrderProductProps[]
+    userId: string & UserProps
+    products: OrderItemProps[]
     couponName?: string
     finalPrice: number
     address: string

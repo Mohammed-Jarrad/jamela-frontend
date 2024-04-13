@@ -2,11 +2,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUserContext } from '@/context/UserContextProvider'
 import { Flex } from '@/styles/styles'
 import Transition from '@/utils/transition'
-import { Helmet } from 'react-helmet'
 import { useNavigate } from 'react-router-dom'
-import AccountContent from './account-content'
-import PasswordController from './password-controller'
-import UserOrders from './user-orders'
+import AccountContent from './components/account-content'
+import PasswordController from './components/password-controller'
+import UserOrders from './components/user-orders'
 
 const Profile = () => {
     const { currentUser } = useUserContext()
@@ -20,11 +19,7 @@ const Profile = () => {
     }
 
     return (
-        <Transition className="container my-5 lg:my-12">
-            <Helmet>
-                <title>{currentUser.username} Profile</title>
-            </Helmet>
-
+        <Transition className="container my-5">
             <Flex $justify={'center'}>
                 <Tabs defaultValue={defaultTab} className="w-full">
                     <TabsList className="flex items-center gap-2">
@@ -42,6 +37,15 @@ const Profile = () => {
                         >
                             Password
                         </TabsTrigger>
+                        {currentUser.role == 'User' && (
+                            <TabsTrigger
+                                className="flex-1"
+                                value="orders"
+                                onClick={() => handleClickTab('orders')}
+                            >
+                                Orders
+                            </TabsTrigger>
+                        )}
                     </TabsList>
                     <TabsContent value="account">
                         <AccountContent />
@@ -49,10 +53,13 @@ const Profile = () => {
                     <TabsContent value="password">
                         <PasswordController />
                     </TabsContent>
+                    {currentUser.role == 'User' && (
+                        <TabsContent value="orders">
+                            <UserOrders />
+                        </TabsContent>
+                    )}
                 </Tabs>
             </Flex>
-
-            {currentUser?.role === 'User' && <UserOrders />}
         </Transition>
     )
 }
