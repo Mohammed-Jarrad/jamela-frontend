@@ -10,6 +10,7 @@ import ProductContent from './product-content/product-content'
 import ProductDescription from './product-description/product-description'
 import ProductImages from './product-images/product-images'
 import RelatedProducts from './related-products/related-products'
+import ProductReviews from './product-reviews/product-reviews'
 
 const Product = () => {
     const { slug } = useParams()
@@ -24,7 +25,7 @@ const Product = () => {
                 <BeatLoader className="my-5 text-center" color="hsl(var(--primary))" />
             </div>
         )
-            
+
     return (
         <Transition>
             <Helmet>
@@ -38,6 +39,7 @@ const Product = () => {
                         <ProductContent product={data?.product} />
                     </Flex>
                     <ProductDescription product={data?.product} />
+                    <ProductReviews productId={data.product._id!} />
                     <RelatedProducts product={data?.product} />
                 </Container>
             )}

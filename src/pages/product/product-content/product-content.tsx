@@ -1,4 +1,5 @@
 import Flex from '@/components/my/flex'
+import Rating from "@/components/review/rating"
 import { Button } from '@/components/ui/button'
 import { useUserContext } from '@/context/UserContextProvider'
 import { useAddToCart } from '@/hooks/use-cart'
@@ -66,6 +67,8 @@ const ProductContent: React.FC<Props> = ({ product }) => {
                         </span>
                     )}
                 </p>
+                {/* Rating */}
+                <Rating value={product.averageRating!} size={20}/>
                 {/* Product Price */}
                 <p className="mt-2 space-x-2 text-base md:text-xl">
                     {product.discount! > 0 && (

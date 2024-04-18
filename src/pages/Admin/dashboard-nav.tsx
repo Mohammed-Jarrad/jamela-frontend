@@ -11,8 +11,8 @@ import { FaUsers } from 'react-icons/fa6'
 import { GiCardboardBox } from 'react-icons/gi'
 import { GoImage } from 'react-icons/go'
 import { IoDocumentTextOutline } from 'react-icons/io5'
-import { MdCategory } from 'react-icons/md'
-import { RiCoupon3Fill } from 'react-icons/ri'
+import { MdCategory, MdStarRate } from 'react-icons/md'
+ import { RiCoupon3Fill } from 'react-icons/ri'
 import { useDashboardContext } from './dashboard'
 import DashboardNavItem from './dashboard-nav-item'
 
@@ -74,6 +74,11 @@ const DashboardNav: React.FC = () => {
                         icon={RiCoupon3Fill}
                         link={'/dashboard/coupons'}
                         title={'Coupons'}
+                    />
+                    <DashboardNavItem
+                        icon={MdStarRate}
+                        link={'/dashboard/reviews'}
+                        title={'Reviews'}
                     />
                     <DashboardNavItem icon={GoImage} link={'/dashboard/images'} title={'Images'} />
                 </ul>

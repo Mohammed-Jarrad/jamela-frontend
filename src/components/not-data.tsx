@@ -11,7 +11,7 @@ const NoDataMessage: React.FC<Props> = ({ message = 'No data found', className }
     return (
         <p
             className={cn(
-                'text-center text-muted-foreground text-xl my-5 flex items-center gap-2 justify-center',
+                'text-center text-muted-foreground text-xl my-5 centered gap-2',
                 className
             )}
         >

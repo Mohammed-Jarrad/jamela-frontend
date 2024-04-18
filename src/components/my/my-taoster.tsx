@@ -1,5 +1,5 @@
 import { useTheme } from '@/context/ThemeContextProvider'
-import { Toaster } from '../ui/sonner'
+import { Toaster } from 'sonner'
 
 const MyToaster = () => {
     const { theme } = useTheme()

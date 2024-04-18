@@ -35,6 +35,7 @@ import AdminRoot from './routes/admin-root'
 import UserRoutes from './routes/user-routes'
 import AuthRoot from "./routes/auth-root"
 import UserOrderDetails from "@/pages/user-order-details/user-order-details"
+import AdminReviews from "@/pages/Admin/reviews/admin-reviews/admin-reviews"
 
 const MainContent = () => {
     const { token } = useUserContext()
@@ -91,7 +92,7 @@ const MainContent = () => {
                             <Route path="update/:slug" element={<UpdateSubcategory />} />
                             <Route path="create" element={<CreateSubcategory />} />
                         </Route>
-                        {/* Amin Products routes */}d
+                        {/* Admin Products routes */}d
                         <Route path="products">
                             <Route index element={<AdminProducts />} />
                             <Route path="create" element={<CreateProduct />} />
@@ -107,6 +108,10 @@ const MainContent = () => {
                         <Route path="orders">
                             <Route index element={<AdminOrders />} />
                             <Route path=":id" element={<UserOrderDetails />} />
+                        </Route>
+                        {/* Admin Reviews routes */}
+                        <Route path="reviews">
+                            <Route index element={<AdminReviews />} />
                         </Route>
                         {/* Admin Users routes */}
                         <Route path="users" element={<AdminUsers />} />

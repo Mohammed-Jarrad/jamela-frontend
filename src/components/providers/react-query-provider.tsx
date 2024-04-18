@@ -10,9 +10,12 @@ const ReactQueryProvider: React.FC<Props> = ({ children }) => {
         defaultOptions: {
             queries: {
                 refetchOnWindowFocus: false,
-                retry: 2,
-                // staleTime: 5 * 60 * 1000, // 5 minutes
+                retry: false,
+                staleTime: 5 * 60 * 1000, // 5 minutes
             },
+            mutations: {
+                retry: false,
+            }
         },
     })
 

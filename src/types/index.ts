@@ -89,6 +89,7 @@ export type ProductProps = {
     updatedAt?: Date
     sizes?: ProductSizesProps[]
     colors?: string[]
+    averageRating?: number
 }
 
 export type CouponProps = {
@@ -182,3 +183,13 @@ export type ProductSizesProps =
     | '48'
     | '49'
     | '50'
+
+export interface ReviewProps {
+    _id: string
+    userId: string & Pick<UserProps, '_id' | 'username' | 'email' | 'image'>
+    comment: string
+    rating: number
+    productId: string & Pick<ProductProps, '_id' | 'name' | 'mainImage'>
+    createdAt: Date
+    updatedAt: Date
+}
