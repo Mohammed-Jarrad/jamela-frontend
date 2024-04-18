@@ -1,6 +1,4 @@
-#Jamela
-
-##Cient
+# Jamela Client
 
 - `npm i`
 - `npm run dev`
