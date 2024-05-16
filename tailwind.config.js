@@ -31,7 +31,8 @@ module.exports = {
             fontFamily: {
                 poppins: ['Poppins', 'sans-serif'],
                 jost: ['Jost', 'sans-serif'],
-                apple: ['-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial', 'sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"],
+                apple: ['-apple-system', 'BlinkMacSystemFont', "Segoe UI", 'Roboto', 'Helvetica', 'Arial','sans-serif', "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"],
+                comfortaa: ['Comfortaa', 'sans-serif'],
             },
             colors: {
                 border: 'hsl(var(--border))',

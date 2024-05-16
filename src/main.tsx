@@ -13,6 +13,7 @@ axios.defaults.headers['Content-Type'] =
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Providers>
+
         <App />
     </Providers>
 )

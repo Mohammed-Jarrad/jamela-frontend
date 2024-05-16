@@ -11,7 +11,7 @@ type Props = {
 
 const CategoryCard: React.FC<Props> = ({ category, index }) => {
     return (
-        <Link to={`/category/${category.slug}`} className="relative w-full">
+        <Link to={`/category/${category.slug}`} className="relative w-full group">
             <div className="aspect-w-2 aspect-h-3 border shadow overflow-hidden transition-all rounded-lg">
                 <motion.img
                     initial={{ opacity: 0 }}
@@ -24,16 +24,18 @@ const CategoryCard: React.FC<Props> = ({ category, index }) => {
                     className="object-cover"
                 />
             </div>
-            <ToolTip content={category.name}>
-                <h4
-                    style={{
-                        textShadow: '1px 1px 3px rgba(0, 0, 0)',
-                    }}
-                    className="-translate-y-1/2 absolute left-1/2 top-1/2 -translate-x-1/2 w-[120px] text-center truncate capitalize text-white transition-all hover:underline max-md:text-sm"
-                >
-                    {category.name}
-                </h4>
-            </ToolTip>
+            <div className='inset-0 absolute bg-black bg-opacity-20 backdrop-blur-[2px] group-hover:opacity-100 opacity-0 transition-all'>
+                <ToolTip content={category.name}>
+                    <h4
+                        style={{
+                            textShadow: '1px 1px 3px rgba(0, 0, 0)',
+                        }}
+                        className="group-hover:-translate-y-1/2 absolute left-1/2 top-1/2 -translate-x-1/2 w-[180px] text-center truncate capitalize text-white transition-all hover:underline max-md:text-sm"
+                    >
+                        {category.name}
+                    </h4>
+                </ToolTip>
+            </div>
         </Link>
     )
 }

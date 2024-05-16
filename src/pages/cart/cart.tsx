@@ -86,7 +86,7 @@ const Cart = () => {
                         <NewArrivals />
                     </>
                 ) : (
-                    <Flex className="flex-col items-center justify-center gap-6">
+                    <Flex className="my-24 flex-col items-center justify-center gap-6">
                         <img
                             src="/assets/empty-cart.svg"
                             alt="empty cart"

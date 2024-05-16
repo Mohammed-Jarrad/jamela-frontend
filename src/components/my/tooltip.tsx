@@ -10,7 +10,7 @@ const ToolTip: React.FC<Props> = ({ children, content, ...props }) => {
             <TooltipTrigger asChild>{children}</TooltipTrigger>
             {content && (
                 <div>
-                    <TooltipContent className="text-[13px]" sideOffset={5}>
+                    <TooltipContent className="text-[13px] bg-black/70 text-white dark:bg-white/70 dark:text-black" sideOffset={5}>
                         {content}
                     </TooltipContent>
                 </div>

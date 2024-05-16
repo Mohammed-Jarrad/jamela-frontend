@@ -7,7 +7,7 @@ const Notfound = () => {
     const navigate = useNavigate()
 
     return (
-        <div>
+        <div className='content-center h-full'>
             <Helmet>
                 <title>Not found</title>
             </Helmet>
@@ -20,7 +20,7 @@ const Notfound = () => {
                 />
 
                 <Flex $direction="column" $gap={2} $center={true}>
-                    <p className="my-5 font-jost text-6xl font-bold text-primary">
+                    <p className="my-5 text-6xl font-bold text-primary">
                         Opps <span className="text-destructive">!</span>
                     </p>
                     <p className="text-xl text-muted-foreground">Page not found</p>
