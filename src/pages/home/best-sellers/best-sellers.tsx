@@ -13,7 +13,6 @@ const BestSellers = () => {
     const { data, isLoading, error } = useGetActiveProducts({
         limit,
         sort: '-number_sellers',
-        select: 'name, price, discount, finalPrice, mainImage, subImages, slug, number_sellers, stock, sizes, colors, isNewArrival',
     })
     const handleErrors = useHandleErrors()
     if (error) handleErrors(error)

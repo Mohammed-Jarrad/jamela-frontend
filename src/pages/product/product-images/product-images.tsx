@@ -20,7 +20,7 @@ const ProductImages: React.FC<Props> = ({ product }) => {
     return (
         <div className="space-y-4">
             <ImageMagnifier imageUrl={currentImage.secure_url} />
-            <div>
+            <div className={cn(images.length <= 1 && 'hidden')}>
                 <Swiper
                     spaceBetween={10}
                     slidesPerView="auto"

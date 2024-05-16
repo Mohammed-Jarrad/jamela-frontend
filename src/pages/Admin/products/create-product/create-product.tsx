@@ -57,8 +57,8 @@ const CreateProduct = () => {
         categoryId: Yup.string().required('Category is required'),
         mainImage: Yup.mixed().required('Main image is required'),
         subImages: Yup.array()
-            .min(1, 'Sub images are required')
-            .required('Sub images are required')
+            // .min(1, 'Sub images are required')
+            // .required('Sub images are required')
             .of(Yup.mixed().required('Sub image is required')),
     })
 

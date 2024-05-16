@@ -13,7 +13,6 @@ const NewArrivals = () => {
     const { data, isLoading, error } = useGetActiveProducts({
         limit,
         sort: '-createdAt',
-        select: 'name, price, discount, finalPrice, mainImage, subImages, slug, stock, sizes, colors, isNewArrival',
         isNewArrival: {
             eq: true,
         },

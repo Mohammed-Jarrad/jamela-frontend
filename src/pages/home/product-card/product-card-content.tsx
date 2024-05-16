@@ -1,3 +1,4 @@
+import Rating from '@/components/review/rating'
 import { cn } from '@/lib/utils'
 import { ProductProps } from '@/types'
 import { Box } from '@radix-ui/themes'
@@ -15,6 +16,7 @@ const ProductCardContent: React.FC<Props> = ({ product }) => {
             >
                 {product.name}
             </Link>
+            <Rating value={product.averageRating || 0} />
             <p className="space-x-2 text-center text-sm text-muted-foreground xs:text-lg">
                 {product.discount! > 0 && (
                     <>
