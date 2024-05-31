@@ -11,19 +11,22 @@ export const MAX_PRICE = 1000
 export const MIN_PRICE = 1
 
 const Shop = () => {
+    const navigate = useNavigate()
+
     const [showFilters, setShowFilters] = useState<boolean>(false)
-    const [categoryId, setCategoryId] = useState<CategoryProps['_id'] | null>(null)
-    const [subcategoryId, setSubcategoryId] = useState<SubcategoryProps['_id'] | null>(null)
+    const [enabled, setEnabled] = useState<boolean>(false)
+
     const [page, setPage] = useState<number>(1)
     const [limit, setLimit] = useState<number>(15)
+
+    const [categoryId, setCategoryId] = useState<CategoryProps['_id'] | null>(null)
+    const [subcategoryId, setSubcategoryId] = useState<SubcategoryProps['_id'] | null>(null)
     const [sort, setSort] = useState<string | null>(null)
     const [isNewArrival, setIsNewArrival] = useState<boolean | null>(null)
     const [minPrice, setMinPrice] = useState<number>(MIN_PRICE)
     const [maxPrice, setMaxPrice] = useState<number>(MAX_PRICE)
     const [search, setSearch] = useState<string>('')
     const [inStock, setInStock] = useState<boolean | null>(null)
-    const [enabled, setEnabled] = useState<boolean>(false)
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (window.matchMedia('(min-width: 768px)').matches) {

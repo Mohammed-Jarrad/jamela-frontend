@@ -41,7 +41,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                             {image.link ? (
                                 <Link
                                     to={image.link}
-                                    className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]"
+                                    className="aspect-h-10 aspect-w-16 lg:aspect-w-[25]"
                                 >
                                     <img
                                         src={image.secure_url}
@@ -51,7 +51,7 @@ const Slider: React.FC<Props> = ({ imageType }) => {
                                     />
                                 </Link>
                             ) : (
-                                <div className="aspect-h-9 aspect-w-16 lg:aspect-w-[25]">
+                                <div className="aspect-h-10 aspect-w-16 lg:aspect-w-[25]">
                                     <img
                                         src={image.secure_url}
                                         alt="image slider image"
