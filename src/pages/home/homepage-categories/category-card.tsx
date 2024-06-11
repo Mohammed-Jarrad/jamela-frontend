@@ -1,6 +1,5 @@
 import ToolTip from '@/components/my/tooltip'
 import { CategoryProps } from '@/types'
-import { motion } from 'framer-motion'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -9,22 +8,18 @@ type Props = {
     index: number
 }
 
-const CategoryCard: React.FC<Props> = ({ category, index }) => {
+const CategoryCard: React.FC<Props> = ({ category }) => {
     return (
-        <Link to={`/category/${category.slug}`} className="relative w-full group">
-            <div className="aspect-w-2 aspect-h-3 border shadow overflow-hidden transition-all rounded-lg">
-                <motion.img
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        <Link to={`/category/${category.slug}`} className="relative w-full group rounded-lg">
+            <div className="border shadow overflow-hidden transition-all rounded-lg">
+                <img
                     src={category.image?.secure_url}
                     alt={category.name}
                     loading="lazy"
-                    className="object-cover"
+                    className="object-cover w-full aspect-[7/10] group-hover:scale-110 transition-all duration-300"
                 />
             </div>
-            <div className='inset-0 absolute bg-black bg-opacity-20 backdrop-blur-[2px] group-hover:opacity-100 opacity-0 transition-all'>
+            <div className="inset-1 absolute bg-black/20 translate-y-0 rounded-[inherit] group-hover:translate-y-0 group-hover:opacity-100 group-hover:inset-0 opacity-0 transition-all duration-500">
                 <ToolTip content={category.name}>
                     <h4
                         style={{

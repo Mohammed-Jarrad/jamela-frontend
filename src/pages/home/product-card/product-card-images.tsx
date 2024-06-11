@@ -46,19 +46,12 @@ const ProductCardImages: React.FC<Props> = ({ product }) => {
                         key={image?.public_id}
                         className="w-full overflow-hidden rounded-xl"
                     >
-                        <Link
-                            to={`/product/${product.slug}`}
-                            className="aspect-h-3 aspect-w-2 w-full"
-                        >
+                        <Link to={`/product/${product.slug}`} className="w-full">
                             <motion.img
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.5 }}
                                 src={image?.secure_url}
                                 alt={product.name}
                                 loading="lazy"
-                                className=" cursor-pointer !rounded-xl object-cover"
+                                className="w-full aspect-[7/10] cursor-pointer !rounded-xl object-cover hover:scale-110 transition-all duration-300"
                             />
                         </Link>
                     </SwiperSlide>

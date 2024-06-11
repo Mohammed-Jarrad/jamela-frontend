@@ -95,7 +95,7 @@ const AdminOrders = () => {
                                 </TableBody>
                                 <TableFooter>
                                     <TableRow className="px-10">
-                                        <TableCell colSpan={4}>
+                                        <TableCell colSpan={5}>
                                             <span className="block">Limit of records</span>
                                         </TableCell>
                                         <TableCell colSpan={4}>

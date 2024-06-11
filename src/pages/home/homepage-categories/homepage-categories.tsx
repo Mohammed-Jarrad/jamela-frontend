@@ -46,7 +46,6 @@ const HomepageCategories = () => {
                             className="mt-8 w-full bg-transparent p-1"
                             breakpoints={{
                                 0: { slidesPerView: 2 },
-                                // 480: { slidesPerView: 2 },
                                 768: { slidesPerView: 3 },
                                 1280: { slidesPerView: 4 },
                             }}

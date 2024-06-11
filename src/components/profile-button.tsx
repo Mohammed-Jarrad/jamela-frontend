@@ -54,11 +54,6 @@ export default function ProfileButton({ link = '/profile' }: Props): JSX.Element
                 </DropdownMenuItem>
 
                 <DropdownMenuGroup className="border-b border-t md:hidden">
-                    <DropdownMenuItem className="flex  items-center gap-3">
-                        <span>{theme}</span>
-                        <ModeToggle />
-                    </DropdownMenuItem>
-
                     <Link to="/">
                         <DropdownMenuItem className="space-x-3">
                             <Home size={14} />
@@ -72,6 +67,10 @@ export default function ProfileButton({ link = '/profile' }: Props): JSX.Element
                             <span>Shop</span>
                         </DropdownMenuItem>
                     </Link>
+
+                    <DropdownMenuItem className="flex  items-center gap-3">
+                        <ModeToggle />
+                    </DropdownMenuItem>
                 </DropdownMenuGroup>
 
                 <DropdownMenuItem onClick={() => logout()} className="space-x-3">

@@ -2,7 +2,7 @@ import { NextElement, PrevElement } from '@/components/swiper-navigation'
 import { SubcategoryProps } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Navigation } from 'swiper/modules'
+import { Navigation, EffectCoverflow } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 type Props = {
@@ -10,62 +10,56 @@ type Props = {
 }
 
 const SubcategoriesSlider: React.FC<Props> = ({ subcategories }) => {
+    subcategories = [...subcategories, ...subcategories, ...subcategories, ...subcategories]
+    const isMatch = subcategories.length > 4
+    
     if (!subcategories.length) return null
     return (
         <div className="mt-7">
             <Swiper
-                breakpoints={{
-                    0: {
-                        slidesPerView: 1,
-                        spaceBetween: 10,
-                    },
-                    320: {
-                        slidesPerView: 2,
-                        spaceBetween: 10,
-                    },
-                    680: {
-                        slidesPerView: 3,
-                        spaceBetween: 20,
-                    },
-                    1024: {
-                        slidesPerView: 4,
-                        spaceBetween: 20,
-                    },
-                    1280: {
-                        slidesPerView: 5,
-                        spaceBetween: 20,
-                    },
-                }}
-                modules={[Navigation]}
+                spaceBetween={10}
+                slidesPerView={'auto'}
+                modules={[Navigation, EffectCoverflow]}
                 navigation={{
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 }}
+                slideToClickedSlide
                 centerInsufficientSlides
+                loop={isMatch}
+                effect="coverflow"
+                centeredSlides={isMatch}
+                coverflowEffect={{
+                    rotate: 0,
+                    stretch: 0,
+                    depth: isMatch ? 30 : 0,
+                    modifier: isMatch ? 4 : 0,
+                    slideShadows: false,
+                }}
+                className="mx-auto"
             >
-                {subcategories.map((sub) => (
-                    <SwiperSlide key={sub._id}>
-                        <div className="w-full">
-                            <Link
-                                to={`/shop?subcategoryId=${sub._id}`}
-                                className="aspect-w-2 aspect-h-3 overflow-hidden rounded-xl"
-                            >
-                                <img
-                                    src={sub.image?.secure_url}
-                                    alt={sub.name}
-                                    className="object-cover mx-auto border shadow transition-all duration-500 hover:scale-105"
-                                    loading="lazy"
-                                />
+                {subcategories.map(
+                    (sub, index) => (
+                        <SwiperSlide
+                            key={index}
+                            className="w-[200px] md:w-[250px] lg:w-[300px] bg-white"
+                        >
+                            <Link to={`/shop?subcategoryId=${sub._id}`} className="group">
+                                <div className="overflow-hidden rounded-xl">
+                                    <img
+                                        src={sub.image?.secure_url}
+                                        alt={sub.name}
+                                        className="w-full aspect-[7/10] object-cover mx-auto border shadow transition-all duration-500 group-hover:scale-105"
+                                        loading="lazy"
+                                    />
+                                </div>
+                                <p className="text-center mt-4 text-lg capitalize font-medium hover:underline text-muted-foreground hover:text-foreground transition-colors">
+                                    {sub.name}
+                                </p>
                             </Link>
-                            <Link
-                                to={`/shop?subcategoryId=${sub._id}`}
-                                className="text-center mt-4 text-lg capitalize font-medium hover:underline text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                {sub.name}
-                            </Link>
-                        </div>
-                    </SwiperSlide>
-                ))}
+                        </SwiperSlide>
+                    )
+                )}
 
                 <NextElement />
                 <PrevElement />

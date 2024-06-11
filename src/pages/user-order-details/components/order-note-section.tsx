@@ -44,6 +44,7 @@ const OrderNoteSection: React.FC<Props> = ({ order }) => {
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         className="w-full resize-none h-24"
+                        placeholder="Add a note to your order"
                     />
                     <div className="flex justify-end items-center gap-2">
                         <Button
