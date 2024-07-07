@@ -26,16 +26,16 @@ import {
     useHardDeleteCoupon,
     useRestoreCoupon,
     useSoftDeleteCoupon,
-} from '@/hooks/use-coupons'
+} from '@/hooks/api/use-coupons'
 import { cn } from '@/lib/utils'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { format } from 'date-fns'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import CouponsDropDownWithAlertDialog from './coupons-dropdown-with-alert-dialog'
-import Copy from "@/components/my/copy"
+import Copy from '@/components/my/copy'
 
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
@@ -132,7 +132,7 @@ const AdminCoupons = () => {
                                             <TableCell className="font-medium">
                                                 <div className="flex items-center gap-2">
                                                     <span className="w-30">{coupon.name}</span>
-                                                    <Copy text={coupon.name!}/>
+                                                    <Copy text={coupon.name!} />
                                                 </div>
                                             </TableCell>
                                             <TableCell className="font-medium">

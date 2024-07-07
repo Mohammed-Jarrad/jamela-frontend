@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUserContext } from '@/context/UserContextProvider'
-import { useCancelOrder, useGetOrder } from '@/hooks/use-orders'
+import { useCancelOrder, useGetOrder } from '@/hooks/api/use-orders'
 import { Flex } from '@/styles/styles'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { BiShekel } from 'react-icons/bi'
 import { HiLocationMarker, HiMail, HiPhone } from 'react-icons/hi'
@@ -17,7 +17,7 @@ import { BeatLoader } from 'react-spinners'
 import OrderCouponSection from './components/order-coupon-section'
 import OrderNoteSection from './components/order-note-section'
 import OrderProducts from './components/order-products'
-import OrderReasonRejectedSection from "./components/order-reason-rejected-section"
+import OrderReasonRejectedSection from './components/order-reason-rejected-section'
 
 const UserOrderDetails = () => {
     const { id: orderId } = useParams()

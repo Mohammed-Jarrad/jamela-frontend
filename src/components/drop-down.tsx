@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import useClickOutside from '@/utils/use-click-outside'
+import useClickOutside from '@/hooks/use-click-outside'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import React, { ComponentProps, useState } from 'react'
 import { buttonVariants } from './ui/button'
@@ -31,7 +31,12 @@ const Dropdown: React.FC<DropdownProps> = ({ children, className, ...props }) =>
 Dropdown.displayName = 'Dropdown'
 
 type DropdownTriggerProps = ComponentProps<'button'>
-const DropdownTrigger = ({ className, children, type = 'button', ...props }: DropdownTriggerProps) => {
+const DropdownTrigger = ({
+    className,
+    children,
+    type = 'button',
+    ...props
+}: DropdownTriggerProps) => {
     const { setIsOpen } = React.useContext(DropdownContext)
 
     return (
@@ -57,11 +62,11 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
     ...props
 }) => {
     const { isOpen } = React.useContext(DropdownContext)
-    
-        return (
-            <AnimatePresence mode="wait">
-               {isOpen && (
-                    <motion.div
+
+    return (
+        <AnimatePresence mode="wait">
+            {isOpen && (
+                <motion.div
                     initial={initial}
                     animate={animate}
                     exit={exit}
@@ -72,13 +77,18 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
                     )}
                     {...props}
                 />
-               )}
-            </AnimatePresence>
-        )
+            )}
+        </AnimatePresence>
+    )
 }
 
 type DropdownItemProps = { closeOnClick?: boolean } & ComponentProps<'div'>
-const DropdownItem: React.FC<DropdownItemProps> = ({ className, onClick, closeOnClick = true, ...props }) => {
+const DropdownItem: React.FC<DropdownItemProps> = ({
+    className,
+    onClick,
+    closeOnClick = true,
+    ...props
+}) => {
     const { setIsOpen } = React.useContext(DropdownContext)
 
     return (

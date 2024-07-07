@@ -1,6 +1,6 @@
 import { useTheme } from '@/context/ThemeContextProvider'
 import { Link } from 'react-router-dom'
-import Transition from '../../utils/transition'
+import Transition from '../transition'
 import Flex from '../my/flex'
 import HeaderContent from './header-content'
 

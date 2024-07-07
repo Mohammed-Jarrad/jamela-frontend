@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { CouponProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'sonner'
@@ -233,5 +233,5 @@ export const useClearCoupon = () => {
             toast.success('Coupon cleared successfully')
         },
         onError: handleErrors,
-    })    
+    })
 }

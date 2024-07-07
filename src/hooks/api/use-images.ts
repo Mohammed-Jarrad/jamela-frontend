@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { ConstantImages } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'sonner'
@@ -40,7 +40,7 @@ export const useCreateNewImage = () => {
             queryClient.invalidateQueries({ queryKey: ['images', formData.get('imageType')] })
             toast.success('Image created successfully')
         },
-        onError: handleErrors
+        onError: handleErrors,
     })
 }
 

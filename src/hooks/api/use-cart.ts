@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { CartProps, ProductProps, ProductSizesProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'sonner'

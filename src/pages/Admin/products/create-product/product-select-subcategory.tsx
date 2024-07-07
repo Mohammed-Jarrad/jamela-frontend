@@ -9,9 +9,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useGetSubcategories } from '@/hooks/use-subcategories'
+import { useGetSubcategories } from '@/hooks/api/use-subcategories'
 import { SubcategoryProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import React from 'react'
 import { BeatLoader } from 'react-spinners'

@@ -11,7 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { SignupInputsProps, useSignup } from '@/hooks/use-auth'
+import { SignupInputsProps, useSignup } from '@/hooks/api/use-auth'
 import { yupValidateForm } from '@/lib/yup-validate-form'
 import { Gender } from '@/types'
 import { Box } from '@radix-ui/themes'
@@ -21,7 +21,7 @@ import { FaFemale, FaMale } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import * as Yup from 'yup'
-import Transition from '../../../utils/transition'
+import Transition from '../../../components/transition'
 
 export const genders: { label: Gender; icon: JSX.Element }[] = [
     { label: 'Male', icon: <FaMale /> },

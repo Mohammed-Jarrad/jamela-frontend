@@ -21,10 +21,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useDeleteCategory, useGetCategories } from '@/hooks/use-categories'
+import { useDeleteCategory, useGetCategories } from '@/hooks/api/use-categories'
 import { cn } from '@/lib/utils'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'

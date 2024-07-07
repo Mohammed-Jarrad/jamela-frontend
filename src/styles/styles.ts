@@ -1,35 +1,5 @@
 import styled, { css } from 'styled-components'
 
-const breakpoints: { [key: string]: string } = {
-    xs: '480px',
-    sm: '640px',
-    md: '768px',
-    lg: '1024px',
-    xl: '1280px',
-    '2xl': '1536px',
-}
-
-export const mq: { [key: string]: any } = {}
-
-Object.keys(breakpoints).forEach((key, index) => {
-    const size = breakpoints[key]
-    mq[key] = (...args: any) => css`
-        @media (min-width: ${size}) {
-            ${css(args)}
-        }
-    `
-    mq[`${key}Only`] = (...args: any) => css`
-        @media (min-width: ${size}) and (max-width: ${breakpoints[Object.keys(breakpoints)[index + 1]]}) {
-            ${css(args)}
-        }
-    `
-    mq[`${key}Max`] = (...args: any) => css`
-        @media (max-width: ${size}) {
-            ${css(args)}
-        }
-    `
-})
-
 export const Flex = styled.div<{
     $center?: boolean
     $gap?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | number

@@ -1,5 +1,5 @@
 import { useUserContext } from '@/context/UserContextProvider'
-import { useDeleteReview, useEditReview } from '@/hooks/use-reviews'
+import { useDeleteReview, useEditReview } from '@/hooks/api/use-reviews'
 import { cn } from '@/lib/utils'
 import { ReviewProps } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -78,7 +78,7 @@ const Review: React.FC<Props> = ({ review }) => {
                             'hidden'
                     )}
                 >
-                    {(token && currentUser?._id == review.userId._id) && (
+                    {token && currentUser?._id == review.userId._id && (
                         <Dialog
                             open={isOpen}
                             onOpenChange={setIsOpen}

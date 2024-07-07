@@ -1,9 +1,9 @@
 import { useUserContext } from '@/context/UserContextProvider'
-import { useAddToCart } from '@/hooks/use-cart'
-import { useAddOrRemoveProductToWishList } from '@/hooks/use-user'
-import { Flex, mq } from '@/styles/styles'
+import { useAddToCart } from '@/hooks/api/use-cart'
+import { useAddOrRemoveProductToWishList } from '@/hooks/api/use-user'
+import { Flex } from '@/styles/styles'
 import { ProductProps } from '@/types'
-import useClickOutside from '@/utils/use-click-outside'
+import useClickOutside from '@/hooks/use-click-outside'
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useState } from 'react'
@@ -36,12 +36,12 @@ const WishListWrapper = styled(motion.div)<{ 'data-show': boolean }>`
     max-height: calc(100vh - var(--header-height) - 1rem);
     overflow-y: auto;
     width: 400px;
-    ${mq.mdMax`
+    @media screen and (max-width: 768px) {
         position: fixed;
         width: 100%;
         top: var(--header-height);
         right: 0;
-    `}
+    }
 `
 
 const Wishlist = () => {

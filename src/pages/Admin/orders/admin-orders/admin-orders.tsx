@@ -12,11 +12,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useAcceptAllOrders, useGetAdminOrders } from '@/hooks/use-orders'
+import { useAcceptAllOrders, useGetAdminOrders } from '@/hooks/api/use-orders'
 import AdminOrderRow from '@/pages/Admin/orders/admin-orders/admin-order-row'
 import OrdersTableFilter from '@/pages/profile/components/orders-table-filter'
 import { OrderStatusProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { FcAcceptDatabase } from 'react-icons/fc'
@@ -51,7 +51,12 @@ const AdminOrders = () => {
                     setStatus={setStatus}
                     refetch={refetch}
                 />
-                <Button disabled={isAccepting} className="bg-green-500 w-full md:w-52 text-white gap-2 hover:bg-green-600" variant={null} onClick={() => acceptAll()}>
+                <Button
+                    disabled={isAccepting}
+                    className="bg-green-500 w-full md:w-52 text-white gap-2 hover:bg-green-600"
+                    variant={null}
+                    onClick={() => acceptAll()}
+                >
                     {isAccepting ? (
                         <BeatLoader size={10} color="white" />
                     ) : (

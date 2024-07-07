@@ -1,7 +1,7 @@
 import ToolTip from '@/components/my/tooltip'
 import { Button } from '@/components/ui/button'
 import { TableCell, TableRow } from '@/components/ui/table'
-import { useRemoveFromCart, useUpdateQuantity } from '@/hooks/use-cart'
+import { useRemoveFromCart, useUpdateQuantity } from '@/hooks/api/use-cart'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
 import { CartProps } from '@/types'

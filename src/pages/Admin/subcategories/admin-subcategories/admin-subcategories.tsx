@@ -21,11 +21,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useDeleteSubcategory, useGetSubcategories } from '@/hooks/use-subcategories'
+import { useDeleteSubcategory, useGetSubcategories } from '@/hooks/api/use-subcategories'
 import { cn } from '@/lib/utils'
 import { CategoryProps } from '@/types'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'

@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useUserContext } from '@/context/UserContextProvider'
 import { Flex } from '@/styles/styles'
-import Transition from '@/utils/transition'
+import Transition from '@/components/transition'
 import { useNavigate } from 'react-router-dom'
 import AccountContent from './components/account-content'
 import PasswordController from './components/password-controller'

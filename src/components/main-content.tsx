@@ -29,103 +29,102 @@ import Product from '@/pages/product/product'
 import Profile from '@/pages/profile/profile'
 import Shop from '@/pages/shop/shop'
 import Test from '@/pages/test-page/test'
-import ScrollWhenRefresh from '@/utils/scroll-when-refresh'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AdminRoot from './routes/admin-root'
 import UserRoutes from './routes/user-routes'
-import AuthRoot from "./routes/auth-root"
-import UserOrderDetails from "@/pages/user-order-details/user-order-details"
-import AdminReviews from "@/pages/Admin/reviews/admin-reviews/admin-reviews"
+import AuthRoot from './routes/auth-root'
+import UserOrderDetails from '@/pages/user-order-details/user-order-details'
+import AdminReviews from '@/pages/Admin/reviews/admin-reviews/admin-reviews'
+import useScrollWhenRefresh from '@/hooks/use-scroll-when-refresh'
 
 const MainContent = () => {
     const { token } = useUserContext()
+    useScrollWhenRefresh()
 
     return (
         <main className="grid min-h-full-screen-header grid-cols-1">
-            <ScrollWhenRefresh>
-                <Routes>
-                    {/* Auth Routes  */}
-                    <Route path="auth" element={<AuthRoot />}>
-                        <Route element={token && <Navigate to={'/'} />}>
-                            <Route path="signup" element={<SignUp />} />
-                            <Route path="login" element={<Login />} />
-                        </Route>
-                        <Route path="forget-password" element={<ForgetPassword />} />
-                        <Route path="check-code/:token" element={<CheckCode />} />
-                        <Route path="reset-password/:token" element={<ResetPassword />} />
+            <Routes>
+                {/* Auth Routes  */}
+                <Route path="auth" element={<AuthRoot />}>
+                    <Route element={token && <Navigate to={'/'} />}>
+                        <Route path="signup" element={<SignUp />} />
+                        <Route path="login" element={<Login />} />
                     </Route>
+                    <Route path="forget-password" element={<ForgetPassword />} />
+                    <Route path="check-code/:token" element={<CheckCode />} />
+                    <Route path="reset-password/:token" element={<ResetPassword />} />
+                </Route>
 
-                    {/* Non Admin Routes */}
-                    <Route path="/" element={<Root />}>
-                        <Route index element={<Home />} />
-                        <Route path="product/:slug" element={<Product />} />
-                        <Route path="category/:slug" element={<Category />} />
-                        <Route path="shop" element={<Shop />} />
+                {/* Non Admin Routes */}
+                <Route path="/" element={<Root />}>
+                    <Route index element={<Home />} />
+                    <Route path="product/:slug" element={<Product />} />
+                    <Route path="category/:slug" element={<Category />} />
+                    <Route path="shop" element={<Shop />} />
 
-                        {/* User Routes */}
-                        <Route element={<UserRoutes />}>
-                            <Route path="cart" element={<Cart />} />
-                            <Route path="profile" element={<Profile />} />
-                            <Route path="order/:id" element={<UserOrderDetails />} />
-                        </Route>
-                        {/* Not Found */}
-                        <Route path="*" element={<Notfound />} />
-                    </Route>
-
-                    {/* Admin Routes */}
-                    <Route path="/dashboard" element={<AdminRoot />}>
-                        {/* Main Dashboard Content */}
-                        <Route index element={<MainDashboardContent />} />
+                    {/* User Routes */}
+                    <Route element={<UserRoutes />}>
+                        <Route path="cart" element={<Cart />} />
                         <Route path="profile" element={<Profile />} />
-                        <Route path="forget-password" element={<ForgetPassword />} />
-                        <Route path="check-code/:token" element={<CheckCode />} />
-                        <Route path="reset-password/:token" element={<ResetPassword />} />
-                        {/* Admin Categories routes */}
-                        <Route path="categories">
-                            <Route index element={<AdminCategories />} />
-                            <Route path="create" element={<CreateCategory />} />
-                            <Route path="update/:slug" element={<UpdateCategory />} />
-                        </Route>
-                        {/* Admin Subcategories routes */}
-                        <Route path="subcategories">
-                            <Route index element={<AdminSubcategories />} />
-                            <Route path="update/:slug" element={<UpdateSubcategory />} />
-                            <Route path="create" element={<CreateSubcategory />} />
-                        </Route>
-                        {/* Admin Products routes */}d
-                        <Route path="products">
-                            <Route index element={<AdminProducts />} />
-                            <Route path="create" element={<CreateProduct />} />
-                            <Route path="update/:slug" element={<UpdateProduct />} />
-                        </Route>
-                        {/* Admin Coupons routes */}
-                        <Route path="coupons">
-                            <Route index element={<AdminCoupons />} />
-                            <Route path="create" element={<CreateCoupon />} />
-                            <Route path="update/:id" element={<UpdateCoupon />} />
-                        </Route>
-                        {/* Admin Orders routes */}
-                        <Route path="orders">
-                            <Route index element={<AdminOrders />} />
-                            <Route path=":id" element={<UserOrderDetails />} />
-                        </Route>
-                        {/* Admin Reviews routes */}
-                        <Route path="reviews">
-                            <Route index element={<AdminReviews />} />
-                        </Route>
-                        {/* Admin Users routes */}
-                        <Route path="users" element={<AdminUsers />} />
-                        <Route path="images" element={<Images />} />
-                        {/* not found */}
-                        <Route path="*" element={<Notfound />} />
+                        <Route path="order/:id" element={<UserOrderDetails />} />
                     </Route>
-
-                    {/* Test Page */}
-                    <Route path="/test" element={<Test />} />
-
+                    {/* Not Found */}
                     <Route path="*" element={<Notfound />} />
-                </Routes>
-            </ScrollWhenRefresh>
+                </Route>
+
+                {/* Admin Routes */}
+                <Route path="/dashboard" element={<AdminRoot />}>
+                    {/* Main Dashboard Content */}
+                    <Route index element={<MainDashboardContent />} />
+                    <Route path="profile" element={<Profile />} />
+                    <Route path="forget-password" element={<ForgetPassword />} />
+                    <Route path="check-code/:token" element={<CheckCode />} />
+                    <Route path="reset-password/:token" element={<ResetPassword />} />
+                    {/* Admin Categories routes */}
+                    <Route path="categories">
+                        <Route index element={<AdminCategories />} />
+                        <Route path="create" element={<CreateCategory />} />
+                        <Route path="update/:slug" element={<UpdateCategory />} />
+                    </Route>
+                    {/* Admin Subcategories routes */}
+                    <Route path="subcategories">
+                        <Route index element={<AdminSubcategories />} />
+                        <Route path="update/:slug" element={<UpdateSubcategory />} />
+                        <Route path="create" element={<CreateSubcategory />} />
+                    </Route>
+                    {/* Admin Products routes */}d
+                    <Route path="products">
+                        <Route index element={<AdminProducts />} />
+                        <Route path="create" element={<CreateProduct />} />
+                        <Route path="update/:slug" element={<UpdateProduct />} />
+                    </Route>
+                    {/* Admin Coupons routes */}
+                    <Route path="coupons">
+                        <Route index element={<AdminCoupons />} />
+                        <Route path="create" element={<CreateCoupon />} />
+                        <Route path="update/:id" element={<UpdateCoupon />} />
+                    </Route>
+                    {/* Admin Orders routes */}
+                    <Route path="orders">
+                        <Route index element={<AdminOrders />} />
+                        <Route path=":id" element={<UserOrderDetails />} />
+                    </Route>
+                    {/* Admin Reviews routes */}
+                    <Route path="reviews">
+                        <Route index element={<AdminReviews />} />
+                    </Route>
+                    {/* Admin Users routes */}
+                    <Route path="users" element={<AdminUsers />} />
+                    <Route path="images" element={<Images />} />
+                    {/* not found */}
+                    <Route path="*" element={<Notfound />} />
+                </Route>
+
+                {/* Test Page */}
+                <Route path="/test" element={<Test />} />
+
+                <Route path="*" element={<Notfound />} />
+            </Routes>
         </main>
     )
 }

@@ -14,8 +14,8 @@ import { FaEye } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 import AdminChangeOrderStatus from './admin-change-order-status'
 import Alert from '@/components/alert'
-import { useDeleteOrder } from '@/hooks/use-orders'
-import { BeatLoader } from "react-spinners"
+import { useDeleteOrder } from '@/hooks/api/use-orders'
+import { BeatLoader } from 'react-spinners'
 
 type Props = {
     order: OrderProps
@@ -98,13 +98,14 @@ const AdminOrderRow: React.FC<Props> = ({ order, index }) => {
                     </Link>
                     <Alert onConfirm={() => deleteOrder({ orderId: order._id })}>
                         <Button size="icon" variant={'ghost'} disabled={isPending}>
-                            {
-                                isPending ? (
-                                    <BeatLoader size={8} color="hsl(var(--primary))" />
-                                ) : (
-                                    <Trash size={18} className="text-muted-foreground hover:text-red-500" />
-                                )
-                            }
+                            {isPending ? (
+                                <BeatLoader size={8} color="hsl(var(--primary))" />
+                            ) : (
+                                <Trash
+                                    size={18}
+                                    className="text-muted-foreground hover:text-red-500"
+                                />
+                            )}
                         </Button>
                     </Alert>
                 </div>

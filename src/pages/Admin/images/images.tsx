@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import Transition from '@/utils/transition'
+import Transition from '@/components/transition'
 import ImagesContent from './images-content'
 
 const Images = () => {

@@ -2,8 +2,8 @@ import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import MainContent from './components/main-content'
 import { useUserContext } from './context/UserContextProvider'
-import { useGetCurrentUser } from './hooks/use-user'
-import { useHandleErrors } from './utils/use-handle-errors'
+import { useGetCurrentUser } from './hooks/api/use-user'
+import { useHandleErrors } from './hooks/use-handle-errors'
 
 function App() {
     const { token, setCurrentUser } = useUserContext()

@@ -11,11 +11,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useGetUserOrders } from '@/hooks/use-orders'
+import { useGetUserOrders } from '@/hooks/api/use-orders'
 import { OrderStatusProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 import OrderRow from './order-row'
 import OrdersTableFilter from './orders-table-filter'
 

@@ -3,7 +3,7 @@ import { useUserContext } from '@/context/UserContextProvider'
 import { formatQueryParams } from '@/lib/format-query-params'
 import { NewOrderProps } from '@/pages/cart/cart'
 import { OrderProps, OrderStatusProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -298,11 +298,15 @@ export const useAcceptAllOrders = () => {
     return useMutation({
         mutationFn: async () => {
             type dataProps = { message: string; orders: OrderProps[] }
-            const { data } = await axios.patch<dataProps>('/orders/accept-all', {}, {
-                headers: {
-                    Authorization: import.meta.env.VITE_BEARER_KEY + token,
-                },
-            })
+            const { data } = await axios.patch<dataProps>(
+                '/orders/accept-all',
+                {},
+                {
+                    headers: {
+                        Authorization: import.meta.env.VITE_BEARER_KEY + token,
+                    },
+                }
+            )
             return data
         },
         onSuccess: () => {

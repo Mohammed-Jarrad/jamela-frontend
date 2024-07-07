@@ -16,7 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useUpdateImage } from '@/hooks/use-images'
+import { useUpdateImage } from '@/hooks/api/use-images'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
 import { ConstantImages } from '@/types'
@@ -49,7 +49,7 @@ const EditImageDialog: React.FC<Props> = ({ open, setOpen, image }) => {
         }
         setInfos((pre) => ({ ...pre, [name]: value }))
     }
-    
+
     function onDrop(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault()
         const file = e.dataTransfer.files[0]

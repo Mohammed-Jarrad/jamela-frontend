@@ -9,11 +9,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useGetCategory, useUpdateCategory } from '@/hooks/use-categories'
+import { useGetCategory, useUpdateCategory } from '@/hooks/api/use-categories'
 import { cn } from '@/lib/utils'
 import { CategoryProps, StatusType } from '@/types'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useEffect, useState } from 'react'

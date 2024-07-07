@@ -11,7 +11,7 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { useUserContext } from '@/context/UserContextProvider'
-import { useUpdateProfile } from '@/hooks/use-user'
+import { useUpdateProfile } from '@/hooks/api/use-user'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
 import { Gender } from '@/types'

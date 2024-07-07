@@ -19,10 +19,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useChangeUserRoleAndStatus, useDeleteUser, useGetAllUsers } from '@/hooks/use-user'
+import { useChangeUserRoleAndStatus, useDeleteUser, useGetAllUsers } from '@/hooks/api/use-user'
 import { Roles, StatusType, UserProps } from '@/types'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { BadgeCheck, CheckCircle, XOctagon } from 'lucide-react'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'

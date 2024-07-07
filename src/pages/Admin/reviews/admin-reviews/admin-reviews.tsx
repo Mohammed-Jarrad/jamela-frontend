@@ -11,8 +11,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useGetReviews } from '@/hooks/use-reviews'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useGetReviews } from '@/hooks/api/use-reviews'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import AdminReviewRow from '../components/admin-review-row'

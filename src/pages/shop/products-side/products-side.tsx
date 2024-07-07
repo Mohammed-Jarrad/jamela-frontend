@@ -10,10 +10,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { GetProductsProps } from '@/hooks/use-products'
+import { GetProductsProps } from '@/hooks/api/use-products'
 import ProductCard from '@/pages/home/product-card/product-card'
 import { Flex } from '@/styles/styles'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { UseQueryResult } from '@tanstack/react-query'
 import { SlidersHorizontal } from 'lucide-react'
@@ -136,7 +136,7 @@ const ProductsSide: React.FC<Props> = ({
             </Flex>
 
             {/* Products */}
-            {(isLoading || !data) ? (
+            {isLoading || !data ? (
                 <ProductsLoading />
             ) : (
                 <div className="grid grid-cols-2 place-items-center gap-4 xs:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">

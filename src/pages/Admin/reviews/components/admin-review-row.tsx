@@ -1,9 +1,9 @@
 import Alert from '@/components/alert'
 import Dialog from '@/components/my/my-dialog'
 import ToolTip from '@/components/my/tooltip'
-import Review from "@/components/review/review"
+import Review from '@/components/review/review'
 import { TableCell, TableRow } from '@/components/ui/table'
-import { useDeleteReview } from '@/hooks/use-reviews'
+import { useDeleteReview } from '@/hooks/api/use-reviews'
 import { Flex } from '@/styles/styles'
 import { ReviewProps } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
@@ -115,9 +115,9 @@ const AdminReviewRow: React.FC<Props> = ({ review, index }) => {
                             </div>
                         }
                         header="Review"
-                        description={"review details"}
+                        description={'review details'}
                     >
-                        <Review review={review}/>
+                        <Review review={review} />
                     </Dialog>
                 </div>
             </TableCell>

@@ -10,12 +10,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useGetCategories } from '@/hooks/use-categories'
-import { useGetSubcategory, useUpdateSubcategory } from '@/hooks/use-subcategories'
+import { useGetCategories } from '@/hooks/api/use-categories'
+import { useGetSubcategory, useUpdateSubcategory } from '@/hooks/api/use-subcategories'
 import { cn } from '@/lib/utils'
 import { CategoryProps, StatusType, SubcategoryProps } from '@/types'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useEffect, useState } from 'react'

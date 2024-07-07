@@ -1,11 +1,10 @@
-
 import { Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '@/components/drop-down'
 import Flex from '@/components/my/flex'
 import { OptionalSpan } from '@/components/required-star'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 import { ProductSizesProps } from '@/types'
-import Transition from '@/utils/transition'
+import Transition from '@/components/transition'
 import { Box } from '@radix-ui/themes'
 import { AnimatePresence } from 'framer-motion'
 import { XCircle } from 'lucide-react'
@@ -40,10 +39,12 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
         '48',
         '49',
         '50',
-     ]
- 
+    ]
+
     const addSize = (size: ProductSizesProps) => {
-        setSizes((prevSizes) => (prevSizes.includes(size) ? prevSizes.filter((s) => s !== size) : [...prevSizes, size]))
+        setSizes((prevSizes) =>
+            prevSizes.includes(size) ? prevSizes.filter((s) => s !== size) : [...prevSizes, size]
+        )
     }
 
     const removeSize = (size: ProductSizesProps) => {
@@ -64,7 +65,9 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
                                 key={index}
                                 onClick={() => addSize(size)}
                                 closeOnClick={false}
-                                className={cn(sizes.includes(size) ? 'border !bg-secondary' : 'bg-transparent')}
+                                className={cn(
+                                    sizes.includes(size) ? 'border !bg-secondary' : 'bg-transparent'
+                                )}
                             >
                                 <span>{size}</span>
                             </DropdownItem>
@@ -90,7 +93,9 @@ const ProductSizes: React.FC<SizesProps> = ({ sizes, setSizes }) => {
                                 />
                             </Transition>
                         ))}
-                        {sizes.length === 0 && <span className="text-muted-foreground">No sizes selected</span>}
+                        {sizes.length === 0 && (
+                            <span className="text-muted-foreground">No sizes selected</span>
+                        )}
                     </AnimatePresence>
                 </Box>
             </Flex>

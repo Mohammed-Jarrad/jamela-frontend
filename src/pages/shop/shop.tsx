@@ -1,5 +1,5 @@
 import TablePaginationAndDetails from '@/components/table-pagination-and-details'
-import { useGetActiveProducts } from '@/hooks/use-products'
+import { useGetActiveProducts } from '@/hooks/api/use-products'
 import { CategoryProps, SubcategoryProps } from '@/types'
 import { CSSProperties, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'

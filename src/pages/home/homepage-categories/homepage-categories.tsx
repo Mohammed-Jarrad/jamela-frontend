@@ -1,6 +1,6 @@
 import Container from '@/components/my/container'
-import { useGetActiveCategories } from '@/hooks/use-categories'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useGetActiveCategories } from '@/hooks/api/use-categories'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { motion } from 'framer-motion'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'

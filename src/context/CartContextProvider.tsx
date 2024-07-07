@@ -1,6 +1,6 @@
-import { useGetCurrentCart } from '@/hooks/use-cart'
+import { useGetCurrentCart } from '@/hooks/api/use-cart'
 import { CartProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { UseQueryResult } from '@tanstack/react-query'
 import * as React from 'react'
 import { useUserContext } from './UserContextProvider'

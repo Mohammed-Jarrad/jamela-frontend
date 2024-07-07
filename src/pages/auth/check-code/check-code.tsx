@@ -2,9 +2,9 @@ import Container from '@/components/my/container'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
-import { useCheckCode } from '@/hooks/use-auth'
-import { yupValidateForm } from "@/lib/yup-validate-form"
-import Transition from '@/utils/transition'
+import { useCheckCode } from '@/hooks/api/use-auth'
+import { yupValidateForm } from '@/lib/yup-validate-form'
+import Transition from '@/components/transition'
 import { FormEvent, Fragment, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useParams } from 'react-router-dom'
@@ -22,7 +22,7 @@ const CheckCode = () => {
             code: Yup.string().required('Code is required').length(4, 'Code must be 4 characters'),
         })
         if (!yupValidateForm(schema, { code })) return
-        
+
         checkCodeMutation.mutate({ code, token: String(token) })
     }
 

@@ -8,9 +8,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { useGetCategories } from '@/hooks/use-categories'
+import { useGetCategories } from '@/hooks/api/use-categories'
 import { CategoryProps } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { BeatLoader } from 'react-spinners'
 import { ProductForm } from './create-product'

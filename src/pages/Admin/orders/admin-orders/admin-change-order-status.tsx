@@ -11,12 +11,12 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { useChangeOrderStatus } from '@/hooks/use-orders'
+import { useChangeOrderStatus } from '@/hooks/api/use-orders'
 import { yupValidateForm } from '@/lib/yup-validate-form'
 import { Flex } from '@/styles/styles'
 import { OrderProps, OrderStatus as OrderStatusEnum, OrderStatusProps } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { BeatLoader } from "react-spinners"
+import { BeatLoader } from 'react-spinners'
 import * as Yup from 'yup'
 
 type Props = {
@@ -32,7 +32,7 @@ const AdminChangeOrderStatus: React.FC<Props> = ({ order }) => {
     const [isCancelled, setIsCancelled] = useState(order.status === 'cancelled')
     const [data, setData] = useState<Data>({
         status: order.status,
-        reasonRejected: order.reasonRejected
+        reasonRejected: order.reasonRejected,
     })
     const { mutate: update, isPending } = useChangeOrderStatus()
 

@@ -1,10 +1,22 @@
 import CustomInput from '@/components/my/custom-input'
 import RequiredStar from '@/components/required-star'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useCreateNewImage } from '@/hooks/use-images'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import { useCreateNewImage } from '@/hooks/api/use-images'
 import { cn } from '@/lib/utils'
 import { Flex } from '@/styles/styles'
 import { ConstantImages } from '@/types'
@@ -82,7 +94,12 @@ const CreateImageDialog: React.FC<Props> = ({ open, setOpen }) => {
                         )}
                         <Label className={cn(buttonVariants({ variant: 'outline' }), '')}>
                             <span>Browse file</span>
-                            <input className="hidden" type="file" onChange={handleChange} name="file" />
+                            <input
+                                className="hidden"
+                                type="file"
+                                onChange={handleChange}
+                                name="file"
+                            />
                         </Label>
                     </Flex>
 
@@ -94,7 +111,10 @@ const CreateImageDialog: React.FC<Props> = ({ open, setOpen }) => {
                             required
                             value={infos?.imageType}
                             onValueChange={(value) =>
-                                setInfos((pre) => ({ ...pre, imageType: value as ConstantImages['imageType'] }))
+                                setInfos((pre) => ({
+                                    ...pre,
+                                    imageType: value as ConstantImages['imageType'],
+                                }))
                             }
                         >
                             <SelectTrigger>
@@ -120,7 +140,11 @@ const CreateImageDialog: React.FC<Props> = ({ open, setOpen }) => {
                     />
 
                     <Button type="submit" className="w-full" disabled={isPending}>
-                        {isPending ? <BeatLoader className="text-center" color="white" /> : 'Upload'}
+                        {isPending ? (
+                            <BeatLoader className="text-center" color="white" />
+                        ) : (
+                            'Upload'
+                        )}
                     </Button>
                 </form>
             </DialogContent>

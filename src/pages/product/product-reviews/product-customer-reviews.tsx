@@ -1,8 +1,8 @@
-import NoDataMessage from "@/components/not-data"
+import NoDataMessage from '@/components/not-data'
 import Review from '@/components/review/review'
 import { Button } from '@/components/ui/button'
-import { useGetReviews } from '@/hooks/use-reviews'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useGetReviews } from '@/hooks/api/use-reviews'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import React, { useState } from 'react'
 import { BeatLoader } from 'react-spinners'
 
@@ -30,9 +30,7 @@ const PorudctCustomerReviews: React.FC<Props> = ({ productId }) => {
     }
 
     if (data && data.reviews.length === 0) {
-        return (
-            <NoDataMessage message="No reviews yet" className="lg:flex-1 w-full"/>
-        )
+        return <NoDataMessage message="No reviews yet" className="lg:flex-1 w-full" />
     }
 
     if (data && data.reviews.length) {

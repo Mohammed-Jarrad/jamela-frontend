@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCart } from '@/context/CartContextProvider'
-import { useCheckCoupon } from '@/hooks/use-coupons'
-import { useCreateOrder } from '@/hooks/use-orders'
+import { useCheckCoupon } from '@/hooks/api/use-coupons'
+import { useCreateOrder } from '@/hooks/api/use-orders'
 import { cn } from '@/lib/utils'
 import { yupValidateForm } from '@/lib/yup-validate-form'
-import { Flex, mq } from '@/styles/styles'
+import { Flex } from '@/styles/styles'
 import { useEffect, useState } from 'react'
 import { BiShekel } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
@@ -37,7 +37,7 @@ const CartSummary: React.FC<Props> = ({ newOrderData, setNewOrderData }) => {
     useEffect(() => {
         setFinalPrice(subTotal)
     }, [subTotal])
-    
+
     function handleChangeNewOrderData(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
         setNewOrderData((pre) => ({ ...pre, [name]: value }))
@@ -226,9 +226,9 @@ const Wrapper = styled.div`
     height: fit-content;
     padding: 5px 20px;
     width: 300px;
-    ${mq.lgMax`
+    @media screen and (max-width: 1024px) {
         width: 100%;
-    `};
+    }
 `
 
 const Title = styled.p`

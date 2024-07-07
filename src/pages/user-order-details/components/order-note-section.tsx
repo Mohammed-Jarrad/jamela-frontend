@@ -1,8 +1,8 @@
 import ToolTip from '@/components/my/tooltip'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { useUserContext } from "@/context/UserContextProvider"
-import { useEditOrderNote } from '@/hooks/use-orders'
+import { useUserContext } from '@/context/UserContextProvider'
+import { useEditOrderNote } from '@/hooks/api/use-orders'
 import { OrderProps } from '@/types'
 import { Edit2, MessageCircle } from 'lucide-react'
 import React, { useState } from 'react'
@@ -15,7 +15,9 @@ const OrderNoteSection: React.FC<Props> = ({ order }) => {
     const [note, setNote] = useState<string>(order.note as string)
     const [showEdit, setShowEdit] = useState<boolean>(false)
     const { mutate: editOrderNote, isPending } = useEditOrderNote()
-    const {currentUser: {role}} = useUserContext()
+    const {
+        currentUser: { role },
+    } = useUserContext()
 
     return (
         <div className="space-y-2">

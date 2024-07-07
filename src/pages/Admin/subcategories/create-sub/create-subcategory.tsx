@@ -3,16 +3,22 @@ import { Button, buttonVariants } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useGetCategories } from '@/hooks/use-categories'
-import { useCreateSubcategory } from '@/hooks/use-subcategories'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
+import { useGetCategories } from '@/hooks/api/use-categories'
+import { useCreateSubcategory } from '@/hooks/api/use-subcategories'
 import { cn } from '@/lib/utils'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { Image } from 'lucide-react'
 import { useState } from 'react'
-import { Helmet } from "react-helmet"
+import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 const CreateSubcategory = () => {
     // input states
@@ -43,7 +49,7 @@ const CreateSubcategory = () => {
             <Helmet>
                 <title>Create Subcategory</title>
             </Helmet>
-            
+
             <div className="p-2">
                 <Card>
                     <CardHeader>
@@ -133,7 +139,10 @@ const CategoriesSelect = ({ setCategorySelectId, categorySelectId }: CategoriesS
         return (
             <Box className="flex flex-col space-y-3">
                 <Label>Category</Label>
-                <Select value={categorySelectId} onValueChange={(value) => setCategorySelectId(value)}>
+                <Select
+                    value={categorySelectId}
+                    onValueChange={(value) => setCategorySelectId(value)}
+                >
                     <SelectTrigger className="">
                         <SelectValue placeholder="Category" className="" />
                     </SelectTrigger>

@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog'
-import { useAddToCart } from '@/hooks/use-cart'
+import { useAddToCart } from '@/hooks/api/use-cart'
 import { cn } from '@/lib/utils'
 import { ProductProps, ProductSizesProps } from '@/types'
 import { Box } from '@radix-ui/themes'

@@ -2,8 +2,8 @@ import Flex from '@/components/my/flex'
 import { OptionalSpan } from '@/components/required-star'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import Transition from '@/utils/transition'
-import useClickOutside from '@/utils/use-click-outside'
+import Transition from '@/components/transition'
+import useClickOutside from '@/hooks/use-click-outside'
 import { Box } from '@radix-ui/themes'
 import { AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
@@ -61,8 +61,15 @@ const ProductColors = ({ colors, setColors }: ProductColorsProps) => {
                                 exit={{ opacity: 0, y: 20 }}
                                 className="absolute bottom-full left-0 z-50 mb-2 min-w-full rounded border bg-card p-2 shadow"
                             >
-                                <ChromePicker color={selectedColor} onChange={(color) => setSelectedColor(color.hex)} />
-                                <Button type="button" className="mt-3" onClick={() => addColor(selectedColor)}>
+                                <ChromePicker
+                                    color={selectedColor}
+                                    onChange={(color) => setSelectedColor(color.hex)}
+                                />
+                                <Button
+                                    type="button"
+                                    className="mt-3"
+                                    onClick={() => addColor(selectedColor)}
+                                >
                                     Add
                                 </Button>
                             </Transition>
@@ -79,17 +86,23 @@ const ProductColors = ({ colors, setColors }: ProductColorsProps) => {
                                 exit={{ opacity: 0, scale: 2 }}
                             >
                                 <Box
-                                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center rounded-full ${isLightColor(color) && 'border'}`}
+                                    className={`group flex h-8 w-8 cursor-pointer items-center justify-center rounded-full ${
+                                        isLightColor(color) && 'border'
+                                    }`}
                                     style={{ backgroundColor: color }}
                                     onClick={() => removeColor(color)}
                                 >
                                     <X
-                                        className={`h-4 w-4 transition-all group-hover:scale-[1.1] ${isLightColor(color) ? 'text-black' : 'text-white'}`}
+                                        className={`h-4 w-4 transition-all group-hover:scale-[1.1] ${
+                                            isLightColor(color) ? 'text-black' : 'text-white'
+                                        }`}
                                     />
                                 </Box>
                             </Transition>
                         ))}
-                        {colors.length === 0 && <span className="text-muted-foreground">No colors selected</span>}
+                        {colors.length === 0 && (
+                            <span className="text-muted-foreground">No colors selected</span>
+                        )}
                     </AnimatePresence>
                 </Box>
             </Flex>

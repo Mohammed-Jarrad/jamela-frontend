@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContextProvider'
 import { Gender, SignupData, StatusType } from '@/types'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'

@@ -1,4 +1,4 @@
-import Transition from '@/utils/transition'
+import Transition from '@/components/transition'
 import React, { useEffect } from 'react'
 import DashboardContent from './dashboard-content'
 import DashboardNav from './dashboard-nav'

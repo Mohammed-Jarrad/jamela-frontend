@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Switch } from '@/components/ui/switch'
-import { useGetProduct, useUpdateProduct } from '@/hooks/use-products'
+import { useGetProduct, useUpdateProduct } from '@/hooks/api/use-products'
 import { froalaConfig } from '@/lib/froala'
 import {
     CategoryProps,
@@ -17,8 +17,8 @@ import {
     SubcategoryProps,
     UserProps,
 } from '@/types'
-import Transition from '@/utils/transition'
-import { useHandleErrors } from '@/utils/use-handle-errors'
+import Transition from '@/components/transition'
+import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { format } from 'date-fns'
 import { Info } from 'lucide-react'
