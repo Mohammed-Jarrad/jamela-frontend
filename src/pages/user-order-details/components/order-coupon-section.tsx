@@ -10,7 +10,6 @@ import { yupValidateForm } from '@/lib/yup-validate-form'
 import { OrderProps } from '@/types'
 import { Edit2, Trash } from 'lucide-react'
 import React from 'react'
-import { RiCoupon2Fill } from 'react-icons/ri'
 import { BeatLoader } from 'react-spinners'
 import * as Yup from 'yup'
 
@@ -52,101 +51,95 @@ const OrderCouponSection: React.FC<Props> = ({ order }) => {
     }
     return (
         <div className="space-y-2">
-            <div className="flex items-center justify-between">
-                <div className="flex items-baseline gap-4">
-                    <b className="text-muted-foreground flex items-center gap-1">
-                        <RiCoupon2Fill size={18} color="hsl(var(--primary))" /> Coupon
-                    </b>
-                    <div
+            <div className="flex flex-col gap-2">
+                <strong className="text-primary text-xl">Coupon</strong>
+
+                <div className="flex items-center gap-4">
+                    <p
                         className={cn(
-                            'flex items-baseline gap-2',
-                            order.status !== 'pending' && 'hidden',
-                            role !== 'User' && 'hidden'
+                            'font-medium',
+                            order.couponName ? 'text-foreground' : 'text-destructive'
                         )}
                     >
-                        {order.couponName && (
-                            <Alert
-                                description={
-                                    <>
-                                        This Action will remove the coupon of this order. <br />
-                                        And the price will be recalculated. <br />
-                                        This Action cannot be undone.
-                                    </>
-                                }
-                                onConfirm={() =>
-                                    removeOrderCoupon(
-                                        { orderId: order._id },
-                                        {
-                                            onSuccess: () => setNewCoupon(''),
-                                        }
-                                    )
-                                }
-                            >
-                                {isRemoving ? (
-                                    <BeatLoader color="hsl(var(--primary))" size={8} />
-                                ) : (
-                                    <div>
-                                        <ToolTip content="Remove Coupon">
-                                            <Trash
-                                                size={16}
-                                                className="pointer text-red-500 hover:text-red-600"
-                                            />
-                                        </ToolTip>
-                                    </div>
-                                )}
-                            </Alert>
-                        )}
-                        <Popover open={showForm} onOpenChange={setShowForm}>
-                            <PopoverTrigger>
-                                {isChanging ? (
-                                    <BeatLoader color="hsl(var(--primary))" size={8} />
-                                ) : (
-                                    <div>
-                                        <ToolTip content="Change Coupon">
-                                            <Edit2
-                                                size={16}
-                                                className="pointer text-green-500 hover:text-green-600"
-                                            />
-                                        </ToolTip>
-                                    </div>
-                                )}
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <form className="space-y-2">
-                                    <CustomInput
-                                        value={newCoupon}
-                                        onChange={(e) => setNewCoupon(e.target.value)}
-                                        placeholder="Enter coupon name"
-                                        name="newCoupon"
-                                        label="Coupon Name"
-                                        isRequired
-                                    />
-                                    <Button
-                                        type="submit"
-                                        onClick={changeOrderCouponHandler}
-                                        disabled={isChanging}
-                                        className="w-full"
-                                    >
-                                        {isChanging ? (
-                                            <BeatLoader color="white" size={8} />
-                                        ) : (
-                                            'Change'
-                                        )}
-                                    </Button>
-                                </form>
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-                </div>
-
-                <p
-                    className={cn(
-                        'font-medium',
-                        order.couponName ? 'text-foreground' : 'text-destructive'
+                        {order.couponName ? order.couponName : 'N/A'}
+                    </p>
+                    {order.status == 'pending' && role == 'User' && (
+                        <div className="flex items-baseline gap-2">
+                            {order.couponName && (
+                                <Alert
+                                    description={
+                                        <>
+                                            This Action will remove the coupon of this order. <br />
+                                            And the price will be recalculated. <br />
+                                            This Action cannot be undone.
+                                        </>
+                                    }
+                                    onConfirm={() =>
+                                        removeOrderCoupon(
+                                            { orderId: order._id },
+                                            {
+                                                onSuccess: () => setNewCoupon(''),
+                                            }
+                                        )
+                                    }
+                                >
+                                    {isRemoving ? (
+                                        <BeatLoader color="hsl(var(--primary))" size={8} />
+                                    ) : (
+                                        <div>
+                                            <ToolTip content="Remove Coupon">
+                                                <Trash
+                                                    size={16}
+                                                    className="pointer text-red-500 hover:text-red-600"
+                                                />
+                                            </ToolTip>
+                                        </div>
+                                    )}
+                                </Alert>
+                            )}
+                            <Popover open={showForm} onOpenChange={setShowForm}>
+                                <PopoverTrigger>
+                                    {isChanging ? (
+                                        <BeatLoader color="hsl(var(--primary))" size={8} />
+                                    ) : (
+                                        <div>
+                                            <ToolTip content="Change Coupon">
+                                                <Edit2
+                                                    size={16}
+                                                    className="pointer text-green-500 hover:text-green-600"
+                                                />
+                                            </ToolTip>
+                                        </div>
+                                    )}
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    <form className="space-y-2">
+                                        <CustomInput
+                                            value={newCoupon}
+                                            onChange={(e) => setNewCoupon(e.target.value)}
+                                            placeholder="Enter coupon name"
+                                            name="newCoupon"
+                                            label="Coupon Name"
+                                            isRequired
+                                        />
+                                        <Button
+                                            type="submit"
+                                            onClick={changeOrderCouponHandler}
+                                            disabled={isChanging}
+                                            className="w-full"
+                                        >
+                                            {isChanging ? (
+                                                <BeatLoader color="white" size={8} />
+                                            ) : (
+                                                'Change'
+                                            )}
+                                        </Button>
+                                    </form>
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                     )}
-                >
-                    {order.couponName ? order.couponName : 'N/A'}
-                </p>
+                </div>
             </div>
         </div>
     )

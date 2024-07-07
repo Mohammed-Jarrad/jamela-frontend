@@ -31,6 +31,7 @@ import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
 import { Helmet } from 'react-helmet'
 import NoDataMessage from '@/components/not-data'
+import DashTitle from '@/components/dash-title'
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -66,6 +67,7 @@ const AdminSubcategories = () => {
             <Helmet>
                 <title>Admin Subcategories</title>
             </Helmet>
+            <DashTitle title="Subcategories" />
             {/* subcategories table filters and refresh */}
             <SubcategoriesTableFilter
                 link="/dashboard/subcategories/create"

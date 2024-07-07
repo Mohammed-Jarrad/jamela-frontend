@@ -40,10 +40,10 @@ const OrderProducts: React.FC<Props> = ({ products }) => {
                     <TableRow key={product._id}>
                         <TableCell>
                             {role === 'Admin' ? (
-                                <div className="flex items-center gap-3 w-[240px] truncate">
+                                <div className="flex items-center gap-3 p-1 w-[240px] truncate">
                                     <img
                                         src={product.productId.mainImage?.secure_url}
-                                        className="size-12 object-cover circle transition-all"
+                                        className="size-12 min-w-12 object-cover circle transition-all"
                                         alt={product.productId.name}
                                     />
                                     <p className="capitalize text-base max-sm:text-xs font-semibold truncate w-[180px]">
@@ -53,11 +53,11 @@ const OrderProducts: React.FC<Props> = ({ products }) => {
                             ) : (
                                 <Link
                                     to={`/product/${product.productId.slug}`}
-                                    className="flex items-center gap-3 group hover:text-primary w-[240px] truncate"
+                                    className="flex items-center gap-3 group hover:text-primary p-1 w-[240px] truncate"
                                 >
                                     <img
                                         src={product.productId.mainImage?.secure_url}
-                                        className="size-12 object-cover circle group-hover:ring-[1.5px] group-hover:ring-primary transition-all"
+                                        className="size-12 min-w-12 object-cover circle group-hover:ring-[1.5px] group-hover:ring-primary transition-all"
                                         alt={product.productId.name}
                                     />
                                     <p className="capitalize text-base max-sm:text-xs font-semibold truncate w-[180px]">

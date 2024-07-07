@@ -16,6 +16,7 @@ import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import AdminReviewRow from '../components/admin-review-row'
+import DashTitle from '@/components/dash-title'
 
 const AdminReviews = () => {
     const [page, setPage] = useState<number>(1)
@@ -34,6 +35,9 @@ const AdminReviews = () => {
             <Helmet>
                 <title>Admin Reviews</title>
             </Helmet>
+
+            <DashTitle title="Reviews" />
+            
             {isLoading ? (
                 <ReviewsLoading />
             ) : (

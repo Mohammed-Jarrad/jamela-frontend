@@ -21,6 +21,7 @@ import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { FcAcceptDatabase } from 'react-icons/fc'
 import { BeatLoader } from 'react-spinners'
+import DashTitle from '@/components/dash-title'
 
 const AdminOrders = () => {
     const [page, setPage] = useState<number>(1)
@@ -43,6 +44,7 @@ const AdminOrders = () => {
             <Helmet>
                 <title>Admin Orders</title>
             </Helmet>
+            <DashTitle title="Orders" />
             <div className="my-2 flex flex-col md:flex-row gap-2 items-center justify-between">
                 <OrdersTableFilter
                     sort={sort}

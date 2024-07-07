@@ -29,6 +29,7 @@ import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
+import DashTitle from '@/components/dash-title'
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -61,6 +62,7 @@ const AdminCategories = () => {
             <Helmet>
                 <title>Admin Categories</title>
             </Helmet>
+            <DashTitle title="Categories" />
             {/* search categories and refresh and create link and sort */}
             <CategoriesTableFilters
                 sortItems={sortItems}

@@ -1,5 +1,4 @@
 import { OrderProps } from '@/types'
-import { MessageCircle } from 'lucide-react'
 import React from 'react'
 
 type Props = {
@@ -10,11 +9,9 @@ const OrderReasonRejectedSection: React.FC<Props> = ({ order }) => {
     return (
         <div className="space-y-2">
             <div className="flex flex-col gap-3">
-                <b className="text-muted-foreground flex items-center gap-1">
-                    <MessageCircle size={18} color="hsl(var(--primary))" /> Reason for cancellation
-                </b>
+                <strong className="text-primary text-xl">Cancellation Reason</strong>
 
-                <p className="text-sm text-muted-foreground border border-dashed border-muted-foreground px-2 py-1 bg-muted rounded">
+                <p className="text-sm text-muted-foreground border border-dashed border-muted-foreground p-4 bg-muted rounded">
                     {order.reasonRejected!.split('\n').map((line, index) => (
                         <span key={index}>
                             {line}

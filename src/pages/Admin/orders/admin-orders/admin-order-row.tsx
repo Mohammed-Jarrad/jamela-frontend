@@ -97,16 +97,18 @@ const AdminOrderRow: React.FC<Props> = ({ order, index }) => {
                         </ToolTip>
                     </Link>
                     <Alert onConfirm={() => deleteOrder({ orderId: order._id })}>
-                        <Button size="icon" variant={'ghost'} disabled={isPending}>
-                            {isPending ? (
-                                <BeatLoader size={8} color="hsl(var(--primary))" />
-                            ) : (
-                                <Trash
-                                    size={18}
-                                    className="text-muted-foreground hover:text-red-500"
-                                />
-                            )}
-                        </Button>
+                        <ToolTip content="Delete">
+                            <Button size="icon" variant={'ghost'} disabled={isPending}>
+                                {isPending ? (
+                                    <BeatLoader size={8} color="hsl(var(--primary))" />
+                                ) : (
+                                    <Trash
+                                        size={18}
+                                        className="text-muted-foreground hover:text-red-500"
+                                    />
+                                )}
+                            </Button>
+                        </ToolTip>
                     </Alert>
                 </div>
             </TableCell>

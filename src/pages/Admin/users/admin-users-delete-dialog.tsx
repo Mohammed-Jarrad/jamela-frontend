@@ -9,7 +9,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import Tooltip from '@/components/my/tooltip'
 import { Trash } from 'lucide-react'
 import React from 'react'
 
@@ -21,14 +21,11 @@ const AdminUsersDeleteDialog: React.FC<Props> = ({ onDelete }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger>
-                <Tooltip delayDuration={200}>
-                    <TooltipTrigger asChild>
-                        <Trash
-                            size={18}
-                            className="cursor-pointer text-red-500 transition-all hover:scale-110 hover:fill-red-500"
-                        />
-                    </TooltipTrigger>
-                    <TooltipContent>Delete User</TooltipContent>
+                <Tooltip content="Delete User">
+                    <Trash
+                        size={18}
+                        className="cursor-pointer text-red-500 transition-all hover:scale-110 hover:fill-red-500"
+                    />
                 </Tooltip>
             </AlertDialogTrigger>
             <AlertDialogContent>

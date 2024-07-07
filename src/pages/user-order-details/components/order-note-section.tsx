@@ -4,7 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useUserContext } from '@/context/UserContextProvider'
 import { useEditOrderNote } from '@/hooks/api/use-orders'
 import { OrderProps } from '@/types'
-import { Edit2, MessageCircle } from 'lucide-react'
+import { Edit2 } from 'lucide-react'
 import React, { useState } from 'react'
 
 type Props = {
@@ -22,9 +22,7 @@ const OrderNoteSection: React.FC<Props> = ({ order }) => {
     return (
         <div className="space-y-2">
             <div className="flex items-center gap-3">
-                <b className="text-muted-foreground flex items-center gap-1">
-                    <MessageCircle size={18} color="hsl(var(--primary))" /> Note
-                </b>
+                <strong className="text-primary text-xl">Order Note</strong>
 
                 {order.status == 'pending' && role == 'User' && (
                     <ToolTip content="Edit">
@@ -45,7 +43,7 @@ const OrderNoteSection: React.FC<Props> = ({ order }) => {
                     <Textarea
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
-                        className="w-full resize-none h-24"
+                        className="w-full resize-none h-24 p-4"
                         placeholder="Add a note to your order"
                     />
                     <div className="flex justify-end items-center gap-2">
@@ -80,12 +78,11 @@ const OrderNoteSection: React.FC<Props> = ({ order }) => {
                     </div>
                 </>
             ) : (
-                <p className="text-sm text-muted-foreground border border-dashed border-muted-foreground px-2 py-1 bg-muted rounded">
+                <p className="text-sm text-muted-foreground border border-dashed border-muted-foreground p-4 bg-muted rounded">
                     {order.note ? (
                         order.note.split('\n').map((line, index) => (
-                            <span key={index}>
+                            <span key={index} className="block">
                                 {line}
-                                <br />
                             </span>
                         ))
                     ) : (

@@ -55,7 +55,7 @@
   }
 
   * {
-    @apply border-border font-comfortaa;
+    @apply border-border font-poppins;
   }
 
   body {

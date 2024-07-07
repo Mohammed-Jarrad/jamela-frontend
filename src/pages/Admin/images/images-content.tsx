@@ -22,7 +22,6 @@ const ImagesContent = () => {
     useEffect(() => {
         queryParams.set('imageType', imageType)
         navigate({ search: queryParams.toString() })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const { data, isLoading, error } = useGetImages({ imageType })
@@ -107,7 +106,7 @@ const TabItem = ({
             onClick={handleChangeImagetype}
             data-value={value}
             className={cn(
-                'flex-1 cursor-pointer select-none px-3 py-1 text-center font-medium text-muted-foreground transition-all hover:text-foreground',
+                'flex-1 font-poppins cursor-pointer select-none px-3 py-1 text-center font-medium text-muted-foreground transition-all hover:text-foreground',
                 {
                     '!text-primary': imageType === value,
                 }

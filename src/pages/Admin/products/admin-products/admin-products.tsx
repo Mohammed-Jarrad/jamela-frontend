@@ -32,6 +32,7 @@ import { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import CustomDropDownWithAlertDialog from '../../custom-dropwoen-with-alert-dialog'
+import DashTitle from '@/components/dash-title'
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -76,6 +77,7 @@ const AdminProducts = () => {
             <Helmet>
                 <title>Admin Products</title>
             </Helmet>
+            <DashTitle title="Products" />
             {/* table filter */}
             <ProductsTableFilters
                 link="/dashboard/products/create"

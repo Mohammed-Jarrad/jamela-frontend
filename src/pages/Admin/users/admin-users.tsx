@@ -29,6 +29,7 @@ import { Helmet } from 'react-helmet'
 import { BeatLoader } from 'react-spinners'
 import AdminUsersDeleteDialog from './admin-users-delete-dialog'
 import UsersTableFilters from './admin-users-filters'
+import DashTitle from '@/components/dash-title'
 const sortItems = [
     { value: 'name', label: 'Name, A-Z' },
     { value: '-name', label: 'Name, Z-A' },
@@ -69,6 +70,8 @@ const AdminUsers = () => {
             <Helmet>
                 <title>Admin Users</title>
             </Helmet>
+
+            <DashTitle title="Users" />
 
             {/* search users and sort */}
             <UsersTableFilters
@@ -131,7 +134,7 @@ const AdminUsers = () => {
                                                             src={user.image?.secure_url}
                                                             alt={user.username}
                                                             loading="lazy"
-                                                            className="mr-3 h-8 w-8 rounded-full object-cover object-center"
+                                                            className="mr-3 h-8 min-w-8 w-8 rounded-full object-cover object-center"
                                                         />
                                                         {user.role == 'Admin' && (
                                                             <BadgeCheck

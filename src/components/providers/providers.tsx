@@ -18,7 +18,7 @@ const Providers = ({ children }: PorvidersType) => {
                 <ThemeProvider defaultTheme="light" storageKey="ui-theme">
                     <UserContextProvider>
                         <CartContextProvider>
-                            <TooltipProvider delayDuration={200} disableHoverableContent>
+                            <TooltipProvider delayDuration={0} disableHoverableContent>
                                 <MyToaster />
                                 {children}
                             </TooltipProvider>

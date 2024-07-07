@@ -1,9 +1,7 @@
 import CustomInput from '@/components/my/custom-input'
-import Flex from '@/components/my/flex'
 import ToolTip from '@/components/my/tooltip'
 import { OptionalSpan } from '@/components/required-star'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Switch } from '@/components/ui/switch'
@@ -33,6 +31,7 @@ import ProductSelectSubcategory from './product-select-subcategory'
 import ProductSizes from './product-sizes'
 import UpdateProductMainImage from './update-product-main-image'
 import UpdateproductSubImages from './update-product-sub-images'
+import DashTitle from '@/components/dash-title'
 const UpdateProduct = () => {
     // params
     const { slug } = useParams()
@@ -113,131 +112,118 @@ const UpdateProduct = () => {
             <Helmet>
                 <title>Update {slug}</title>
             </Helmet>
-
-            <Card>
-                <CardHeader>
-                    <CardTitle className="custom-gradient mb-6 text-base font-bold md:text-center md:text-3xl font-poppins">
-                        <Flex align="center" justify="center" gap="md">
-                            <span>Update {data?.product.name}</span>
-                            <ToolTip content={status}>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-12">
+                <DashTitle title="Update Product" className="mb-0" />
+                <div className="flex items-center gap-2">
+                    <ToolTip content={status}>
+                        <div className="h-8 flex items-center">
+                            <Switch
+                                checked={status === 'Active' ? true : false}
+                                onCheckedChange={(e) => setStatus(e ? 'Active' : 'Inactive')}
+                            />
+                        </div>
+                    </ToolTip>
+                    <Popover>
+                        <ToolTip content={<span className="text-xs">info</span>}>
+                            <PopoverTrigger>
                                 <div className="h-8 flex items-center">
-                                    <Switch
-                                        checked={status === 'Active' ? true : false}
-                                        onCheckedChange={(e) =>
-                                            setStatus(e ? 'Active' : 'Inactive')
-                                        }
+                                    <Info
+                                        className="cursor-pointer text-muted-foreground"
+                                        size={20}
                                     />
                                 </div>
-                            </ToolTip>
-                            <Popover>
-                                <ToolTip content={<span className="text-xs">info</span>}>
-                                    <PopoverTrigger>
-                                        <div className="h-8 flex items-center">
-                                            <Info
-                                                className="cursor-pointer text-muted-foreground"
-                                                size={20}
-                                            />
-                                        </div>
-                                    </PopoverTrigger>
-                                </ToolTip>
-                                <PopoverContent className="text-sm font-poppins w-max">
-                                    <b>created at: </b>
-                                    {format(data!.product.createdAt as Date, 'Pp')}
-                                    <br />
-                                    <b>updated at: </b>
-                                    {format(data!.product.updatedAt as Date, 'Pp')}
-                                    <br />
-                                    <b>updated by: </b>
-                                    {(data!.product.updatedBy as UserProps).username}
-                                    <br />
-                                    <b>created by: </b>
-                                    {(data!.product.createdBy as UserProps).username}
-                                </PopoverContent>
-                            </Popover>
-                        </Flex>
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form
-                        className="grid grid-cols-1 gap-3 lg:grid-cols-2"
-                        onSubmit={handleUpdateProduct}
-                    >
-                        <CustomInput
-                            defaultValue={data?.product.name}
-                            label="Name"
-                            onChange={(e) => setName(e.target.value)}
-                            name="name"
-                            placeholder="Name"
-                            type="text"
-                        />
-                        <CustomInput
-                            defaultValue={data?.product.price}
-                            type="number"
-                            label="Price"
-                            onChange={(e) => setPrice(Number(e.target.value))}
-                            name="price"
-                        />
-                        <CustomInput
-                            defaultValue={data?.product.discount}
-                            type="number"
-                            label="Discount"
-                            onChange={(e) => setDiscount(Number(e.target.value))}
-                            name="discount"
-                        />
-                        <CustomInput
-                            defaultValue={data?.product.stock}
-                            type="number"
-                            label="Stock"
-                            onChange={(e) => setStock(Number(e.target.value))}
-                            name="stock"
-                        />
-                        <Box className="flex flex-col space-y-3 lg:col-span-2">
-                            <Label htmlFor="description" className="w-fit text-muted-foreground">
-                                Description <OptionalSpan />
-                            </Label>
-                            <FroalaEditor
-                                config={{
-                                    ...froalaConfig(),
-                                }}
-                                model={description || ''}
-                                onModelChange={setDescription}
-                            />
-                        </Box>
-                        <ProductSizes setSizes={setSizes} sizes={sizes} />
-                        <ProductColors colors={colors} setColors={setColors} />
-                        <ProductSelectCategory
-                            categoryId={categoryId}
-                            setCategoryId={setCategoryId}
-                        />
-                        <ProductSelectSubcategory
-                            categoryId={categoryId}
-                            setSubcategoryId={setSubcategoryId}
-                            subcategoryId={subcategoryId}
-                        />
-                        <UpdateProductMainImage
-                            mainImage={mainImage}
-                            setMainImage={setMainImage}
-                            product={data?.product || {}}
-                        />
-                        <UpdateproductSubImages
-                            removedPublicIds={removedPublicIds}
-                            setRemovedPublicIds={setRemovedPublicIds}
-                            existingSubImages={existingSubImages}
-                            newSubImages={newSubImages}
-                            setNewSubImages={setNewSubImages}
-                        />
+                            </PopoverTrigger>
+                        </ToolTip>
+                        <PopoverContent className="text-sm font-poppins w-max">
+                            <b>created at: </b>
+                            {format(data!.product.createdAt as Date, 'Pp')}
+                            <br />
+                            <b>updated at: </b>
+                            {format(data!.product.updatedAt as Date, 'Pp')}
+                            <br />
+                            <b>updated by: </b>
+                            {(data!.product.updatedBy as UserProps).username}
+                            <br />
+                            <b>created by: </b>
+                            {(data!.product.createdBy as UserProps).username}
+                        </PopoverContent>
+                    </Popover>
+                </div>
+            </div>
+            {/* Content */}
+            <form className="grid grid-cols-1 gap-3 lg:grid-cols-2" onSubmit={handleUpdateProduct}>
+                <CustomInput
+                    defaultValue={data?.product.name}
+                    label="Name"
+                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    placeholder="Name"
+                    type="text"
+                />
+                <CustomInput
+                    defaultValue={data?.product.price}
+                    type="number"
+                    label="Price"
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                    name="price"
+                />
+                <CustomInput
+                    defaultValue={data?.product.discount}
+                    type="number"
+                    label="Discount"
+                    onChange={(e) => setDiscount(Number(e.target.value))}
+                    name="discount"
+                />
+                <CustomInput
+                    defaultValue={data?.product.stock}
+                    type="number"
+                    label="Stock"
+                    onChange={(e) => setStock(Number(e.target.value))}
+                    name="stock"
+                />
+                <Box className="flex flex-col space-y-3 lg:col-span-2">
+                    <Label htmlFor="description" className="w-fit text-muted-foreground">
+                        Description <OptionalSpan />
+                    </Label>
+                    <FroalaEditor
+                        config={{
+                            ...froalaConfig(),
+                        }}
+                        model={description || ''}
+                        onModelChange={setDescription}
+                    />
+                </Box>
+                <ProductSizes setSizes={setSizes} sizes={sizes} />
+                <ProductColors colors={colors} setColors={setColors} />
+                <ProductSelectCategory categoryId={categoryId} setCategoryId={setCategoryId} />
+                <ProductSelectSubcategory
+                    categoryId={categoryId}
+                    setSubcategoryId={setSubcategoryId}
+                    subcategoryId={subcategoryId}
+                />
+                <UpdateProductMainImage
+                    mainImage={mainImage}
+                    setMainImage={setMainImage}
+                    product={data?.product || {}}
+                />
+                <UpdateproductSubImages
+                    removedPublicIds={removedPublicIds}
+                    setRemovedPublicIds={setRemovedPublicIds}
+                    existingSubImages={existingSubImages}
+                    newSubImages={newSubImages}
+                    setNewSubImages={setNewSubImages}
+                />
 
-                        <Button
-                            type="submit"
-                            className="sticky bottom-2 z-20 w-full bg-opacity-90 backdrop-blur-sm lg:col-span-2"
-                            size={'lg'}
-                            disabled={isPending}
-                        >
-                            {isPending ? <BeatLoader color="white" size={13} /> : 'Save Changes'}
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
+                <Button
+                    type="submit"
+                    className="sticky bottom-2 z-20 w-full bg-opacity-90 backdrop-blur-sm lg:col-span-2"
+                    size={'lg'}
+                    disabled={isPending}
+                >
+                    {isPending ? <BeatLoader color="white" size={13} /> : 'Save Changes'}
+                </Button>
+            </form>
         </Transition>
     )
 }

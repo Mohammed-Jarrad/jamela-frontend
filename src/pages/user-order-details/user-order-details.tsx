@@ -11,7 +11,6 @@ import { useHandleErrors } from '@/hooks/use-handle-errors'
 import { Box } from '@radix-ui/themes'
 import { BiShekel } from 'react-icons/bi'
 import { HiLocationMarker, HiMail, HiPhone } from 'react-icons/hi'
-import { IoMdPricetag } from 'react-icons/io'
 import { Link, useParams } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import OrderCouponSection from './components/order-coupon-section'
@@ -41,15 +40,15 @@ const UserOrderDetails = () => {
             <Card>
                 <CardHeader className="space-y-3 border-b">
                     {/* User & Order Info */}
-                    <Flex $items="center" className="w-full max-md:!flex-col max-md:!items-center">
+                    <Flex $items="start" $gap={16} className="w-full max-md:!flex-col max-md:!items-center">
                         <img
                             src={data.order.userId.image!.secure_url}
                             alt=""
                             className="size-14 object-cover rounded-2xl shadow"
                         />
-                        <div className="flex flex-col items-start max-md:items-center gap-1 w-full">
-                            <div className="capitalize flex flex-col items-center gap-1 md:flex-row">
-                                <span>{data.order.userId.username}</span>
+                        <div className="flex flex-col items-start max-md:items-center gap-2 w-full">
+                            <div className="capitalize w-full flex flex-col items-center gap-1 md:flex-row md:justify-between">
+                                <span className='font-medium'>{data.order.userId.username}</span>
                                 <OrderStatus status={data.order.status} />
                             </div>
 
@@ -105,10 +104,8 @@ const UserOrderDetails = () => {
 
                         {/* Price */}
                         <Box className="space-y-2">
+                            <strong className="text-primary text-xl">Total</strong>
                             <div className="flex items-center justify-between">
-                                <b className="text-muted-foreground flex items-center gap-1">
-                                    <IoMdPricetag size={18} color="hsl(var(--primary))" /> Total
-                                </b>
                                 <div className="flex items-center gap-2">
                                     {data.order.couponName && (
                                         <span>
@@ -130,7 +127,7 @@ const UserOrderDetails = () => {
                         <OrderNoteSection order={data.order} />
 
                         {/* Reson for cancelling */}
-                        {data.order.reasonRejected && (
+                        {data.order.reasonRejected && data.order.status === 'cancelled' && (
                             <OrderReasonRejectedSection order={data.order} />
                         )}
 
